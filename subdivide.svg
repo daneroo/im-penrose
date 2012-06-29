@@ -3,7 +3,7 @@
   var colors = ['red', 'blue'];
 
   //------ Configuration --------
-  NUM_SUBDIVISIONS = 7;
+  NUM_SUBDIVISIONS = 6;
   //-----------------------------
 
 
@@ -94,9 +94,17 @@
   function start(evt) {
     root = evt.target;
     triangles.forEach(draw);
+    var angle=0;
+    setInterval(function(){
+      var rr = root.ownerDocument.getElementById('rotation');
+      angle+=.4;
+      rr.setAttribute('transform','rotate('+angle+')');
+    },50);
   }
 ]]></script>
-<g transform="scale(500)">
-  <g id="root" stroke="black" fill="none" onload="start(evt)"/>
-</g>
+  <g id="rotation" transform="rotate(0)">
+    <g transform="scale(500)">
+      <g id="root" stroke="black" fill="none" onload="start(evt)"/>
+    </g>
+  </g>
 </svg>
