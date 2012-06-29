@@ -1,29 +1,102 @@
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='-350 -350 700 700'>
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='-500 -500 1000 1000'>
 <script type="text/ecmascript"><![CDATA[
   var colors = ['red', 'blue'];
 
+  //------ Configuration --------
+  NUM_SUBDIVISIONS = 7;
+  //-----------------------------
+
+
+  var goldenRatio = (1 + Math.sqrt(5)) / 2;
+
+  // P = A + (B - A) / goldenRatio;
+  function midpoint(A,B){
+    var P = {
+      x: A.x + (B.x-A.x) / goldenRatio,
+      y: A.y + (B.y-A.y) / goldenRatio
+    }
+    return P;
+  }
+  function subdivide(triangles){
+    var result = [];
+    triangles.forEach(function(triangle){
+      var color=triangle.color,A=triangle.A,B=triangle.B,C=triangle.C
+      if (color===0){
+        // # Subdivide red triangle
+        // P = A + (B - A) / goldenRatio;
+        var P = midpoint(A,B)
+        result.push({color:0, A:C, B:P, C:B}, {color:1, A:P, B:C, C:A});
+      } else {
+        // # Subdivide blue triangle
+        // Q = B + (A - B) / goldenRatio;
+        var Q = midpoint(B,A);
+        // R = B + (C - B) / goldenRatio;
+        var R = midpoint(B,C);
+        result.push({color:1, A:R, B:C, C:A}, {color:1, A:Q, B:R, C:B}, {color:0, A:R, B:Q, C:A});
+      }
+    });
+    return result;
+  }
+
+  function toRect(r, phi){
+    // Return the complex number x with polar coordinates r and phi. Equivalent to r * (math.cos(phi) + math.sin(phi)*1j).
+    return {
+      x: r*Math.cos(phi),
+      y: r*Math.sin(phi)
+    };
+  }
+
+
+  // # Create wheel of red triangles around the origin
+  var triangles = [];
+  for (var i=0;i<10;i++){
+    var B = toRect(1, (2*i - 1) * Math.PI / 10);
+    var C = toRect(1, (2*i + 1) * Math.PI / 10);
+    if (i % 2 === 0){ //# Make sure to mirror every second triangle
+      var t=B;
+      B=C;
+      C=t;
+    }
+    triangles.push({color:0,A:{x:0,y:0}, B:B, C:C});
+  }
+
+  function dump(msg,trs){
+    console.log(msg,'triangle count',trs.length);
+    // trs.forEach(function(triangle){ console.log('  ',JSON.stringify(triangle))});
+  }
+
+  dump('iteration 0',triangles);
+  // # Perform subdivisions
+  for (var i=0;i<NUM_SUBDIVISIONS;i++){
+    triangles = subdivide(triangles);
+    dump('iteration '+(i+1),triangles);
+  }
+  
+  
   var root;
   var svgns = 'http://www.w3.org/2000/svg';
 
-  function turtle() {
-
+  function draw(t){
     var path = root.ownerDocument.createElementNS(svgns, 'path');
-    path.setAttribute('opacity', '0.4');
-    if (segment.indexOf('Z') > -1) {
-      var color = colors.shift();
-      path.setAttribute('fill', color);
-      colors.push(color);
-    }
-    path.setAttribute('d', segment);
+    // path.setAttribute('opacity', '0.4');
+    path.setAttribute('fill', colors[t.color]);
+    // path.setAttribute('stroke-width', 0);
+    path.setAttribute('stroke', 'none');
+    var prec=15;
+    var line = 'M' + t.A.x.toFixed(prec) + ',' + t.A.y.toFixed(prec);
+    line += ' L' + t.B.x.toFixed(prec) + ',' + t.B.y.toFixed(prec);
+    line += ' L' + t.C.x.toFixed(prec) + ',' + t.C.y.toFixed(prec);
+    line += ' Z';
+    path.setAttribute('d', line);
     root.appendChild(path);
-    setTimeout(turtle, speed);
   }
 
   function start(evt) {
     root = evt.target;
-    setTimeout(turtle, speed);
+    triangles.forEach(draw);
   }
 ]]></script>
-<g id="root" stroke="black" fill="none" onload="start(evt)"/>
-<path d="M150 0 L75 200 L225 200 Z" />
+<g transform="scale(500)">
+  <g id="root" stroke="black" fill="none" onload="start(evt)"/>
+</g>
 </svg>
