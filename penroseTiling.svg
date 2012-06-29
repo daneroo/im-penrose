@@ -1,0 +1,117 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='-350 -350 700 700'>
+<script type="text/ecmascript"><![CDATA[
+  var speed = 10;
+  var n = 6;
+  var colors = ['red', 'green', 'blue'];
+
+  var rules = {
+    '6' : '81++91----71[-81----61]++',
+    '7' : '+81--91[---61--71]+',
+    '8' : '-61++71[+++81++91]-',
+    '9' : '--81++++61[+91++++71]--71',
+    '1' : '',
+    '+' : '+',
+    '-' : '-',
+    '[' : '[',
+    ']' : ']'
+  };
+
+  function penroseTiles(n) {
+    this.generator = (n>1) ? new penroseTiles(n-1) : (new function () {
+      this.data = '[7]++[7]++[7]++[7]++[7]';
+      this.i = 0;
+      this.next = function() {
+        if (this.i >= this.data.length) return null;
+        return this.data[this.i++];
+      }
+    });
+
+    this.data = '';
+    this.i = 0;
+    this.next = function() {
+      while (this.i >= this.data.length) {
+        this.i = 0;
+        var pattern = this.generator.next();
+        if (!pattern) return null;
+        this.data = rules[pattern];
+      }
+      return this.data[this.i++];
+    }
+  }
+
+  var x = y = theta = 0.0;
+  var angle = 36.0/360*2*Math.PI;
+
+  var stack = [];
+  var lines = [];
+  var result = '';
+
+  var generator = new penroseTiles(n);
+  function step() {
+    result = 'M' + x.toFixed(2) + ',' + y.toFixed(2)
+    for (var c; c=generator.next(); c) {
+      switch(c) {
+        case '1':
+          x += 30 * Math.cos(theta);
+          y += 30 * Math.sin(theta);
+          result += ' L' + x.toFixed(2) + ',' + y.toFixed(2)
+          break;
+
+        case '+':
+          theta += angle;
+          break;
+
+        case '-':
+          theta -= angle;
+          break;
+
+        case '[':
+          stack.push([x,y,theta]);
+          break;
+
+        case ']':
+          vector = stack.pop()
+          x = vector[0];
+          y = vector[1];
+          theta = vector[2];
+          fill = 'none';
+          points=result.split(' ');
+          color = colors.shift();
+          plast = points.length-1;
+          if (points[plast].substring(1) == points[0].substring(1)) {
+              points[plast] = 'Z';
+          }
+          colors.push(color);
+          if (result.indexOf('L')>=0) return points.join(' ');
+          return step();
+      }
+    }
+    return null;
+  }
+
+  var root;
+  var svgns = 'http://www.w3.org/2000/svg';
+
+  function turtle() {
+    var segment = step();
+    if (!segment) return;
+
+    var path = root.ownerDocument.createElementNS(svgns, 'path');
+    path.setAttribute('opacity', '0.4');
+    if (segment.indexOf('Z') > -1) {
+      var color = colors.shift();
+      path.setAttribute('fill', color);
+      colors.push(color);
+    }
+    path.setAttribute('d', segment);
+    root.appendChild(path);
+    setTimeout(turtle, speed);
+  }
+
+  function start(evt) {
+    root = evt.target;
+    setTimeout(turtle, speed);
+  }
+]]></script>
+<g id="root" stroke="black" fill="none" onload="start(evt)"/>
+</svg>

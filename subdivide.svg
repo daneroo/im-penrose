@@ -1,0 +1,29 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='-350 -350 700 700'>
+<script type="text/ecmascript"><![CDATA[
+  var colors = ['red', 'blue'];
+
+  var root;
+  var svgns = 'http://www.w3.org/2000/svg';
+
+  function turtle() {
+
+    var path = root.ownerDocument.createElementNS(svgns, 'path');
+    path.setAttribute('opacity', '0.4');
+    if (segment.indexOf('Z') > -1) {
+      var color = colors.shift();
+      path.setAttribute('fill', color);
+      colors.push(color);
+    }
+    path.setAttribute('d', segment);
+    root.appendChild(path);
+    setTimeout(turtle, speed);
+  }
+
+  function start(evt) {
+    root = evt.target;
+    setTimeout(turtle, speed);
+  }
+]]></script>
+<g id="root" stroke="black" fill="none" onload="start(evt)"/>
+<path d="M150 0 L75 200 L225 200 Z" />
+</svg>
