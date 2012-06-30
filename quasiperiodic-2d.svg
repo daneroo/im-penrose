@@ -1,0 +1,73 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='-10 -10 20 20'>
+<script type="text/ecmascript"><![CDATA[
+  var root;
+  var svgns = 'http://www.w3.org/2000/svg';
+
+  function drawLine(angle,off,clr,thick,opa){ // 
+    var path = root.ownerDocument.createElementNS(svgns, 'path');
+    path.setAttribute('opacity', opa||'1');
+    path.setAttribute('stroke-width', thick|| 0.01);
+    path.setAttribute('stroke', clr||'gray');
+    var line = 'M-1000,0 L1000,0';
+    path.setAttribute('d', line);
+    path.setAttribute('transform', 'translate('+off.x+','+off.y+') rotate('+angle+')');
+    root.appendChild(path);
+  }
+  function drawSquare(id,off,clr,thick,opa){ 
+      var rect = root.ownerDocument.createElementNS(svgns, 'rect');      
+      if (id) rect.setAttribute('id', id);
+      rect.setAttribute('opacity', opa||'1');
+      rect.setAttribute('stroke-width', thick|| 0.01);
+      rect.setAttribute('stroke', clr||'gray');
+      
+      rect.setAttribute('x', off.x-.5);
+      rect.setAttribute('y', off.y-.5);
+      rect.setAttribute('width', 1);
+      rect.setAttribute('height', 1);
+      root.appendChild(rect);
+  }
+
+  function start(evt) {
+    root = evt.target;
+    
+    for (var i=0;i<10;i++){
+        drawLine(0,{x:0,y: i});        
+        drawLine(0,{x:0,y:-i});        
+
+        drawLine(90,{x: i,y:0});
+        drawLine(90,{x:-i,y:0});
+    }
+    var angleE=15;
+    drawLine(angleE,{x:0,y:0},'red',Math.sqrt(2),.1);
+    drawLine(angleE,{x:0,y:0},'red',1,.1);
+    drawLine(angleE,{x:0,y:0},'red');
+    
+    var thickE=Math.min(Math.abs(Math.sin(angleE*Math.PI/180)),Math.abs(Math.cos(angleE*Math.PI/180)))
+    drawLine(angleE,{x:0,y:thickE},'yellow');
+    
+    drawSquare('square',{x:0,y:0},'blue',.02);
+
+    
+    var sq = root.ownerDocument.getElementById('square');
+    var offset=-0.0;
+    sq.setAttribute('transform','rotate('+angleE+') translate('+offset+',0) rotate('+(-angleE)+')');
+
+    var rot = root.ownerDocument.getElementById('rotation');
+    // rot.setAttribute('transform','rotate('+(-angleE)+')');
+    
+
+    if (0) setInterval(function(){
+      offset = (offset+0.05)%2;
+      sq.setAttribute('transform','rotate('+angleE+') translate('+offset+',0) rotate('+(-angleE)+')');
+    },100);
+
+
+  }
+  
+]]></script>
+  <g transform="scale(8,-8)">
+    <g id="rotation" transform="rotate(0)">
+      <g id="root" stroke="black" fill="none" onload="start(evt)"/>
+    </g>
+  </g>
+</svg>
