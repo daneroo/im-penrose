@@ -37,12 +37,13 @@
         drawLine(90,{x: i,y:0});
         drawLine(90,{x:-i,y:0});
     }
-    var angleE=15;
+    var angleE=30;
     drawLine(angleE,{x:0,y:0},'red',Math.sqrt(2),.1);
     drawLine(angleE,{x:0,y:0},'red',1,.1);
     drawLine(angleE,{x:0,y:0},'red');
     
-    var thickE=Math.min(Math.abs(Math.sin(angleE*Math.PI/180)),Math.abs(Math.cos(angleE*Math.PI/180)))
+    // var thickE=Math.min(Math.abs(),Math.abs(Math.cos(angleE*Math.PI/180)))
+    var thickE = Math.cos(angleE*Math.PI/180) * (0.5+Math.sin(angleE*Math.PI/180));
     drawLine(angleE,{x:0,y:thickE},'yellow');
     
     drawSquare('square',{x:0,y:0},'blue',.02);
