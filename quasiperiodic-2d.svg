@@ -34,61 +34,86 @@
       
       circle.setAttribute('cx', off.x);
       circle.setAttribute('cy', off.y);
-      circle.setAttribute('r', thick||0.1);
+      circle.setAttribute('r', thick||0.05  );
       root.appendChild(circle);
   }
-
-  function start(evt) {
-    root = evt.target;
+  function distancePointOriginLine(angle){
     
-    for (var i=0;i<10;i++){
-        drawLine(0,{x:0,y: i});        
-        drawLine(0,{x:0,y:-i});        
-
-        drawLine(90,{x: i,y:0});
-        drawLine(90,{x:-i,y:0});
-    }
-    var angleE=30;
-    drawLine(angleE,{x:0,y:0},'red',Math.sqrt(2),.1);
-    drawLine(angleE,{x:0,y:0},'red',1,.1);
-    drawLine(angleE,{x:0,y:0},'red');
-    
+  }
+  function maxDistance(angleE){  // 1 <= maxD <= sqrt(2)
+    // http://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
     // thickness of E is Max of distance from (+/-1,+/-1) to angleE line
     // E's normal n : [cos(angleE),sin(angleE)]
     // p: [+/-1,+/-1]
     // cross(-p,n)*n
     // distance = || -p - ( cross(-p,n)*n )  ||
-    var n = [Math.cos(angleE*Math.PI/180),Math.sin(angleE*Math.PI/180)];
-    var p = [1,1];
-    var cross_pn = p[0]*n[0]+p[1]*n[1];
-    var dv = [-p[0] -cross_pn*n[0], -p[1] -cross_pn*n[1]];
-    var d = Math.sqrt(dv[0]*dv[0]+dv[1]+dv[1]);
+    var n = [-Math.sin(angleE*Math.PI/180),Math.cos(angleE*Math.PI/180)];
+    var maxD=0;
+    [-1,1].forEach(function(sign){
+      var p = [sign*1/2,1/2];
+      var cross_pn = p[0]*n[0]+p[1]*n[1];
+      var dv = [-p[0] -cross_pn*n[0], -p[1] -cross_pn*n[1]];
+      var d = Math.sqrt(dv[0]*dv[0]+dv[1]*dv[1]);
+      
+      if (d>=1){ // this is the max!
+        // drawPoint({x:n[0]*cross_pn,y:n[1]*cross_pn},'green');
+        // drawLine(90+angleE,{x:0,y:0},'green');
+        console.log('d',d);
+      }
+      maxD = Math.max(d,maxD);
+    });
+    return maxD;
+  }
+
+  range=[]; for (var i=0;i<10;i++)range.push(i);
+  function start(evt) {
+    root = evt.target;
     
-    drawPoint({x:n[0],y:n[1]},'green');
-    var thickE = d/2;
-    drawLine(angleE,{x:0,y:thickE},'yellow');
+    // grid
+    range.forEach(function(i){
+      drawLine(0,{x:0,y: i});        
+      drawLine(0,{x:0,y:-i});        
+
+      drawLine(90,{x: i,y:0});
+      drawLine(90,{x:-i,y:0});
+    });
+    var angleE=36;
+    
+    var thickE = maxDistance(angleE);
+    drawLine(angleE,{x:0,y:0},'red',thickE,.1);
+    drawLine(angleE,{x:0,y:0},'red');
     
     drawSquare('square',{x:0,y:0},'blue',.02);
-
     
     var sq = root.ownerDocument.getElementById('square');
     var offset=-0.0;
     sq.setAttribute('transform','rotate('+angleE+') translate('+offset+',0) rotate('+(-angleE)+')');
 
-    var rot = root.ownerDocument.getElementById('rotation');
-    // rot.setAttribute('transform','rotate('+(-angleE)+')');
-    
-
+    // animate sqaure
     if (0) setInterval(function(){
       offset = (offset+0.05)%2;
       sq.setAttribute('transform','rotate('+angleE+') translate('+offset+',0) rotate('+(-angleE)+')');
     },100);
 
+    // point grids
+    range.forEach(function(j){
+      range.forEach(function(i){
+        drawPoint({x:i,y:j},'green');
+        if (i>0 || j>0) {
+          drawPoint({x:-i,y: j},'green');
+          drawPoint({x: i,y:-j},'green');
+          drawPoint({x:-i,y:-j},'green');
+        } 
+      });
+    });
+    //  normalize E - horizontal
+    var rot = root.ownerDocument.getElementById('rotation');
+    // rot.setAttribute('transform','rotate('+(-angleE)+')');
 
   }
   
 ]]></script>
-  <g transform="scale(8,-8)">
+  <g transform="scale(2,-2)">
     <g id="rotation" transform="rotate(0)">
       <g id="root" stroke="black" fill="none" onload="start(evt)"/>
     </g>
