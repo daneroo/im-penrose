@@ -13,6 +13,18 @@
     path.setAttribute('transform', 'translate('+off.x+','+off.y+') rotate('+angle+')');
     root.appendChild(path);
   }
+  function drawSegment(p1,p2,clr,thick,opa){
+    var line = root.ownerDocument.createElementNS(svgns, 'line');
+    line.setAttribute('opacity', opa||'1');
+    line.setAttribute('stroke-width', thick|| 0.01);
+    line.setAttribute('stroke', clr||'gray');
+    line.setAttribute('x1', p1.x);
+    line.setAttribute('y1', p1.y);
+    line.setAttribute('x2', p2.x);
+    line.setAttribute('y2', p2.y);    
+    root.appendChild(line);
+  }
+  
   function drawSquare(id,off,clr,thick,opa){ 
       var rect = root.ownerDocument.createElementNS(svgns, 'rect');      
       if (id) rect.setAttribute('id', id);
@@ -37,10 +49,9 @@
       circle.setAttribute('r', thick||0.05  );
       root.appendChild(circle);
   }
-  function distancePointOriginLine(p,deg){ //point angle of line in degres
+  function distancePointOriginLine(p,deg){ //point as[], angle of line in degres
     // http://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
     // E's normal n : [cos(angleE),sin(angleE)]
-    // p: [+/-1,+/-1]
     // cross(-p,n)*n
     // distance = || -p - ( cross(-p,n)*n )  ||
     var rad = deg*Math.PI/180;
@@ -50,6 +61,18 @@
     var dv = [ -p[0] - cross_pn*n[0], -p[1] - cross_pn*n[1] ];
     var d = Math.sqrt(dv[0]*dv[0]+dv[1]*dv[1]);
     return d;
+  }
+  function projectPointOriginLine(p,deg){ //point as [], angle of line in degres
+    // http://en.wikibooks.org/wiki/Linear_Algebra/Orthogonal_Projection_Onto_a_Line
+    // E's normal n : [cos(angleE),sin(angleE)]
+    // cross(p,n)*n
+    // projected = || -p - ( cross(-p,n)*n )  ||
+    var rad = deg*Math.PI/180;
+    // var n = [-Math.sin(rad),Math.cos(rad)];    
+    var n = [Math.cos(rad),Math.sin(rad)];    
+    var cross_pn = p[0]*n[0] + p[1]*n[1];
+    var proj = [ cross_pn*n[0], cross_pn*n[1] ];
+    return proj;
   }
   
   function eHalfThickness(deg){  // .5 <= maxD <= sqrt(2)/2
@@ -71,7 +94,7 @@
     return maxD;
   }
 
-  range=[]; for (var i=0;i<10;i++)range.push(i);
+  range=[]; for (var i=0;i<50;i++)range.push(i);
   function start(evt) {
     root = evt.target;
     
@@ -83,7 +106,11 @@
       drawLine(90,{x: i,y:0});
       drawLine(90,{x:-i,y:0});
     });
-    var angleE=30;
+    var angleE=45.001;
+    var angleE=45.001;
+    var angleE=Math.atan(3)*180/Math.PI;
+    var goldenRatio = (1 + Math.sqrt(5)) / 2;
+    var angleE=Math.atan(goldenRatio)*180/Math.PI;
     
     var maxD = eHalfThickness(angleE);
     drawLine(angleE,{x:0,y:0},'red',maxD*2,.1);
@@ -95,7 +122,7 @@
     var offset=-0.0;
     sq.setAttribute('transform','rotate('+angleE+') translate('+offset+',0) rotate('+(-angleE)+')');
 
-    // animate sqaure
+    // animate square
     if (0) setInterval(function(){
       offset = (offset+0.05)%2;
       sq.setAttribute('transform','rotate('+angleE+') translate('+offset+',0) rotate('+(-angleE)+')');
@@ -104,12 +131,14 @@
     function check(p){
       var pv=[p.x,p.y];
       var d = distancePointOriginLine(pv,angleE);
-      // console.log('p,d,ok',pv,d,ok);
       var isIn = (d<=maxD);
+      // console.log('in?',isIn,pv,d,maxD);
       var color = isIn ? 'red' : 'grey';
-      drawPoint(p,color);
+      // drawPoint(p,color,0.2,.1);
+      // if (isIn) console.log('in',p.x,p.y);
       return isIn;
     }
+    
     // point grids
     if (0) range.forEach(function(j){
       range.forEach(function(i){
@@ -122,25 +151,62 @@
       });
     });
     
-    function checkR(p){
-      if ((p.x*p.x+p.y*p.y)>100) return false;
-      var isIn = check(p);
-      while (isIn) {
-        isIn=checkR({x:p.x+1,y:p.y});
-      }
-      // isIn=checkR({x:p.x,y:p.y+1});
-      return isIn;
+    function drawSegAndProj(prv,nxt,direction){
+      var opaStair=.3;
+      var thickStair=.07;
+      var opaProj=1;
+      var thickProj=.1;
+      var color={horiz:'blue',vert:'magenta'}[direction];
+      var color={horiz:'black',vert:'magenta'}[direction];
+      // console.log('draw (-|) ',JSON.stringify([prv,nxt]));
+      drawSegment(prv,nxt,color,thickStair,opaStair);
+      // projection
+      var projP=projectPointOriginLine([prv.x,prv.y],angleE);
+      var projN=projectPointOriginLine([nxt.x,nxt.y],angleE);
+      drawSegment({x:projP[0],y:projP[1]},{x:projN[0],y:projN[1]},color,thickProj,opaProj);
     }
-    checkR({x:0,y:0});
+    function checkSteps(start,steps){
+      var rad=angleE*Math.PI/180;
+      var up = (Math.cos(rad)*Math.sin(rad))>=0 ? 1:-1;
+
+      var prv = start;
+      var nxt = {x:start.x+1,y:start.y};
+      for (var it=0;it<steps;it++){
+        while (true) {
+          var isIn = check(nxt);
+          if (isIn) {
+            drawSegAndProj(prv,nxt,'horiz');
+            prv=nxt;
+            nxt = {x:nxt.x+1,y:nxt.y}
+          } else {
+            nxt = {x:nxt.x-1,y:nxt.y+up}
+            break;
+          }
+        }
+        while (true) {
+          var isIn = check(nxt);
+          if (isIn) {
+            drawSegAndProj(prv,nxt,'vert');
+            prv=nxt;
+            nxt = {x:nxt.x,y:nxt.y+up}
+          } else {
+            nxt = {x:nxt.x+1,y:nxt.y-up}
+            break;
+          }
+        }
+      }
+    }
+    check({x:0,y:0}); // to highlight
+    checkSteps({x:0,y:0},100);
     
     //  normalize E - horizontal
     var rot = root.ownerDocument.getElementById('rotation');
-    // rot.setAttribute('transform','rotate('+(-angleE)+')');
+    rot.setAttribute('transform','rotate('+(-angleE)+')');
 
   }
   
 ]]></script>
-  <g transform="scale(1,-1)">
+  <g transform="scale(.6,-.6)">
     <g id="rotation" transform="rotate(0)">
       <g id="root" stroke="black" fill="none" onload="start(evt)"/>
     </g>
