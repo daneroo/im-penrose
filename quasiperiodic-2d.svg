@@ -107,7 +107,6 @@
       drawLine(90,{x:-i,y:0});
     });
     var angleE=45.001;
-    var angleE=45.001;
     var angleE=Math.atan(3)*180/Math.PI;
     var goldenRatio = (1 + Math.sqrt(5)) / 2;
     var angleE=Math.atan(goldenRatio)*180/Math.PI;
@@ -164,6 +163,7 @@
       var projP=projectPointOriginLine([prv.x,prv.y],angleE);
       var projN=projectPointOriginLine([nxt.x,nxt.y],angleE);
       drawSegment({x:projP[0],y:projP[1]},{x:projN[0],y:projN[1]},color,thickProj,opaProj);
+      drawSegment({x:-projP[0],y:-projP[1]},{x:-projN[0],y:-projN[1]},color,thickProj,opaProj);
     }
     function checkSteps(start,steps){
       var rad=angleE*Math.PI/180;
