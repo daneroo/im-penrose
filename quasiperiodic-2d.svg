@@ -26,6 +26,17 @@
       rect.setAttribute('height', 1);
       root.appendChild(rect);
   }
+  function drawPoint(off,clr,thick,opa){ 
+      var circle = root.ownerDocument.createElementNS(svgns, 'circle');      
+      circle.setAttribute('opacity', opa||'1');
+      circle.setAttribute('stroke','none');
+      circle.setAttribute('fill', clr||'gray');
+      
+      circle.setAttribute('cx', off.x);
+      circle.setAttribute('cy', off.y);
+      circle.setAttribute('r', thick||0.1);
+      root.appendChild(circle);
+  }
 
   function start(evt) {
     root = evt.target;
@@ -42,8 +53,19 @@
     drawLine(angleE,{x:0,y:0},'red',1,.1);
     drawLine(angleE,{x:0,y:0},'red');
     
-    // var thickE=Math.min(Math.abs(),Math.abs(Math.cos(angleE*Math.PI/180)))
-    var thickE = Math.cos(angleE*Math.PI/180) * (0.5+Math.sin(angleE*Math.PI/180));
+    // thickness of E is Max of distance from (+/-1,+/-1) to angleE line
+    // E's normal n : [cos(angleE),sin(angleE)]
+    // p: [+/-1,+/-1]
+    // cross(-p,n)*n
+    // distance = || -p - ( cross(-p,n)*n )  ||
+    var n = [Math.cos(angleE*Math.PI/180),Math.sin(angleE*Math.PI/180)];
+    var p = [1,1];
+    var cross_pn = p[0]*n[0]+p[1]*n[1];
+    var dv = [-p[0] -cross_pn*n[0], -p[1] -cross_pn*n[1]];
+    var d = Math.sqrt(dv[0]*dv[0]+dv[1]+dv[1]);
+    
+    drawPoint({x:n[0],y:n[1]},'green');
+    var thickE = d/2;
     drawLine(angleE,{x:0,y:thickE},'yellow');
     
     drawSquare('square',{x:0,y:0},'blue',.02);
