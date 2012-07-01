@@ -1,10 +1,20 @@
 # Penrose Tiling - Quasiperiodic Tilig
 
+## Penrose Tiling - substitution or deflation approach
+It is possible to define a penrose tiling through substitution rules.
+
+## 1-D Quasiperiodic tiling from projections
+Todo: rewrite as libray, and svg nodes in an html document to show all parts..
+
+## Pentagrif Ribbons
+
 ### References
 
-* [Substitution approach in python](http://preshing.com/20110831/penrose-tiling-explained)
-* [SVG algo](http://www.intertwingly.net/blog/2006/07/06/Penrose-Tiling)
-* [SVG](http://intertwingly.net/stories/2006/07/06/penroseTiling.svg)
+* [Wikipedia entry on Penrose Tiling](http://en.wikipedia.org/wiki/Penrose_tiling)
+* [Penrose Tilings Tied up in Ribbons](http://www.ams.org/samplings/feature-column/fcarc-ribbons)
+    * [Substitution approach in python](http://preshing.com/20110831/penrose-tiling-explained)
+    * [SVG algo](http://www.intertwingly.net/blog/2006/07/06/Penrose-Tiling)
+    * [SVG](http://intertwingly.net/stories/2006/07/06/penroseTiling.svg)
 * [5D projection](http://www.quadibloc.com/math/pen06.htm)
 * [QuasiTiler Explanation](http://www.geom.uiuc.edu/apps/quasitiler/)
 * [deBruijn explanation ](http://gregegan.customer.netspace.net.au/APPLETS/12/12.html) and [PDF article explaining Penrose Tiles by deBruijn](http://alexandria.tue.nl/repository/freearticles/597566.pdf)
