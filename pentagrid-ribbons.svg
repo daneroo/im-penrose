@@ -60,6 +60,9 @@
     path.setAttribute('transform', 'translate('+off.x+','+off.y+') rotate('+angle+')');
     root.appendChild(path);
   }
+  function intersect(i0,n0,i1,n1){
+    
+  }
   
 
   var eDeg = [];  // angles for basis vectors
@@ -89,48 +92,48 @@
       drawPoint({x:0,y:0},'grey',0.05,0.3);
     }
 
-    var i0=0,i1=1; // if e0.x==0 -> swap
+    // select axis and replica
+    var i0=4,i1=1; // if e0.x==0 -> swap
+    // n0, and n1 select the nth reoplica line in e0,e1 translations
+    var n0=1, n1=1;
 
     for (var i=0;i<eDeg.length;i++){
       var deg=eDeg[i],c=pColor[i];
       // drawLine(deg,{x:0,y:0},c,0.02);        
       range.forEach(function(n){
-        var thick=((i===i0||i===i1) && n===0) ? 0.04 : 0.02;
+        var thick=((i===i0 && n===n0) || (i===i1 && n===n1)) ? 0.04 : 0.01;
         drawLine(deg,vmult(n+g[i],e[i]),c,thick);
       });
     }
-    // intersect e0_0 && e1_0
 
+    // intersect e0_n0 && e1_n1
     var e0 = e[i0];
     var e1 = e[i1];
-    var g0e0 = {x:g[i0]*e[i0].x, y:g[i0]*e[i0].y};
-    var g1e1 = {x:g[i1]*e[i1].x, y:g[i1]*e[i1].y};
-    // e0.y * (y-g0e0.y) =  -e0.x * (x-g0e0.x)
+    var n0g0e0 = {x:(n0+g[i0])*e[i0].x, y:(n0+g[i0])*e[i0].y};
+    var n1g1e1 = {x:(n1+g[i1])*e[i1].x, y:(n1+g[i1])*e[i1].y};
+    // e0.y * (y-n0g0e0.y) =  -e0.x * (x-n0g0e0.x)
     // isolate x - requires e0.x!=0
-    // e0.y * (y-g0e0.y) =  -e0.x * (x-g0e0.x)
-    // -e0.y/e0.x * (y-g0e0.y) =   x-g0e0.x
-    // (-e0.y/e0.x * (y-g0e0.y))+g0e0.x = x
-    // x = (-e0.y/e0.x * (y-g0e0.y))+g0e0.x
+    // e0.y * (y-n0g0e0.y) =  -e0.x * (x-n0g0e0.x)
+    // -e0.y/e0.x * (y-n0g0e0.y) =   x-n0g0e0.x
+    // (-e0.y/e0.x * (y-n0g0e0.y))+n0g0e0.x = x
+    // x = (-e0.y/e0.x * (y-n0g0e0.y))+n0g0e0.x
     
-    drawLine(eDeg[i0],vmult(g[i0],e[i0]),'black',0.1,0.1);
-    
-    // e1.y * (y-g1e1.y) =  -e1.x * (x-g1e1.x)
+    // e1.y * (y-n1g1e1.y) =  -e1.x * (x-n1g1e1.x)
     // isolate y  - requires e1.y!=0
-    // y - g1e1.y =  -e1.x/e1.y * (x-g1e1.x)
-    // y =  -e1.x/e1.y * (x-g1e1.x) + g1e1.y
-    drawLine(eDeg[i1],vmult(g[i1],e[i1]),'black',0.1,0.1);
+    // y - n1g1e1.y =  -e1.x/e1.y * (x-n1g1e1.x)
+    // y =  -e1.x/e1.y * (x-n1g1e1.x) + n1g1e1.y
 
     //intersection:
-    // x = (-e0.y/e0.x*(y-g0e0.y)) + g0e0.x
-    // x = (A*(y-g0e0.y)) + g0e0.x   with A = -e0.y/e0.x
-    // x = (A*y-A*g0e0.y) + g0e0.x
-    // x = A*y - A*g0e0.y + g0e0.x
-    // x = A*y + B   with B = -A*g0e0.y + g0e0.x
+    // x = (-e0.y/e0.x*(y-n0g0e0.y)) + g0e0.x
+    // x = (A*(y-n0g0e0.y)) + n0g0e0.x   with A = -e0.y/e0.x
+    // x = (A*y-A*n0g0e0.y) + n0g0e0.x
+    // x = A*y - A*n0g0e0.y + n0g0e0.x
+    // x = A*y + B   with B = -A*n0g0e0.y + n0g0e0.x
     
-    // y = -e1.x/e1.y * (x-g1e1.x) + g1e1.y
-    // y = C * (x-g1e1.x) + g1e1.y   with C = -e1.x/e1.y
-    // y = C*x - C*g1e1.x + g1e1.y
-    // y = C*x + D   with D = -C*g1e1.x + g1e1.y
+    // y = -e1.x/e1.y * (x-n1g1e1.x) + n1g1e1.y
+    // y = C * (x-n1g1e1.x) + n1g1e1.y   with C = -e1.x/e1.y
+    // y = C*x - C*n1g1e1.x + n1g1e1.y
+    // y = C*x + D   with D = -C*n1g1e1.x + n1g1e1.y
 
     // x = A*y + B
     // y = C*x + D
@@ -140,9 +143,9 @@
     // y  = ( C*B + D ) / (1-C*A)
     
     var A = -e0.y/e0.x;
-    var B = -A*g0e0.y + g0e0.x;
+    var B = -A*n0g0e0.y + n0g0e0.x;
     var C = -e1.x/e1.y;
-    var D = -C*g1e1.x + g1e1.y;
+    var D = -C*n1g1e1.x + n1g1e1.y;
     console.log('ABCD',A,B,C,D);
     var y = ( C*B + D ) / (1-C*A);
     console.log('y',y);    
@@ -151,14 +154,11 @@
     var intersect={x:x,y:y};
     drawPoint(intersect,'red',0.1,0.3);
     
-    // i0:  x = A*y+B
-    drawSegment({y:-1,x:A*-1+B},{y:1,x:A*1+B},'red')
-    // i1:  y = C*X+D
-    drawSegment({x:-2,y:C*-2+D},{x:2,y:C*2+D},'blue')
-    
-    z01=[0,1]
-    z01.forEach(function(ni0){
-      z01.forEach(function(ni1){
+    n0s=[n0-1,n0];
+    n1s=[n1-1,n1];
+    var rh=[];
+    n0s.forEach(function(ni0){
+      n1s.forEach(function(ni1){
         var n = [0,0,0,0,0];
         n[i0]=ni0;
         n[i1]=ni1;
@@ -167,9 +167,15 @@
           p.x+= n[i]*e[i].x;
           p.y+= n[i]*e[i].y;
         }
+        rh.push(p);
         drawPoint(p,'blue',0.2,0.1);
       });
     });
+    drawSegment(rh[0],rh[1],pColor[i1],0.04);
+    drawSegment(rh[2],rh[3],pColor[i1],0.04);
+    drawSegment(rh[0],rh[2],pColor[i0],0.04);
+    drawSegment(rh[1],rh[3],pColor[i0],0.04);
+
     var cube=[0,1];
     cube.forEach(function(n0){
       cube.forEach(function(n1){
