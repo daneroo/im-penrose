@@ -26,10 +26,24 @@
       circle.setAttribute('r', thick||0.05  );
       root.appendChild(circle);
   }
+  function drawSegment(p1,p2,clr,thick,opa){
+    var line = root.ownerDocument.createElementNS(svgns, 'line');
+    line.setAttribute('opacity', opa||'1');
+    line.setAttribute('stroke-width', thick|| 0.01);
+    line.setAttribute('stroke', clr||'gray');
+    line.setAttribute('x1', p1.x);
+    line.setAttribute('y1', p1.y);
+    line.setAttribute('x2', p2.x);
+    line.setAttribute('y2', p2.y);    
+    root.appendChild(line);
+  }
   function toRad(deg){return deg*Math.PI/180;}
   function toDeg(rad){return rad*180/Math.PI;}
   function vmult(s,p){ // s:scalar, p={x,y}
     return {x:s*p.x,y:s*p.y};
+  }
+  function vadd(p1,p2){ // s:scalar, p={x,y}
+    return {x:p1.x*p2.x,y:p1.y*p2.y};
   }
   function norm(p){
     var n = Math.sqrt(p.x*p.x+p.y*p.y);
@@ -51,8 +65,8 @@
   var eDeg = [];  // angles for basis vectors
   var e = []; // basis vectors
    // translation gamma_i
-   // var g=[0.3273951115552336, 0.6228435167577118, 0.5536088130902499, 0.12421905994415283, 0.6411375142633915];
-   var g=[0.2,0.2,0.1,0.1,0.1];
+   var g=[0.3273951115552336, 0.6228435167577118, 0.5536088130902499, 0.12421905994415283, 0.6411375142633915];
+   // var g=[0.1,0.1,0.0,0.0,0.0];
   for (var i=0;i<5;i++) {
     deg=90+i*72;
     rad=toRad(deg)
@@ -69,50 +83,52 @@
     // grid
     if(1) {
       range.forEach(function(i){
-        drawLine(0,{x:0,y: i},null,null,0.3);        
-        drawLine(90,{x: i,y:0},null,null,0.3);
+        drawLine(0,{x:0,y: i},null,null,0.1);        
+        drawLine(90,{x: i,y:0},null,null,0.1);
       });
-      drawPoint({x:0,y:0},'grey',0.1,0.3);
+      drawPoint({x:0,y:0},'grey',0.05,0.3);
     }
+
+    var i0=0,i1=1; // if e0.x==0 -> swap
 
     for (var i=0;i<eDeg.length;i++){
       var deg=eDeg[i],c=pColor[i];
       // drawLine(deg,{x:0,y:0},c,0.02);        
       range.forEach(function(n){
-        var thick=(i<2 && n===0) ? 0.04 : 0.02;
+        var thick=((i===i0||i===i1) && n===0) ? 0.04 : 0.02;
         drawLine(deg,vmult(n+g[i],e[i]),c,thick);
       });
     }
     // intersect e0_0 && e1_0
 
-    var e0 = e[0];
-    var e1 = e[1];
-    var g0e0 = {x:g[0]*e[0].x, y:g[0]*e[0].y};
-    var g1e1 = {x:g[1]*e[1].x, y:g[1]*e[1].y};
-    // e0.y * (y-g0e0.y) =  e0.x * (x-g0e0.x)
-    // isolate x - requires e[0].x!=0
-    // e0.y * (y-g0e0.y) =  e0.x * (x-g0e0.x)
-    // e0.y/e0.x * (y-g0e0.y) =   x-g0e0.x
-    // (e0.y/e0.x * (y-g0e0.y))+g0e0.x = x
-    // x = (e0.y/e0.x * (y-g0e0.y))+g0e0.x
+    var e0 = e[i0];
+    var e1 = e[i1];
+    var g0e0 = {x:g[i0]*e[i0].x, y:g[i0]*e[i0].y};
+    var g1e1 = {x:g[i1]*e[i1].x, y:g[i1]*e[i1].y};
+    // e0.y * (y-g0e0.y) =  -e0.x * (x-g0e0.x)
+    // isolate x - requires e0.x!=0
+    // e0.y * (y-g0e0.y) =  -e0.x * (x-g0e0.x)
+    // -e0.y/e0.x * (y-g0e0.y) =   x-g0e0.x
+    // (-e0.y/e0.x * (y-g0e0.y))+g0e0.x = x
+    // x = (-e0.y/e0.x * (y-g0e0.y))+g0e0.x
     
-    drawLine(90,vmult(g[0],e[0]),'black',0.1,0.1);
+    drawLine(eDeg[i0],vmult(g[i0],e[i0]),'black',0.1,0.1);
     
-    // e1.y * (y-g1e1.y) =  e1.x * (x-g1e1.x)
+    // e1.y * (y-g1e1.y) =  -e1.x * (x-g1e1.x)
     // isolate y  - requires e1.y!=0
-    // y - g1e1.y =  e1.x/e1.y * (x-g1e1.x)
-    // y =  e1.x/e1.y * (x-g1e1.x) + g1e1.y
-    drawLine(90+72,vmult(g[1],e[1]),'black',0.1,0.1);
+    // y - g1e1.y =  -e1.x/e1.y * (x-g1e1.x)
+    // y =  -e1.x/e1.y * (x-g1e1.x) + g1e1.y
+    drawLine(eDeg[i1],vmult(g[i1],e[i1]),'black',0.1,0.1);
 
     //intersection:
-    // x = (e0.y/e0.x*(y-g0e0.y)) + g0e0.x
-    // x = (A*(y-g0e0.y)) + g0e0.x   with A = e0.y/e0.x
+    // x = (-e0.y/e0.x*(y-g0e0.y)) + g0e0.x
+    // x = (A*(y-g0e0.y)) + g0e0.x   with A = -e0.y/e0.x
     // x = (A*y-A*g0e0.y) + g0e0.x
     // x = A*y - A*g0e0.y + g0e0.x
-    // x = A*y + B   with B = - A*g0e0.y + g0e0.x
+    // x = A*y + B   with B = -A*g0e0.y + g0e0.x
     
-    // y = e1.x/e1.y * (x-g1e1.x) + g1e1.y
-    // y = C * (x-g1e1.x) + g1e1.y   with C = e1.x/e1.y
+    // y = -e1.x/e1.y * (x-g1e1.x) + g1e1.y
+    // y = C * (x-g1e1.x) + g1e1.y   with C = -e1.x/e1.y
     // y = C*x - C*g1e1.x + g1e1.y
     // y = C*x + D   with D = -C*g1e1.x + g1e1.y
 
@@ -123,20 +139,55 @@
     // y * (1-C*A) = C*B + D
     // y  = ( C*B + D ) / (1-C*A)
     
-    var A = e0.y/e0.x;
+    var A = -e0.y/e0.x;
     var B = -A*g0e0.y + g0e0.x;
-    var C = e1.x/e1.y;
+    var C = -e1.x/e1.y;
     var D = -C*g1e1.x + g1e1.y;
     console.log('ABCD',A,B,C,D);
     var y = ( C*B + D ) / (1-C*A);
-    console.log('y',y);
-    
+    console.log('y',y);    
     var x = A*y + B
     console.log('x',x);
     var intersect={x:x,y:y};
     drawPoint(intersect,'red',0.1,0.3);
-    // drawLine(90,{x:intersect.x,y:0},'red',0.04,0.9);
-    // drawLine(0,{x:0,y:intersect.y},'red',0.04,0.9);
+    
+    // i0:  x = A*y+B
+    drawSegment({y:-1,x:A*-1+B},{y:1,x:A*1+B},'red')
+    // i1:  y = C*X+D
+    drawSegment({x:-2,y:C*-2+D},{x:2,y:C*2+D},'blue')
+    
+    z01=[0,1]
+    z01.forEach(function(ni0){
+      z01.forEach(function(ni1){
+        var n = [0,0,0,0,0];
+        n[i0]=ni0;
+        n[i1]=ni1;
+        var p = { x:0, y:0 };
+        for (var i=0;i<5;i++) {
+          p.x+= n[i]*e[i].x;
+          p.y+= n[i]*e[i].y;
+        }
+        drawPoint(p,'blue',0.2,0.1);
+      });
+    });
+    var cube=[0,1];
+    cube.forEach(function(n0){
+      cube.forEach(function(n1){
+        cube.forEach(function(n2){
+          cube.forEach(function(n3){
+            cube.forEach(function(n4){
+              var n = [n0,n1,n2,n3,n4];
+              var p = { x:0, y:0 };
+              for (var i=0;i<5;i++) {
+                p.x+= n[i]*e[i].x;
+                p.y+= n[i]*e[i].y;
+              }
+              drawPoint(p,'green',0.1,0.3);
+            });
+          });
+        });
+      });
+    });
     
   }
   
