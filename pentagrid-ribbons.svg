@@ -1,4 +1,4 @@
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='-10 -10 20 20'>
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='-20 -20 40 40'>
 <script type="text/ecmascript"><![CDATA[
   var root;
   var svgns = 'http://www.w3.org/2000/svg';
@@ -39,7 +39,7 @@
   }
   function makeRhomb(rh,i0,i1){
     var angle = ((eDeg[i0]-eDeg[i1])+360)%360;
-    // console.log('angle',angle,i0,i1); // [72,144,216,288]
+    // console.log('angle',angle,i0,i1); // 360/eDim*[1,2,..,eDim-1]
     var thick=0.02;
 
     var colorSegs=false;
@@ -54,6 +54,9 @@
     // actual rhomb
     var opa=0.1;
     var fill=(angle===72||angle===288)?solarized.blue:'none';
+    // var fill= pColor[i0+i1];
+    var fill= pColor[(i0+i1)%6];
+    // console.log('fill',angle,fill); // 360/eDim*[1,2,..,eDim-1]
 
     var polygon = root.ownerDocument.createElementNS(svgns, 'polygon');
     var stroke=solarized.blue;//fill;//'none';
@@ -148,7 +151,7 @@
   }
   
   function projectCube(){
-    var cube=[0,1];
+    var cube=[-1,0,1];
     cube.forEach(function(n0){
       cube.forEach(function(n1){
         cube.forEach(function(n2){
@@ -156,7 +159,7 @@
             cube.forEach(function(n4){
               var n = [n0,n1,n2,n3,n4];
               var p = { x:0, y:0 };
-              for (var i=0;i<5;i++) {
+              for (var i=0;i<eDim;i++) {
                 p.x+= n[i]*e[i].x;
                 p.y+= n[i]*e[i].y;
               }
@@ -170,13 +173,17 @@
   
 
   var eDeg = [];  // angles for basis vectors
+  var eDim=7;
   var e = []; // basis vectors
    // translation gamma_i
-   var g=[0.3273951115552336, 0.6228435167577118, 0.5536088130902499, 0.12421905994415283, 0.6411375142633915];
-   var g=[1.19,0.5,0.5,0.5,0.5];
+   // var g=[0.3273951115552336, 0.6228435167577118, 0.5536088130902499, 0.12421905994415283, 0.6411375142633915];
    // var g=[0.5,0.5,0.5,0.5,0.5];
-  for (var i=0;i<5;i++) {
-    deg=90+i*72;
+   var g=[];
+  for (var i=0;i<eDim;i++) {
+    // g.push(0.5);
+    g.push(Math.random());
+    deg=90+i*(360/eDim);
+    // deg=[90+11,90+120-11,90+240+11][i];
     rad=toRad(deg)
     eDeg.push(deg);
     e.push({x:-Math.sin(rad),y:Math.cos(rad)})
@@ -189,17 +196,18 @@
     root = evt.target;
 
     // grid
-    if(1) {
+    var drawGrid=false;
+    if(drawGrid) {
       range.forEach(function(i){
-        drawLine(0,{x:0,y: i},null,null,0.1);        
-        drawLine(90,{x: i,y:0},null,null,0.1);
+        drawLine(0,{x:0,y: i},null,null,0.3);        
+        drawLine(90,{x: i,y:0},null,null,0.3);
       });
-      drawPoint({x:0,y:0},'grey',0.05,0.3);
+      drawPoint({x:0,y:0},'red',0.1,0.5);
     }
 
     var drawAxis=false;
     if (drawAxis){
-      for (var i=0;i<eDeg.length;i++){
+      for (var i=0;i<eDim;i++){
         var deg=eDeg[i],c=pColor[i];
         // drawLine(deg,{x:0,y:0},c,0.02);        
         range.forEach(function(n){
@@ -208,7 +216,7 @@
       }
     }
 
-    // projectCube();
+    if (0) projectCube();
 
     function intersectAndRhomb(i0,n0,i1,n1){
       var intr = intersect(i0,n0,i1,n1);
@@ -229,17 +237,8 @@
         drawLine(eDeg[i1],vmult(n1+.5+g[i1],e[i1]),pColor[i1],1,.1);
       }
 
-      // How do we find n's
-      // one unit wide for other axis.
-      var n2=0;
-      // drawLine(eDeg[2],vmult(n2-.5+g[2],e[2]),pColor[2],1,.1);
-      var n3=-5;
-      // drawLine(eDeg[3],vmult(n3-.5+g[3],e[3]),pColor[3],1,.1);
-      var n4=-1;
-      // drawLine(eDeg[4],vmult(n4-.5+g[4],e[4]),pColor[4],1,.1);
-      
-      var n=[null,null,null,null,null];
-      for (var i=0;i<5;i++){
+      var n=Array(eDim);//[null,null,null,null,null];
+      for (var i=0;i<eDim;i++){
         // x = A*y + B   with A = -e0.y/e0.x, B = -A*n0g0e0.y + n0g0e0.x, e0.x!=0        
         // x-A*y = B = (n0+g0) * (-Ae0.y+e0.x)
         // n0 = (x-A*y)/(-Ae0.y+e0.x) - g0 with A = -e0.y/e0.x, e0.x!=0        
@@ -274,7 +273,7 @@
           nn[i0]=ni0;
           nn[i1]=ni1;
           var p = { x:0, y:0 };
-          for (var i=0;i<5;i++) {
+          for (var i=0;i<eDim;i++) {
             p.x+= nn[i]*e[i].x;
             p.y+= nn[i]*e[i].y;
           }
@@ -291,7 +290,7 @@
     // intersectAndRhomb(i0,n0, i1,n1)
     // var rr = [-2,-1,0,1,2];
     var rr=[]; for (var i=-7;i<=7;i++)rr.push(i);
-    var ii=[0,1,2,3,4];
+    var ii=[]; for (var i=0;i<eDim;i++)ii.push(i);
     ii.forEach(function(i0){
       ii.forEach(function(i1){
         if (i1!==i0){
