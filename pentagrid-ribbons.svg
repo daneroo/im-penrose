@@ -56,7 +56,7 @@
     var fill=(angle===72||angle===288)?solarized.blue:'none';
 
     var polygon = root.ownerDocument.createElementNS(svgns, 'polygon');
-    var stroke=solarized.blue;
+    var stroke=solarized.blue;//fill;//'none';
     thick=0.04;
     polygon.setAttribute('opacity', opa||'1');
     polygon.setAttribute('stroke',stroke);
@@ -71,7 +71,6 @@
   function drawRhomb(rh,i0,i1){
     var polygon=makeRhomb(rh,i0,i1);
     root.appendChild(polygon);
-      
   }
   function toRad(deg){return deg*Math.PI/180;}
   function toDeg(rad){return rad*180/Math.PI;}
