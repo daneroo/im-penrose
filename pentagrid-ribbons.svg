@@ -37,31 +37,39 @@
     line.setAttribute('y2', p2.y);    
     root.appendChild(line);
   }
-  function drawRhomb(rh,i0,i1){
+  function makeRhomb(rh,i0,i1){
     var angle = ((eDeg[i0]-eDeg[i1])+360)%360;
     // console.log('angle',angle,i0,i1); // [72,144,216,288]
     var thick=0.02;
-    var fill=(angle===72||angle===288)?solarized.blue:'none';
-    var c0=pColor[i0];
-    var c1=pColor[i1];
-    c0=c1=fill;
-    c0=c1=solarized.blue;
-    // c0=c1=(angle===72||angle===288)?'none':solarized.blue;
-    drawSegment(rh[0],rh[1],c1,thick);
-    drawSegment(rh[2],rh[3],c1,thick);
-    drawSegment(rh[0],rh[2],c0,thick);
-    drawSegment(rh[1],rh[3],c0,thick);
+
+    var colorSegs=false;
+    if (colorSegs){
+      var c0=pColor[i0];
+      var c1=pColor[i1];
+      drawSegment(rh[0],rh[1],c1,thick);
+      drawSegment(rh[2],rh[3],c1,thick);
+      drawSegment(rh[0],rh[2],c0,thick);
+      drawSegment(rh[1],rh[3],c0,thick);
+    }
     // actual rhomb
     var opa=0.1;
+    var fill=(angle===72||angle===288)?solarized.blue:'none';
 
     var polygon = root.ownerDocument.createElementNS(svgns, 'polygon');
+    var stroke=solarized.blue;
+    thick=0.04;
     polygon.setAttribute('opacity', opa||'1');
-    polygon.setAttribute('stroke','none');
+    polygon.setAttribute('stroke',stroke);
     polygon.setAttribute('fill', fill||'none');
+    polygon.setAttribute('stroke-width', thick|| 0.01);
     // reorder vertices and concat x,y x,y x,y
     var points = [0,1,3,2].map(function(i){return rh[i]}).map(function(p){return p.x+','+p.y}).join(' ');
     // console.log('points',points);
     polygon.setAttribute('points', points);
+    return polygon;
+  }
+  function drawRhomb(rh,i0,i1){
+    var polygon=makeRhomb(rh,i0,i1);
     root.appendChild(polygon);
       
   }
@@ -283,7 +291,7 @@
     // var n0=-1, n1=0;
     // intersectAndRhomb(i0,n0, i1,n1)
     // var rr = [-2,-1,0,1,2];
-    var rr=[]; for (var i=-5;i<=5;i++)rr.push(i);
+    var rr=[]; for (var i=-7;i<=7;i++)rr.push(i);
     var ii=[0,1,2,3,4];
     ii.forEach(function(i0){
       ii.forEach(function(i1){
