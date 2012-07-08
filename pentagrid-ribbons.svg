@@ -37,6 +37,7 @@
     line.setAttribute('y2', p2.y);    
     root.appendChild(line);
   }
+  
   function makeRhomb(rh,i0,i1){
     var angle = ((eDeg[i0]-eDeg[i1])+360)%360;
     // console.log('angle',angle,i0,i1); // 360/eDim*[1,2,..,eDim-1]
@@ -54,8 +55,10 @@
     // actual rhomb
     var opa=0.1;
     var fill=(angle===72||angle===288)?solarized.blue:'none';
-    // var fill= pColor[i0+i1];
-    var fill= pColor[(i0+i1)%6];
+    var fill= pColor[(i0+0*i1)%eDim];
+    // var fill='none';
+    // var fill= [solarized.blue,'none'][(i0+i1)%2];
+    // var fill= (i0<0)?solarized.blue:'none';
     // console.log('fill',angle,fill); // 360/eDim*[1,2,..,eDim-1]
 
     var polygon = root.ownerDocument.createElementNS(svgns, 'polygon');
@@ -187,10 +190,9 @@
     rad=toRad(deg)
     eDeg.push(deg);
     e.push({x:-Math.sin(rad),y:Math.cos(rad)})
-    // g.push(Math.random());
     // norm(e[i]);
   }
-  var pColor=[solarized.yellow,solarized.magenta,solarized.violet,solarized.cyan,solarized.green];
+  var pColor=[solarized.yellow,solarized.magenta,solarized.violet,solarized.cyan,solarized.green,solarized.orange,solarized.blue,solarized.red];
   var range=[]; for (var i=-50;i<=50;i++)range.push(i);
   function start(evt) {
     root = evt.target;
@@ -289,7 +291,7 @@
     // var n0=-1, n1=0;
     // intersectAndRhomb(i0,n0, i1,n1)
     // var rr = [-2,-1,0,1,2];
-    var rr=[]; for (var i=-7;i<=7;i++)rr.push(i);
+    var rr=[]; for (var i=-5;i<=5;i++)rr.push(i);
     var ii=[]; for (var i=0;i<eDim;i++)ii.push(i);
     ii.forEach(function(i0){
       ii.forEach(function(i1){
