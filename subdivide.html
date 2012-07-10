@@ -3,13 +3,10 @@
 <style>
 
 .face {
-  fill: #eee;
-}
-
-path {
-  fill: none;
-  stroke: #000;
-  stroke-width: .6px;
+/*  fill: #eee;*/
+  stroke-width: 0.001;
+  stroke: #8080a2;
+  stroke: 'none';
 }
 
 </style>
@@ -17,13 +14,11 @@ path {
 <script src="http://d3js.org/d3.v2.min.js?2.9.3"></script>
 <script>
 
-var width = 200,
-    height = 200,
-    size = 50,
-    offset = 0;
+var width = 640, height = 400;
+var color = d3.interpolateRgb("#aad", "#556");
 
     //------ Configuration --------
-    NUM_SUBDIVISIONS = 6;
+    NUM_SUBDIVISIONS = 8;
     //-----------------------------
 
 
@@ -66,8 +61,9 @@ var width = 200,
       };
     }
 
-    function makeTriangles(){
-      // # Create wheel of red triangles around the origin
+    var triangleLevelCache=[];
+    function level0(){
+      // # Create wheel of color0 triangles around the origin
       var triangles = [];
       for (var i=0;i<10;i++){
         var B = toRect(1, (2*i - 1) * Math.PI / 10);
@@ -81,22 +77,54 @@ var width = 200,
       }
       return triangles;
     }
+    function makeTriangles(){
+      triangles = level0();
+      triangleLevelCache.push(triangles);
+      for (i=1;i<NUM_SUBDIVISIONS;i++) {
+        triangles = subdivide(triangles);
+        triangleLevelCache.push(triangles);
+      };
+      return triangles;
+    }
+    makeTriangles();
+    function cachedTriangle(depth){
+      return function(){ return triangleLevelCache[depth]};
+    }
 
 
 var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 
-var g = svg.append("g").attr('transform','scale(100)');
+var g = svg.append("g").attr('transform','translate('+[width/2,height/2].join(',')+'),scale('+Math.max(width,height)/2+')');
 
-var face = g.selectAll(".face")
-    .data(makeTriangles)
-  .enter().append("path")
-    .attr("class", "face");
+var face = g.selectAll(".face");
 
-function draw() {
-  face.attr("d", function(d) { return "M" + [d.A,d.B,d.C,d.A].map(function(p){return [p.x,p.y]}).join("L"); });
+function trPath(d){
+  return "M" + [d.A,d.B,d.C,d.A].map(function(p){return [p.x,p.y]}).join("L");
+}
+function trColor(d){
+  return color(d.color);
+}
+function draw(depth) {
+  face.data(cachedTriangle(depth))
+    .enter().append("path")
+      .attr("class", "face")
+      .attr("d", trPath).style('fill',  trColor);
 }
 
-draw();
+function ramp(n,max){ //0..max,..0
+  var mod=max-1;
+  var off=n+mod;
+  return Math.abs(Math.abs(off % (2*mod))-mod);
+}
+var iteration=0;
+setInterval(function(){
+  depth=ramp(iteration++,NUM_SUBDIVISIONS);
+  var startTime=+new Date
+  draw(depth);
+  console.log('depth',depth,new Date-startTime,'ms');
+},2000);
+
+
 </script>
