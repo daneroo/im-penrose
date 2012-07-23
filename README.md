@@ -6,7 +6,7 @@ It is possible to define a penrose tiling through substitution rules.
 ## 1-D Quasiperiodic tiling from projections
 Todo: rewrite as libray, and svg nodes in an html document to show all parts..
 
-## Pentagrif Ribbons
+## Pentagrid Ribbons
 
 ### References
 
