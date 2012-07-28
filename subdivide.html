@@ -8,7 +8,6 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -18,7 +17,10 @@
         padding: 9px 0;
       }
     </style>
-    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    
+    <!-- local reference are not protocol relative so a to work with file: scheme -->
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.0.4/css/bootstrap-combined.min.css" rel="stylesheet">
+    
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -82,7 +84,7 @@
 
 </style>
 
-<div  id="container">
+<div id="container">
 </div>
 
 
@@ -209,7 +211,7 @@ setInterval(function(){
       ================================================== -->
       <footer>
         <hr class="soften">
-        <p>With love, <a href="http://twitter.com/twitter" target="_blank">@daneroo</a>.</p>
+        <p>With love, <a href="http://twitter.com/daneroo" target="_blank">@daneroo</a>.</p>
 
         <iframe class="github-btn" src="http://markdotto.github.com/github-buttons/github-btn.html?user=daneroo&repo=im-penrose&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="112px" height="20px"></iframe>
 
@@ -230,20 +232,11 @@ setInterval(function(){
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-    <script src="assets/js/jquery.js"></script>
-    <script src="assets/js/bootstrap-transition.js"></script>
-    <script src="assets/js/bootstrap-alert.js"></script>
-    <script src="assets/js/bootstrap-modal.js"></script>
-    <script src="assets/js/bootstrap-dropdown.js"></script>
-    <script src="assets/js/bootstrap-scrollspy.js"></script>
-    <script src="assets/js/bootstrap-tab.js"></script>
-    <script src="assets/js/bootstrap-tooltip.js"></script>
-    <script src="assets/js/bootstrap-popover.js"></script>
-    <script src="assets/js/bootstrap-button.js"></script>
-    <script src="assets/js/bootstrap-collapse.js"></script>
-    <script src="assets/js/bootstrap-carousel.js"></script>
-    <script src="assets/js/bootstrap-typeahead.js"></script>
-    <script src="assets/js/application.js"></script>
+    
+    <!-- local reference are not protocol relative so a to work with file: scheme -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.0.4/js/bootstrap.min.js"></script>
+    
 
 
   </body>
