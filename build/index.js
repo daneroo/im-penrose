@@ -8,7 +8,7 @@ var title = 'im-penrose';
 var layout, pages
 
 // compile layout template
-layout = fs.readFileSync(__dirname + '/../templates/layout.mustache', 'utf-8')
+layout = fs.readFileSync(__dirname + '/../templates/layout.hbs', 'utf-8')
 layout = Handlebars.compile(layout);//, { sectionTags: [{o:'_i', c:'i'}] })
 
 // retrieve pages
@@ -17,16 +17,16 @@ pages = fs.readdirSync(__dirname + '/../templates/pages')
 // iterate over pages
 pages.forEach(function (name) {
 
-  if (!name.match(/\.mustache$/)) return
+  if (!name.match(/\.hbs$/)) return
 
   var page = fs.readFileSync(__dirname  + '/../templates/pages/' + name, 'utf-8')
     , context = {}
 
-  context[name.replace(/\.mustache$/, '')] = 'active'
+  context[name.replace(/\.hbs$/, '')] = 'active'
   context._i = true
   context.production = prod
   context.title = name
-    .replace(/\.mustache/, '')
+    .replace(/\.hbs/, '')
     .replace(/\-.*/, '')
     .replace(/(.)/, function ($1) { return $1.toUpperCase() })
 
@@ -40,5 +40,5 @@ pages.forEach(function (name) {
   Handlebars.registerPartial('body', page);
   page = layout(context)
 
-  fs.writeFileSync(__dirname + '/../' + name.replace(/mustache$/, 'html'), page, 'utf-8')
+  fs.writeFileSync(__dirname + '/../' + name.replace(/hbs$/, 'html'), page, 'utf-8')
 })
