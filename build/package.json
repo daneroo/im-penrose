@@ -1,5 +1,5 @@
 {
-    "name": "bootstrap-doc-builder",
+    "name": "static-template-generator",
     "version": "0.0.1",
     "description": "build im-penrose site",
     "dependencies": { 
