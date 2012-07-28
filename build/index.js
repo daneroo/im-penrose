@@ -19,11 +19,12 @@ pages.forEach(function (name) {
 
   if (!name.match(/\.hbs$/)) return
 
-  var page = fs.readFileSync(__dirname  + '/../templates/pages/' + name, 'utf-8')
-    , context = {}
+  var page = fs.readFileSync(__dirname  + '/../templates/pages/' + name, 'utf-8');
+  var context = {
+      projectName:title
+  }
 
   context[name.replace(/\.hbs$/, '')] = 'active'
-  context._i = true
   context.production = prod
   context.title = name
     .replace(/\.hbs/, '')
