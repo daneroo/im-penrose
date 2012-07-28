@@ -63,16 +63,16 @@
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="{{index}}">
-                <a href="./index.html">{{_i}}Overview{{/i}}</a>
+                <a href="./index.html">Overview</a>
               </li>
               <li class="{{subdivide}}">
-                <a href="./subdivide.html">{{_i}}Subdivide{{/i}}</a>
+                <a href="./subdivide.html">Subdivide</a>
               </li>
               <li class="{{one}}">
-                <a href="./one.html">{{_i}}One{{/i}}</a>
+                <a href="./one.html">One</a>
               </li>
               <li class="{{two}}">
-                <a href="./two.html">{{_i}}Two{{/i}}</a>
+                <a href="./two.html">Two</a>
               </li>
             </ul>
           </div>
@@ -89,13 +89,13 @@
       ================================================== -->
       <footer>
         <hr class="soften">
-        <p>{{_i}}With love, <a href="http://twitter.com/twitter" target="_blank">@daneroo</a>.{{/i}}</p>
+        <p>With love, <a href="http://twitter.com/twitter" target="_blank">@daneroo</a>.</p>
 
         <iframe class="github-btn" src="http://markdotto.github.com/github-buttons/github-btn.html?user=daneroo&repo=im-penrose&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="112px" height="20px"></iframe>
 
         <iframe class="github-btn" src="http://markdotto.github.com/github-buttons/github-btn.html?user=daneroo&repo=im-penrose&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="98px" height="20px"></iframe>
 
-        <a href="https://twitter.com/daneroo" class="twitter-follow-button" data-link-color="#0069D6" data-show-count="true">{{_i}}Follow @daneroo{{/i}}</a>
+        <a href="https://twitter.com/daneroo" class="twitter-follow-button" data-link-color="#0069D6" data-show-count="true">Follow @daneroo</a>
 
         <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://github.com/daneroo/im-penrose/" data-count="horizontal" data-via="twbootstrap">Tweet</a>
         

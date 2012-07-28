@@ -1,14 +1,15 @@
 #!/usr/bin/env node
-var hogan = require('hogan.js')
-  , fs    = require('fs')
-  , prod  = process.argv[2] == 'production'
-  , title = 'im-penrose'
+var Handlebars = require('handlebars');
+var fs    = require('fs');
+var prod  = process.argv[2] == 'production';
+var title = 'im-penrose';
 
+// these variables are used for template content->compiled template (fn), rendered page
 var layout, pages
 
 // compile layout template
 layout = fs.readFileSync(__dirname + '/../templates/layout.mustache', 'utf-8')
-layout = hogan.compile(layout, { sectionTags: [{o:'_i', c:'i'}] })
+layout = Handlebars.compile(layout);//, { sectionTags: [{o:'_i', c:'i'}] })
 
 // retrieve pages
 pages = fs.readdirSync(__dirname + '/../templates/pages')
@@ -35,10 +36,9 @@ pages.forEach(function (name) {
     context.title += ' · ' + title
   }
 
-  page = hogan.compile(page, { sectionTags: [{o:'_i', c:'i'}] })
-  page = layout.render(context, {
-    body: page
-  })
+  page = Handlebars.compile(page)
+  Handlebars.registerPartial('body', page);
+  page = layout(context)
 
   fs.writeFileSync(__dirname + '/../' + name.replace(/mustache$/, 'html'), page, 'utf-8')
 })

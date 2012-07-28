@@ -3,6 +3,6 @@
     "version": "0.0.1",
     "description": "build im-penrose site",
     "dependencies": { 
-        "hogan.js": "1.0.5-dev" 
+        "handlebars": "1.0.x" 
     }
 }
