@@ -1,0 +1,132 @@
+<style>
+
+.face {
+  /*  fill: #eee;*/
+  stroke-width: 0.001;
+  stroke: #8080a2;
+  stroke: 'none';
+}
+
+</style>
+
+<div id="container">
+</div>
+
+
+<script src="http://d3js.org/d3.v2.min.js?2.9.3"></script>
+<script>
+
+var width = 640, height = 400;
+var color = d3.interpolateRgb("#aad", "#556");
+
+    //------ Configuration --------
+    NUM_SUBDIVISIONS = 8;
+    //-----------------------------
+
+
+    var goldenRatio = (1 + Math.sqrt(5)) / 2;
+
+    // P = A + (B - A) / goldenRatio;
+    function midpoint(A,B){
+      var P = {
+        x: A.x + (B.x-A.x) / goldenRatio,
+        y: A.y + (B.y-A.y) / goldenRatio
+      }
+      return P;
+    }
+    function subdivide(triangles){
+      var result = [];
+      triangles.forEach(function(triangle){
+        var color=triangle.color,A=triangle.A,B=triangle.B,C=triangle.C
+        if (color===0){
+          // # Subdivide red triangle
+          // P = A + (B - A) / goldenRatio;
+          var P = midpoint(A,B)
+          result.push({color:0, A:C, B:P, C:B}, {color:1, A:P, B:C, C:A});
+        } else {
+          // # Subdivide blue triangle
+          // Q = B + (A - B) / goldenRatio;
+          var Q = midpoint(B,A);
+          // R = B + (C - B) / goldenRatio;
+          var R = midpoint(B,C);
+          result.push({color:1, A:R, B:C, C:A}, {color:1, A:Q, B:R, C:B}, {color:0, A:R, B:Q, C:A});
+        }
+      });
+      return result;
+    }
+
+    function toRect(r, phi){
+      // Return the complex number x with polar coordinates r and phi. Equivalent to r * (math.cos(phi) + math.sin(phi)*1j).
+      return {
+        x: r*Math.cos(phi),
+        y: r*Math.sin(phi)
+      };
+    }
+
+    var triangleLevelCache=[];
+    function level0(){
+      // # Create wheel of color0 triangles around the origin
+      var triangles = [];
+      for (var i=0;i<10;i++){
+        var B = toRect(1, (2*i - 1) * Math.PI / 10);
+        var C = toRect(1, (2*i + 1) * Math.PI / 10);
+        if (i % 2 === 0){ //# Make sure to mirror every second triangle
+          var t=B;
+          B=C;
+          C=t;
+        }
+        triangles.push({color:0,A:{x:0,y:0}, B:B, C:C});
+      }
+      return triangles;
+    }
+    function makeTriangles(){
+      triangles = level0();
+      triangleLevelCache.push(triangles);
+      for (i=1;i<NUM_SUBDIVISIONS;i++) {
+        triangles = subdivide(triangles);
+        triangleLevelCache.push(triangles);
+      };
+      return triangles;
+    }
+    makeTriangles();
+    function cachedTriangle(depth){
+      return function(){ return triangleLevelCache[depth]};
+    }
+
+
+var svg = d3.select("#container").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+var g = svg.append("g").attr('transform','translate('+[width/2,height/2].join(',')+'),scale('+Math.max(width,height)/2+')');
+
+var face = g.selectAll(".face");
+
+function trPath(d){
+  return "M" + [d.A,d.B,d.C,d.A].map(function(p){return [p.x,p.y]}).join("L");
+}
+function trColor(d){
+  return color(d.color);
+}
+function draw(depth) {
+  face.data(cachedTriangle(depth))
+    .enter().append("path")
+      .attr("class", "face")
+      .attr("d", trPath).style('fill',  trColor);
+}
+
+function ramp(n,max){ //0..max,..0
+  var mod=max-1;
+  var off=n+mod;
+  return Math.abs(Math.abs(off % (2*mod))-mod);
+}
+var iteration=0;
+setInterval(function(){
+  depth=ramp(iteration++,NUM_SUBDIVISIONS);
+  var startTime=+new Date
+  draw(depth);
+  console.log('depth',depth,new Date-startTime,'ms');
+},2000);
+
+
+</script>
