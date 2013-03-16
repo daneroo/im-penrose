@@ -11,10 +11,12 @@ a.scale(30,-30);
 (function(){
   function fff(z,f){z.forEach(f);}
   // var pColor=['#b58900','#D33682','#6C71C4','#2AA198','#859900','#CB4B16','#268BD2','#DC322F'],
-  var pColor=['#b80','#D38','#77C','#3AA','#8A0','#D51','#39D','#E33'],
+  // var pColor=['#b80','#D38','#77C','#3AA','#8A0','#D51','#39D','#E33'],
+  // since  I am %5'ing now
+  var pColor=['#b80','#D38','#77C','#3AA','#8A0'],
 eDeg=[], eDim = 5, e = [], // basis vectors
 g=[],i,rr=[],ii=[],M=Math;
-for (i=0;i<eDim;i++) {
+for (i=eDim;i-->0;) { // for (i=0;i<eDim;i++) {
   var deg=90+i*(360/eDim),
   rad=deg*M.PI/180;
   eDeg.push(deg);
@@ -22,7 +24,7 @@ for (i=0;i<eDim;i++) {
   g.push(M.random());
 }
 for (i=-5;i<=5;i++)rr.push(i);
-  for (i=0;i<eDim;i++)ii.push(i);
+  for (i=eDim;i-->0;)ii.push(i);
 
     fff(ii,function(i0){
       fff(ii,function(i1){
