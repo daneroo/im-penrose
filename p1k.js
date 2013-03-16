@@ -47,7 +47,8 @@ for (i=-5;i<=5;i++)rr.push(i);
     a.globalAlpha=0.5;
 
     // a.fillStyle=pColor[(i0+i1)%eDim];
-    a.fillStyle=pColor[(i0)%eDim];
+    // a.fillStyle=pColor[(i0)%eDim];
+    a.fillStyle=pColor[(i0)%5];
     // a.fillStyle=(i0+i1)&1?'#fff':'#000';
     a.fill();
 
@@ -58,7 +59,7 @@ for (i=-5;i<=5;i++)rr.push(i);
     // a.stroke();
 
   }
-  
+
   function intersect(i0,n0,i1,n1){
     // intersect e0_n0 && e1_n1
     var e0 = e[i0],
@@ -77,30 +78,33 @@ for (i=-5;i<=5;i++)rr.push(i);
   function intersectAndRhomb(i0,n0,i1,n1){
     var n=Array(eDim),//[null,null,null,null,null];
     intr = intersect(i0,n0,i1,n1),
-    rh=[],A,C,i,p;
+    rh=[],A,C,i,ei,s,
+    n0s=[n0-1,n0],n1s=[n1-1,n1],p;
     for (i=0;i<eDim;i++){
-      if (e[i].x!==0){
-        A= -e[i].y/e[i].x;
-        n[i] = (intr.x-A*intr.y)/(-A*e[i].y+e[i].x) -g[i];
-      }
-      if (e[i].y!==0){
-        C = -e[i].x/e[i].y;
-        n[i] = (intr.y-C*intr.x)/(-C*e[i].x+e[i].y) -g[i];
-      }
-      n[i] = M.floor(n[i]);
+      ei=e[i];
+      // if (ei.x){ //!==0
+      //   A= -ei.y/ei.x;
+      //   n[i] = (intr.x-A*intr.y)/(-A*ei.y+ei.x)-g[i];
+      // } else { // if (ei.y!==0)
+      //   C = -ei.x/ei.y;
+      //   n[i] = (intr.y-C*intr.x)/(-C*ei.x+ei.y)-g[i];
+      // }
+      // n[i] = M.floor(n[i]);
+      if (!ei.x){ s=ei.y;ei.y=ei.x;ei.x=s}
+      A= -ei.y/ei.x;
+      n[i] = M.floor((intr.x-A*intr.y)/(-A*ei.y+ei.x)-g[i]);
     }
 
-    n0s=[n0-1,n0];
-    n1s=[n1-1,n1];
     fff(n0s,function(ni0){
       fff(n1s,function(ni1){
-        var nn = n.slice(0);
-        nn[i0]=ni0;
-        nn[i1]=ni1;
+        // not sure: was working against a copy of nn ?!
+        // var nn = n;//n.slice(0);
+        n[i0]=ni0;
+        n[i1]=ni1;
         p = { x:0, y:0 };
         for (i=0;i<eDim;i++) {
-          p.x+= nn[i]*e[i].x;
-          p.y+= nn[i]*e[i].y;
+          p.x+= n[i]*e[i].x;
+          p.y+= n[i]*e[i].y;
         }
         rh.push(p);
       });
