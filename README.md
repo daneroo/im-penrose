@@ -8,7 +8,12 @@ Todo: rewrite as libray, and svg nodes in an html document to show all parts..
 
 ## Pentagrid Ribbons
 
-### References
+## JS1k
+
+	npm install uglify-js -g
+	uglifyjs p1k.js -o p1k-min.js --lint -m -c
+
+## References
 
 * [Wikipedia entry on Penrose Tiling](http://en.wikipedia.org/wiki/Penrose_tiling)
 * [Penrose Tilings Tied up in Ribbons](http://www.ams.org/samplings/feature-column/fcarc-ribbons)
