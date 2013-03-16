@@ -28,54 +28,48 @@ a.scale(50,-50)
   function toRad(deg){return deg*Math.PI/180;}
   // function toDeg(rad){return rad*180/Math.PI;}
 
-  function drawSegment(p1,p2,clr,thick,opa){
-    a.beginPath();
-    a.moveTo(p1.x,p1.y);
-    a.lineTo(p2.x,p2.y);
-    a.strokeStyle=clr||'gray';
-    a.lineWidth=thick||0.05
-    a.globalAlpha = opa||1;
-    a.stroke();
-    // console.log('segment',p1,p2);
-  }
+  // function drawSegment(p1,p2,clr,thick,opa){
+  //   a.beginPath();
+  //   a.moveTo(p1.x,p1.y);
+  //   a.lineTo(p2.x,p2.y);
+  //   a.strokeStyle=clr||'gray';
+  //   a.lineWidth=thick||0.05
+  //   a.globalAlpha = opa||1;
+  //   a.stroke();
+  //   // console.log('segment',p1,p2);
+  // }
 
   function drawRhomb(rh,i0,i1){
     var angle = ((eDeg[i0]-eDeg[i1])+360)%360;
     // console.log('angle',angle,i0,i1); // 360/eDim*[1,2,..,eDim-1]
-    var thick=0.02;
-
     // var colorSegs=true;
     // if (colorSegs){
     //   var c0=pColor[i0];
     //   var c1=pColor[i1];
-    //   drawSegment(rh[0],rh[1],c1,thick);
-    //   drawSegment(rh[2],rh[3],c1,thick);
-    //   drawSegment(rh[0],rh[2],c0,thick);
-    //   drawSegment(rh[1],rh[3],c0,thick);
+    //   drawSegment(rh[0],rh[1],c1,.02);
+    //   drawSegment(rh[2],rh[3],c1,.02);
+    //   drawSegment(rh[0],rh[2],c0,.02);
+    //   drawSegment(rh[1],rh[3],c0,.02);
     // }
-    // actual rhomb
-    var opa=0.1;
-    // var fill=(angle===72||angle===288)?solarized.blue:'none';
-    var fill= pColor[(i0+0*i1)%eDim];
-    // var fill='none';
-    // var fill= [solarized.blue,'none'][(i0+i1)%2];
-    // var fill= (i0<0)?solarized.blue:'none';
-    // console.log('fill',angle,fill); // 360/eDim*[1,2,..,eDim-1]
-    var stroke=solarized.blue;//fill;//'none';
-    thick=0.04;
 
+    // actual rhomb
+    // var fill=(angle===72||angle===288)?solarized.blue:'none';
     // note the order
     a.beginPath();
     a.moveTo(rh[0].x,rh[0].y);
     a.lineTo(rh[1].x,rh[1].y);
     a.lineTo(rh[3].x,rh[3].y);
     a.lineTo(rh[2].x,rh[2].y);
-    a.strokeStyle=stroke||'gray';
-    a.fillStyle=fill||'gray';
-    a.lineWidth=thick||0.05
-    a.globalAlpha = opa||0.01;
-    a.stroke();
+
+    a.globalAlpha=.1;
+    a.fillStyle=pColor[(i0+0*i1)%eDim];
     a.fill();
+
+    a.strokeStyle=solarized.blue;
+    a.lineWidth=.02;
+    a.globalAlpha=.5;
+    a.stroke();
+
   }
   function intersect(i0,n0,i1,n1){
     // console.log('intersect',i0,i1);
@@ -241,9 +235,4 @@ a.scale(50,-50)
   //   });
   // }
   // projectCube();
-  
-  a.moveTo(0,0);
-  a.lineWidth=0.01;
-  a.lineTo(10,10);
-  a.stroke();
-
+ 
