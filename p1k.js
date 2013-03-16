@@ -23,6 +23,20 @@ a.scale(50,-50)
     e.push({x:-Math.sin(rad),y:Math.cos(rad)})
     // norm(e[i]);
   }
+  // from solarized accents: http://ethanschoonover.com/solarized
+  // var solarized = {
+  //   yellow:'#b58900',
+  //   orange:'#CB4B16',
+  //   red:'#DC322F',
+  //   magenta:'#D33682',
+  //   violet:'#6C71C4',
+  //   blue:'#268BD2',
+  //   cyan:'#2AA198',
+  //   green:'#859900'
+  // }; 
+  // var pColor=[solarized.yellow,solarized.magenta,solarized.violet,solarized.cyan,solarized.green,solarized.orange,solarized.blue,solarized.red];
+  var pColor=['#b58900','#D33682','#6C71C4','#2AA198','#859900','#CB4B16','#268BD2','#DC322F'];
+
 
   // eliminate these
   function toRad(deg){return deg*Math.PI/180;}
@@ -61,11 +75,11 @@ a.scale(50,-50)
     a.lineTo(rh[3].x,rh[3].y);
     a.lineTo(rh[2].x,rh[2].y);
 
-    a.globalAlpha=.1;
+    a.globalAlpha=.5;
     a.fillStyle=pColor[(i0+0*i1)%eDim];
     a.fill();
 
-    a.strokeStyle=solarized.blue;
+    a.strokeStyle='#268BD2'//solarized.blue;
     a.lineWidth=.02;
     a.globalAlpha=.5;
     a.stroke();
@@ -124,20 +138,6 @@ a.scale(50,-50)
     // return intersection point
     return {x:x,y:y};
   }
-
-  // from solarized accents: http://ethanschoonover.com/solarized
-  var solarized = {
-    yellow:'#b58900',
-    orange:'#CB4B16',
-    red:'#DC322F',
-    magenta:'#D33682',
-    violet:'#6C71C4',
-    blue:'#268BD2',
-    cyan:'#2AA198',
-    green:'#859900'
-  }; 
-  var pColor=[solarized.yellow,solarized.magenta,solarized.violet,solarized.cyan,solarized.green,solarized.orange,solarized.blue,solarized.red];
-  var range=[]; for (var i=-50;i<=50;i++)range.push(i);
 
   function intersectAndRhomb(i0,n0,i1,n1){
     var intr = intersect(i0,n0,i1,n1);
