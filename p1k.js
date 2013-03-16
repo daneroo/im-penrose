@@ -47,7 +47,6 @@ for (i=-5;i<=5;i++)rr.push(i);
     a.globalAlpha=0.5;
 
     // a.fillStyle=pColor[(i0+i1)%eDim];
-    // a.fillStyle=pColor[(i0)%eDim];
     a.fillStyle=pColor[(i0)%eDim];
     // a.fillStyle=(i0+i1)&1?'#fff':'#000';
     a.fill();
@@ -59,6 +58,7 @@ for (i=-5;i<=5;i++)rr.push(i);
     // a.stroke();
 
   }
+  
   function intersect(i0,n0,i1,n1){
     // intersect e0_n0 && e1_n1
     var e0 = e[i0],
