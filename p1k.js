@@ -15,7 +15,8 @@ a.scale(30,-30);
   // since  I am %5'ing now
   var pColor=['#b80','#D38','#77C','#3AA','#8A0'],
 eDeg=[], eDim = 5, e = [], // basis vectors
-g=[],i,rr=[],ii=[],M=Math;
+// rr=[],ii=[],
+g=[],i,M=Math;
 for (i=eDim;i-->0;) { // for (i=0;i<eDim;i++) {
   var deg=90+i*(360/eDim),
   rad=deg*M.PI/180;
@@ -23,24 +24,18 @@ for (i=eDim;i-->0;) { // for (i=0;i<eDim;i++) {
   e.push({x:-M.sin(rad),y:M.cos(rad)})
   g.push(M.random());
 }
-for (i=-5;i<=5;i++)rr.push(i);
-  for (i=eDim;i-->0;)ii.push(i);
 
-    fff(ii,function(i0){
-      fff(ii,function(i1){
-        if (i1!==i0){
-          fff(rr,function(n0){
-            fff(rr,function(n1){
-              intersectAndRhomb(i0,n0, i1,n1);
-            });
-          });
-        } 
-      });
-    });
+// main loop
+for (i0=eDim;i0-->0;)
+  for (i1=eDim;i1-->0;)
+    if (i1-i0)
+      for (n0=6;n0-->-5;)
+        for (n1=6;n1-->-5;)
+          intersectAndRhomb(i0,n0, i1,n1);
+//
+function drawRhomb(rh,i0,i1){
 
-  function drawRhomb(rh,i0,i1){
-    // path: 0,1,3,2
-    a.beginPath();
+    a.beginPath();     // path: 0,1,3,2
     a.moveTo(rh[0].x,rh[0].y);
     fff([1,3,2],function(j){
       a.lineTo(rh[j].x,rh[j].y);
