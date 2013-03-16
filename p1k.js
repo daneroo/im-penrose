@@ -16,6 +16,7 @@ a.scale(30,-30);
   var pColor=['#b80','#D38','#77C','#3AA','#8A0'],
 eDeg=[], eDim = 5, e = [], // basis vectors
 // rr=[],ii=[],
+i0,i1,n0,n1,
 g=[],i,M=Math;
 for (i=eDim;i-->0;) { // for (i=0;i<eDim;i++) {
   var deg=90+i*(360/eDim),
@@ -51,8 +52,8 @@ function intersect(i0,n0,i1,n1){
   function intersectAndRhomb(i0,n0,i1,n1){
     var n=Array(eDim),//[null,null,null,null,null];
     intr = intersect(i0,n0,i1,n1),
-    rh=[],A,C,i,ei,s,
-    n0s=[n0-1,n0],n1s=[n1-1,n1],p;
+    ni0,ni1,
+    rh=[],A,i,ei,s,p;
     for (i=0;i<eDim;i++){
       ei=e[i];
       if (!ei.x){ s=ei.y;ei.y=ei.x;ei.x=s}
@@ -60,22 +61,22 @@ function intersect(i0,n0,i1,n1){
       n[i] = M.floor((intr.x-A*intr.y)/(-A*ei.y+ei.x)-g[i]);
     }
 
-    fff(n0s,function(ni0){
-      fff(n1s,function(ni1){
+    for (ni0=n0+1;ni0-->n0-1;) {
+      for (ni1=n1+1;ni1-->n1-1;) {
         // not sure: was working against a copy of nn ?!
         // var nn = n;//n.slice(0);
         n[i0]=ni0;
         n[i1]=ni1;
         p = { x:0, y:0 };
-        for (i=0;i<eDim;i++) {
+        for (i=eDim;i-->0;) {
           p.x+= n[i]*e[i].x;
           p.y+= n[i]*e[i].y;
         }
         rh.push(p);
-      });
-    });
+      }
+    }
 
-    // drawRhomb(rh,i0,i1);
+  // drawRhomb(rh,i0,i1);
   a.beginPath();     // path: 0,1,3,2
   a.moveTo(rh[0].x,rh[0].y);
   fff([1,3,2],function(j){
