@@ -22,7 +22,8 @@ a.scale(30,-30)
 // var pColor=[solarized.yellow,solarized.magenta,solarized.violet,solarized.cyan,solarized.green,solarized.orange,solarized.blue,solarized.red];
 var pColor=['#b58900','#D33682','#6C71C4','#2AA198','#859900','#CB4B16','#268BD2','#DC322F'],
 eDeg=[], eDim = 5, e = [], // basis vectors
-g=[];
+g=[],
+i,rr=[],ii=[];
 for (i=0;i<eDim;i++) {
   g.push(Math.random());
   deg=90+i*(360/eDim);
@@ -30,6 +31,21 @@ for (i=0;i<eDim;i++) {
   eDeg.push(deg);
   e.push({x:-Math.sin(rad),y:Math.cos(rad)})
 }
+for (i=-5;i<=5;i++)rr.push(i);
+for (i=0;i<eDim;i++)ii.push(i);
+
+ii.forEach(function(i0){
+  ii.forEach(function(i1){
+    if (i1!==i0){
+      rr.forEach(function(n0){
+        rr.forEach(function(n1){
+          // if (Math.abs(n0)+Math.abs(n1)<5){}
+          intersectAndRhomb(i0,n0, i1,n1);
+        });
+      });
+    } 
+  });
+});
 
   // function drawSegment(p1,p2,clr,thick,opa){
   //   a.beginPath();
@@ -123,20 +139,6 @@ for (i=0;i<eDim;i++) {
     });
     drawRhomb(rh,i0,i1);
   }
-  var rr=[]; for (var i=-5;i<=5;i++)rr.push(i);
-  var ii=[]; for (var i=0;i<eDim;i++)ii.push(i);
-  ii.forEach(function(i0){
-    ii.forEach(function(i1){
-      if (i1!==i0){
-        rr.forEach(function(n0){
-          rr.forEach(function(n1){
-              // if (Math.abs(n0)+Math.abs(n1)<5){}
-              intersectAndRhomb(i0,n0, i1,n1);
-            });
-        });
-      } 
-    });
-  });
 
   // function drawPoint(p,clr,thick,opa){
   //   a.beginPath();
