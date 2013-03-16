@@ -6,89 +6,57 @@ b.style.margin=0;
 X=b.clientWidth,Y=window.innerHeight-4;
 c.width=X;c.height=Y;
 a.translate(X/2,Y/2);
-a.scale(30,-30)
+a.scale(30,-30);
 
-// from solarized accents: http://ethanschoonover.com/solarized
-// var solarized = {
-//   yellow:'#b58900',
-//   orange:'#CB4B16',
-//   red:'#DC322F',
-//   magenta:'#D33682',
-//   violet:'#6C71C4',
-//   blue:'#268BD2',
-//   cyan:'#2AA198',
-//   green:'#859900'
-// }; 
-// var pColor=[solarized.yellow,solarized.magenta,solarized.violet,solarized.cyan,solarized.green,solarized.orange,solarized.blue,solarized.red];
-var pColor=['#b58900','#D33682','#6C71C4','#2AA198','#859900','#CB4B16','#268BD2','#DC322F'],
+(function(){
+  function fff(z,f){z.forEach(f);}
+  // var pColor=['#b58900','#D33682','#6C71C4','#2AA198','#859900','#CB4B16','#268BD2','#DC322F'],
+  var pColor=['#b80','#D38','#77C','#3AA','#8A0','#D51','#39D','#E33'],
 eDeg=[], eDim = 5, e = [], // basis vectors
-g=[],
-i,rr=[],ii=[];
+g=[],i,rr=[],ii=[],M=Math;
 for (i=0;i<eDim;i++) {
-  g.push(Math.random());
-  deg=90+i*(360/eDim);
-  rad=deg*Math.PI/180;
+  var deg=90+i*(360/eDim),
+  rad=deg*M.PI/180;
   eDeg.push(deg);
-  e.push({x:-Math.sin(rad),y:Math.cos(rad)})
+  e.push({x:-M.sin(rad),y:M.cos(rad)})
+  g.push(M.random());
 }
 for (i=-5;i<=5;i++)rr.push(i);
-for (i=0;i<eDim;i++)ii.push(i);
+  for (i=0;i<eDim;i++)ii.push(i);
 
-ii.forEach(function(i0){
-  ii.forEach(function(i1){
-    if (i1!==i0){
-      rr.forEach(function(n0){
-        rr.forEach(function(n1){
-          // if (Math.abs(n0)+Math.abs(n1)<5){}
-          intersectAndRhomb(i0,n0, i1,n1);
-        });
+    fff(ii,function(i0){
+      fff(ii,function(i1){
+        if (i1!==i0){
+          fff(rr,function(n0){
+            fff(rr,function(n1){
+              intersectAndRhomb(i0,n0, i1,n1);
+            });
+          });
+        } 
       });
-    } 
-  });
-});
-
-  // function drawSegment(p1,p2,clr,thick,opa){
-  //   a.beginPath();
-  //   a.moveTo(p1.x,p1.y);
-  //   a.lineTo(p2.x,p2.y);
-  //   a.strokeStyle=clr||'gray';
-  //   a.lineWidth=thick||0.05
-  //   a.globalAlpha = opa||1;
-  //   a.stroke();
-  //   // console.log('segment',p1,p2);
-  // }
+    });
 
   function drawRhomb(rh,i0,i1){
-    // var angle = ((eDeg[i0]-eDeg[i1])+360)%360;
-    // console.log('angle',angle,i0,i1); // 360/eDim*[1,2,..,eDim-1]
-    // var colorSegs=true;
-    // if (colorSegs){
-    //   var c0=pColor[i0];
-    //   var c1=pColor[i1];
-    //   drawSegment(rh[0],rh[1],c1,.02);
-    //   drawSegment(rh[2],rh[3],c1,.02);
-    //   drawSegment(rh[0],rh[2],c0,.02);
-    //   drawSegment(rh[1],rh[3],c0,.02);
-    // }
-
-    // actual rhomb
-    // var fill=(angle===72||angle===288)?solarized.blue:'none';
-    // note the order
+    // path: 0,1,3,2
     a.beginPath();
     a.moveTo(rh[0].x,rh[0].y);
-    a.lineTo(rh[1].x,rh[1].y);
-    a.lineTo(rh[3].x,rh[3].y);
-    a.lineTo(rh[2].x,rh[2].y);
+    fff([1,3,2],function(j){
+      a.lineTo(rh[j].x,rh[j].y);
+    })
 
-    a.globalAlpha=.3;
+    a.globalAlpha=0.5;
 
-    a.fillStyle=pColor[(i0+0*i1)%eDim];
+    // a.fillStyle=pColor[(i0+i1)%eDim];
+    // a.fillStyle=pColor[(i0)%eDim];
+    a.fillStyle=pColor[(i0)%eDim];
+    // a.fillStyle=(i0+i1)&1?'#fff':'#000';
     a.fill();
 
-    a.strokeStyle='#268BD2'//solarized.blue;
-    a.lineWidth=.02;
-    // a.globalAlpha=.5;
-    a.stroke();
+    // a.globalAlpha=1;
+    // Can be ommited...
+    // a.strokeStyle='#39d';//#39D'//solarized.blue;
+    // a.lineWidth=.02;
+    // a.stroke();
 
   }
   function intersect(i0,n0,i1,n1){
@@ -119,13 +87,13 @@ ii.forEach(function(i0){
         C = -e[i].x/e[i].y;
         n[i] = (intr.y-C*intr.x)/(-C*e[i].x+e[i].y) -g[i];
       }
-      n[i] = Math.floor(n[i]);
+      n[i] = M.floor(n[i]);
     }
 
     n0s=[n0-1,n0];
     n1s=[n1-1,n1];
-    n0s.forEach(function(ni0){
-      n1s.forEach(function(ni1){
+    fff(n0s,function(ni0){
+      fff(n1s,function(ni1){
         var nn = n.slice(0);
         nn[i0]=ni0;
         nn[i1]=ni1;
@@ -168,4 +136,6 @@ ii.forEach(function(i0){
   //   });
   // }
   // projectCube();
+
+}());
 
