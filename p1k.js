@@ -6,41 +6,30 @@ b.style.margin=0;
 X=b.clientWidth,Y=window.innerHeight-4;
 c.width=X;c.height=Y;
 a.translate(X/2,Y/2);
-a.scale(50,-50)
+a.scale(30,-30)
 
-  var eDeg = [];  // angles for basis vectors
-  var eDim=5;
-  var e = []; // basis vectors
-   // translation gamma_i
-   // var g=[0.3273951115552336, 0.6228435167577118, 0.5536088130902499, 0.12421905994415283, 0.6411375142633915];
-   // var g=[0.5,0.5,0.5,0.5,0.5];
-   var g=[];
-   for (i=0;i<eDim;i++) {
-    g.push(Math.random());
-    deg=90+i*(360/eDim);
-    rad=toRad(deg)
-    eDeg.push(deg);
-    e.push({x:-Math.sin(rad),y:Math.cos(rad)})
-    // norm(e[i]);
-  }
-  // from solarized accents: http://ethanschoonover.com/solarized
-  // var solarized = {
-  //   yellow:'#b58900',
-  //   orange:'#CB4B16',
-  //   red:'#DC322F',
-  //   magenta:'#D33682',
-  //   violet:'#6C71C4',
-  //   blue:'#268BD2',
-  //   cyan:'#2AA198',
-  //   green:'#859900'
-  // }; 
-  // var pColor=[solarized.yellow,solarized.magenta,solarized.violet,solarized.cyan,solarized.green,solarized.orange,solarized.blue,solarized.red];
-  var pColor=['#b58900','#D33682','#6C71C4','#2AA198','#859900','#CB4B16','#268BD2','#DC322F'];
-
-
-  // eliminate these
-  function toRad(deg){return deg*Math.PI/180;}
-  // function toDeg(rad){return rad*180/Math.PI;}
+// from solarized accents: http://ethanschoonover.com/solarized
+// var solarized = {
+//   yellow:'#b58900',
+//   orange:'#CB4B16',
+//   red:'#DC322F',
+//   magenta:'#D33682',
+//   violet:'#6C71C4',
+//   blue:'#268BD2',
+//   cyan:'#2AA198',
+//   green:'#859900'
+// }; 
+// var pColor=[solarized.yellow,solarized.magenta,solarized.violet,solarized.cyan,solarized.green,solarized.orange,solarized.blue,solarized.red];
+var pColor=['#b58900','#D33682','#6C71C4','#2AA198','#859900','#CB4B16','#268BD2','#DC322F'],
+eDeg=[], eDim = 5, e = [], // basis vectors
+g=[];
+for (i=0;i<eDim;i++) {
+  g.push(Math.random());
+  deg=90+i*(360/eDim);
+  rad=deg*Math.PI/180;
+  eDeg.push(deg);
+  e.push({x:-Math.sin(rad),y:Math.cos(rad)})
+}
 
   // function drawSegment(p1,p2,clr,thick,opa){
   //   a.beginPath();
@@ -54,7 +43,7 @@ a.scale(50,-50)
   // }
 
   function drawRhomb(rh,i0,i1){
-    var angle = ((eDeg[i0]-eDeg[i1])+360)%360;
+    // var angle = ((eDeg[i0]-eDeg[i1])+360)%360;
     // console.log('angle',angle,i0,i1); // 360/eDim*[1,2,..,eDim-1]
     // var colorSegs=true;
     // if (colorSegs){
@@ -75,137 +64,79 @@ a.scale(50,-50)
     a.lineTo(rh[3].x,rh[3].y);
     a.lineTo(rh[2].x,rh[2].y);
 
-    a.globalAlpha=.5;
+    a.globalAlpha=.3;
+
     a.fillStyle=pColor[(i0+0*i1)%eDim];
     a.fill();
 
     a.strokeStyle='#268BD2'//solarized.blue;
     a.lineWidth=.02;
-    a.globalAlpha=.5;
+    // a.globalAlpha=.5;
     a.stroke();
 
   }
   function intersect(i0,n0,i1,n1){
-    // console.log('intersect',i0,i1);
-
     // intersect e0_n0 && e1_n1
-    var e0 = e[i0];
-    var e1 = e[i1];
-    var n0g0e0 = {x:(n0+g[i0])*e[i0].x, y:(n0+g[i0])*e[i0].y};
-    var n1g1e1 = {x:(n1+g[i1])*e[i1].x, y:(n1+g[i1])*e[i1].y};
-    // e0.y * (y-n0g0e0.y) =  -e0.x * (x-n0g0e0.x)
-    // isolate x - requires e0.x!=0
-    // e0.y * (y-n0g0e0.y) =  -e0.x * (x-n0g0e0.x)
-    // -e0.y/e0.x * (y-n0g0e0.y) =   x-n0g0e0.x
-    // (-e0.y/e0.x * (y-n0g0e0.y))+n0g0e0.x = x
-    // x = (-e0.y/e0.x * (y-n0g0e0.y))+n0g0e0.x
-
-    // e1.y * (y-n1g1e1.y) =  -e1.x * (x-n1g1e1.x)
-    // isolate y  - requires e1.y!=0
-    // y - n1g1e1.y =  -e1.x/e1.y * (x-n1g1e1.x)
-    // y =  -e1.x/e1.y * (x-n1g1e1.x) + n1g1e1.y
-
-    // Simplify:
-    // x = (-e0.y/e0.x*(y-n0g0e0.y)) + g0e0.x
-    // x = (A*(y-n0g0e0.y)) + n0g0e0.x   with A = -e0.y/e0.x
-    // x = (A*y-A*n0g0e0.y) + n0g0e0.x
-    // x = A*y - A*n0g0e0.y + n0g0e0.x
-    // x = A*y + B   with B = -A*n0g0e0.y + n0g0e0.x
-
-    // y = -e1.x/e1.y * (x-n1g1e1.x) + n1g1e1.y
-    // y = C * (x-n1g1e1.x) + n1g1e1.y   with C = -e1.x/e1.y
-    // y = C*x - C*n1g1e1.x + n1g1e1.y
-    // y = C*x + D   with D = -C*n1g1e1.x + n1g1e1.y
-
-    // Intersection:
-    // x = A*y + B
-    // y = C*x + D
-    // y = C*(A*y + B) + D  <-- substitute x
-    // y = C*A*y + C*B + D
-    // y * (1-C*A) = C*B + D
-    // y  = ( C*B + D ) / (1-C*A)
-
-    var A = -e0.y/e0.x;
-    var B = -A*n0g0e0.y + n0g0e0.x;
-    var C = -e1.x/e1.y;
-    var D = -C*n1g1e1.x + n1g1e1.y;
-    // console.log('ABCD',A,B,C,D);
-    var y = ( C*B + D ) / (1-C*A);
-    // console.log('y',y);    
-    var x = A*y + B
-    // console.log('x',x);
-    
-    // return intersection point
+    var e0 = e[i0],
+    e1 = e[i1],
+    n0g0e0 = {x:(n0+g[i0])*e[i0].x, y:(n0+g[i0])*e[i0].y},
+    n1g1e1 = {x:(n1+g[i1])*e[i1].x, y:(n1+g[i1])*e[i1].y},
+    A = -e0.y/e0.x,
+    B = -A*n0g0e0.y + n0g0e0.x,
+    C = -e1.x/e1.y,
+    D = -C*n1g1e1.x + n1g1e1.y,
+    y = ( C*B + D ) / (1-C*A),
+    x = A*y + B;
     return {x:x,y:y};
   }
 
   function intersectAndRhomb(i0,n0,i1,n1){
-    var intr = intersect(i0,n0,i1,n1);
-      // drawPoint(intr,'red',0.05,0.5);
-
-
-      var n=Array(eDim);//[null,null,null,null,null];
-      for (var i=0;i<eDim;i++){
-        // x = A*y + B   with A = -e0.y/e0.x, B = -A*n0g0e0.y + n0g0e0.x, e0.x!=0        
-        // x-A*y = B = (n0+g0) * (-Ae0.y+e0.x)
-        // n0 = (x-A*y)/(-Ae0.y+e0.x) - g0 with A = -e0.y/e0.x, e0.x!=0        
-        if (e[i].x!==0){
-          var A= -e[i].y/e[i].x;
-          n[i] = (intr.x-A*intr.y)/(-A*e[i].y+e[i].x) -g[i];
-          // console.log('x-> n['+i+']=',Math.floor(n[i]),n[i]);
-        }
-
-        // y = C*x + D   with C = -e1.x/e1.y, D = -C*n1g1e1.x + n1g1e1.y, e0.y!=0
-        //    D = -C*(n1+g1)*e1.x + (n1+g1)*e1.y = (n1+g1) * (-C*e1.x+e1.y)
-        // y-Cx = D = (n1+g1) * (-C*e1.x + e1.y)
-        // n1 = (y-Cx)/(-C*e1.x + e1.y) -g1 with C = -e1.x/e1.y, e0.y!=0
-        if (e[i].y!==0){
-          var C = -e[i].x/e[i].y;
-          n[i] = (intr.y-C*intr.x)/(-C*e[i].x+e[i].y) -g[i];
-          // console.log('y-> n['+i+']=',Math.floor(n[i]),n[i]);
-        }
-        n[i] = Math.floor(n[i]);
+    var n=Array(eDim),//[null,null,null,null,null];
+    intr = intersect(i0,n0,i1,n1),
+    rh=[],A,C,i,p;
+    for (i=0;i<eDim;i++){
+      if (e[i].x!==0){
+        A= -e[i].y/e[i].x;
+        n[i] = (intr.x-A*intr.y)/(-A*e[i].y+e[i].x) -g[i];
       }
-      
-      n0s=[n0-1,n0];
-      n1s=[n1-1,n1];
-      var rh=[];
-      n0s.forEach(function(ni0){
-        n1s.forEach(function(ni1){
-          var nn = n.slice(0);
-          nn[i0]=ni0;
-          nn[i1]=ni1;
-          var p = { x:0, y:0 };
-          for (var i=0;i<eDim;i++) {
-            p.x+= nn[i]*e[i].x;
-            p.y+= nn[i]*e[i].y;
-          }
-          rh.push(p);
-          // drawPoint(p,'blue',0.1,0.1);
-        });
-      });
-      drawRhomb(rh,i0,i1);
+      if (e[i].y!==0){
+        C = -e[i].x/e[i].y;
+        n[i] = (intr.y-C*intr.x)/(-C*e[i].x+e[i].y) -g[i];
+      }
+      n[i] = Math.floor(n[i]);
     }
-    // select axis and replica
-    // var i0=2,i1=3; // if e0.x==0 -> swap
-    // n0, and n1 select the nth reoplica line in e0,e1 translations
-    // var n0=-1, n1=0;
-    // intersectAndRhomb(i0,n0, i1,n1)
-    // var rr = [-2,-1,0,1,2];
-    var rr=[]; for (var i=-5;i<=5;i++)rr.push(i);
-    var ii=[]; for (var i=0;i<eDim;i++)ii.push(i);
-    ii.forEach(function(i0){
-      ii.forEach(function(i1){
-        if (i1!==i0){
-          rr.forEach(function(n0){
-            rr.forEach(function(n1){
+
+    n0s=[n0-1,n0];
+    n1s=[n1-1,n1];
+    n0s.forEach(function(ni0){
+      n1s.forEach(function(ni1){
+        var nn = n.slice(0);
+        nn[i0]=ni0;
+        nn[i1]=ni1;
+        p = { x:0, y:0 };
+        for (i=0;i<eDim;i++) {
+          p.x+= nn[i]*e[i].x;
+          p.y+= nn[i]*e[i].y;
+        }
+        rh.push(p);
+      });
+    });
+    drawRhomb(rh,i0,i1);
+  }
+  var rr=[]; for (var i=-5;i<=5;i++)rr.push(i);
+  var ii=[]; for (var i=0;i<eDim;i++)ii.push(i);
+  ii.forEach(function(i0){
+    ii.forEach(function(i1){
+      if (i1!==i0){
+        rr.forEach(function(n0){
+          rr.forEach(function(n1){
               // if (Math.abs(n0)+Math.abs(n1)<5){}
               intersectAndRhomb(i0,n0, i1,n1);
             });
-          });
-        } 
-      });
+        });
+      } 
     });
+  });
 
   // function drawPoint(p,clr,thick,opa){
   //   a.beginPath();
@@ -235,4 +166,4 @@ a.scale(50,-50)
   //   });
   // }
   // projectCube();
- 
+
