@@ -4,7 +4,7 @@
 
 b.style.margin=0;
 // a.save();
-W=0;
+// W=0;
 function z(){
   a.restore();
   X=b.clientWidth,Y=window.innerHeight-4;
@@ -18,8 +18,8 @@ function z(){
   g=[],i,M=Math,rad,
   // eDim = [3,5,7][M.random()*3 | 0],
   // eDim = (+new Date/3 &2) +5, // 5,7
-  // eDim = 3+2*(Math.random()*3|0),
-  eDim = 3+2*(W++%3),
+  eDim = 3+2*(Math.random()*3|0),
+  // eDim = 3+2*(W++%3),
   e = []; // basis vectors
   
   for (i=eDim;i-->0;) { 
