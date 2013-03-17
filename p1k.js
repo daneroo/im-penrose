@@ -6,22 +6,23 @@ b.style.margin=0;
 X=b.clientWidth,Y=window.innerHeight-4;
 c.width=X;c.height=Y;
 a.translate(X/2,Y/2);
-a.scale(30,-30);
+a.scale(20,-20);
 
 (function(){
-  function fff(z,f){z.forEach(f);}
+  // function fff(z,f){z.forEach(f);}
   // var pColor=['#b58900','#D33682','#6C71C4','#2AA198','#859900','#CB4B16','#268BD2','#DC322F'],
   // var pColor=['#b80','#D38','#77C','#3AA','#8A0','#D51','#39D','#E33'],
   // since  I am %5'ing now
   var pColor=['#b80','#D38','#77C','#3AA','#8A0'],
-eDeg=[], eDim = 5, e = [], // basis vectors
+  // eDeg=[],
+  eDim = 5, e = [], // basis vectors
 // rr=[],ii=[],
 i0,i1,n0,n1,
-g=[],i,M=Math;
+g=[],i,M=Math,rad;
 for (i=eDim;i-->0;) { // for (i=0;i<eDim;i++) {
-  var deg=90+i*(360/eDim),
-  rad=deg*M.PI/180;
-  eDeg.push(deg);
+  // var deg=90+i*(360/eDim),
+  // rad=deg*M.PI/180;
+  rad=M.PI*(.5+2*i/eDim);
   e.push({x:-M.sin(rad),y:M.cos(rad)})
   g.push(M.random());
 }
@@ -79,7 +80,7 @@ function intersect(i0,n0,i1,n1){
   // drawRhomb(rh,i0,i1);
   a.beginPath();     // path: 0,1,3,2
   a.moveTo(rh[0].x,rh[0].y);
-  fff([1,3,2],function(j){
+  [1,3,2].forEach(function(j){
     a.lineTo(rh[j].x,rh[j].y);
   })
   a.globalAlpha=0.5;
