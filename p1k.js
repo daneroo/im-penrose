@@ -31,8 +31,8 @@ for (i=eDim;i-->0;) { // for (i=0;i<eDim;i++) {
 for (i0=eDim;i0-->0;)
   for (i1=eDim;i1-->0;)
     if (i1-i0)
-      for (n0=6;n0-->-5;)
-        for (n1=6;n1-->-5;)
+      for (n0=9;n0-->-8;)
+        for (n1=9;n1-->-8;)
           intersectAndRhomb(i0,n0, i1,n1);
 //
 function intersect(i0,n0,i1,n1){
