@@ -1,3 +1,18 @@
+function intersect(i0,n0,i1,n1){
+    // intersect e0_n0 && e1_n1
+    var e0 = e[i0],
+    e1 = e[i1],
+    n0g0e0 = {x:(n0+g[i0])*e[i0].x, y:(n0+g[i0])*e[i0].y},
+    n1g1e1 = {x:(n1+g[i1])*e[i1].x, y:(n1+g[i1])*e[i1].y},
+    A = -e0.y/e0.x,
+    B = -A*n0g0e0.y + n0g0e0.x,
+    C = -e1.x/e1.y,
+    D = -C*n1g1e1.x + n1g1e1.y,
+    y = ( C*B + D ) / (1-C*A),
+    x = A*y + B;
+    return {x:x,y:y};
+}
+
 function drawRhomb(rh,i0,i1){
   a.beginPath();     // path: 0,1,3,2
   a.moveTo(rh[0].x,rh[0].y);

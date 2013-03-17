@@ -34,9 +34,13 @@ for (i0=eDim;i0-->0;)
         for (n1=7;n1-->-6;)
           intersectAndRhomb(i0,n0, i1,n1);
 //
-function intersect(i0,n0,i1,n1){
-    // intersect e0_n0 && e1_n1
-    var e0 = e[i0],
+
+  function intersectAndRhomb(i0,n0,i1,n1){
+    var n=Array(eDim),//[null,null,null,null,null];
+    ni0,ni1,
+    // intr = intersect(i0,n0,i1,n1),
+    rh=[],A,i,ei,s,p,
+    e0 = e[i0],
     e1 = e[i1],
     n0g0e0 = {x:(n0+g[i0])*e[i0].x, y:(n0+g[i0])*e[i0].y},
     n1g1e1 = {x:(n1+g[i1])*e[i1].x, y:(n1+g[i1])*e[i1].y},
@@ -45,15 +49,10 @@ function intersect(i0,n0,i1,n1){
     C = -e1.x/e1.y,
     D = -C*n1g1e1.x + n1g1e1.y,
     y = ( C*B + D ) / (1-C*A),
-    x = A*y + B;
-    return {x:x,y:y};
-  }
+    x = A*y + B,
+    intr = {x:x,y:y};
 
-  function intersectAndRhomb(i0,n0,i1,n1){
-    var n=Array(eDim),//[null,null,null,null,null];
-    intr = intersect(i0,n0,i1,n1),
-    ni0,ni1,
-    rh=[],A,i,ei,s,p;
+
     for (i=0;i<eDim;i++){
       ei=e[i];
       if (!ei.x){ s=ei.y;ei.y=ei.x;ei.x=s}
@@ -82,7 +81,7 @@ function intersect(i0,n0,i1,n1){
   [1,3,2].forEach(function(j){
     a.lineTo(rh[j].x,rh[j].y);
   })
-  a.globalAlpha=0.4;
+  a.globalAlpha=0.6;
   // a.fillStyle=pColor[(i0)%5];
   a.fillStyle='#00'+(1+3*i1).toString(16);
   a.fill();
