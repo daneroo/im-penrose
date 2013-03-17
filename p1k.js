@@ -4,7 +4,7 @@
 
 b.style.margin=0;
 // a.save();
-
+W=0;
 function z(){
   a.restore();
   X=b.clientWidth,Y=window.innerHeight-4;
@@ -16,8 +16,10 @@ function z(){
   var i0,i1,n0,n1,
   // pColor=['#b80','#D38','#77C','#3AA','#8A0'],
   g=[],i,M=Math,rad,
-  // eDim = [5,7][M.random()*2 | 0],
-  eDim = (+new Date/3 &2) +5,
+  // eDim = [3,5,7][M.random()*3 | 0],
+  // eDim = (+new Date/3 &2) +5, // 5,7
+  // eDim = 3+2*(Math.random()*3|0),
+  eDim = 3+2*(W++%3),
   e = []; // basis vectors
   
   for (i=eDim;i-->0;) { 
@@ -83,7 +85,7 @@ for (i0=eDim;i0-->0;)
   })
   a.globalAlpha=0.6;
   // a.fillStyle=pColor[(i0)%5];
-  a.fillStyle='#00'+(1+3*i1).toString(16);
+  a.fillStyle='#00'+M.floor(1+15*(i1+i0)/eDim).toString(16);
   a.fill();
 }
 
