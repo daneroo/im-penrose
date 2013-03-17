@@ -1,38 +1,37 @@
 // var b = document.body;
 // var c = document.getElementsByTagName('canvas')[0];
 // var a = c.getContext('2d');
-// setup
-b.style.margin=0;
-X=b.clientWidth,Y=window.innerHeight-4;
-c.width=X;c.height=Y;
-a.translate(X/2,Y/2);
-a.scale(20,-20);
 
-(function(){
-  // function fff(z,f){z.forEach(f);}
-  // var pColor=['#b58900','#D33682','#6C71C4','#2AA198','#859900','#CB4B16','#268BD2','#DC322F'],
-  // var pColor=['#b80','#D38','#77C','#3AA','#8A0','#D51','#39D','#E33'],
-  // since  I am %5'ing now
-  var pColor=['#b80','#D38','#77C','#3AA','#8A0'],
-  // eDeg=[],
-  eDim = 5, e = [], // basis vectors
-// rr=[],ii=[],
-i0,i1,n0,n1,
-g=[],i,M=Math,rad;
-for (i=eDim;i-->0;) { // for (i=0;i<eDim;i++) {
-  // var deg=90+i*(360/eDim),
-  // rad=deg*M.PI/180;
-  rad=M.PI*(.5+2*i/eDim);
-  e.push({x:-M.sin(rad),y:M.cos(rad)})
-  g.push(M.random());
-}
+b.style.margin=0;
+// a.save();
+
+function z(){
+  a.restore();
+  X=b.clientWidth,Y=window.innerHeight-4;
+  c.width=X;c.height=Y;
+  a.translate(X/2,Y/2);
+  a.scale(19,19);
+  a.clearRect(-X,-Y,2*X,2*Y)
+  // var eDim = 5,
+  var i0,i1,n0,n1,
+  // pColor=['#b80','#D38','#77C','#3AA','#8A0'],
+  g=[],i,M=Math,rad,
+  // eDim = [5,7][M.random()*2 | 0],
+  eDim = (+new Date/3 &2) +5,
+  e = []; // basis vectors
+  
+  for (i=eDim;i-->0;) { 
+    rad=M.PI*(.5+2*i/eDim);
+    e.push({x:-M.sin(rad),y:M.cos(rad)})
+    g.push(M.random());
+  }
 
 // main loop
 for (i0=eDim;i0-->0;)
   for (i1=eDim;i1-->0;)
     if (i1-i0)
-      for (n0=9;n0-->-8;)
-        for (n1=9;n1-->-8;)
+      for (n0=7;n0-->-6;)
+        for (n1=7;n1-->-6;)
           intersectAndRhomb(i0,n0, i1,n1);
 //
 function intersect(i0,n0,i1,n1){
@@ -83,62 +82,14 @@ function intersect(i0,n0,i1,n1){
   [1,3,2].forEach(function(j){
     a.lineTo(rh[j].x,rh[j].y);
   })
-  a.globalAlpha=0.5;
-  a.fillStyle=pColor[(i0)%5];
+  a.globalAlpha=0.4;
+  // a.fillStyle=pColor[(i0)%5];
+  a.fillStyle='#00'+(1+3*i1).toString(16);
   a.fill();
 }
 
 
-// function drawRhomb(rh,i0,i1){
-//   a.beginPath();     // path: 0,1,3,2
-//   a.moveTo(rh[0].x,rh[0].y);
-//   fff([1,3,2],function(j){
-//     a.lineTo(rh[j].x,rh[j].y);
-//   })
-//   // stroke
-//   // a.globalAlpha=1;
-//   // Can be ommited...
-//   // a.strokeStyle='#39d';//#39D'//solarized.blue;
-//   // a.lineWidth=.02;
-//   // a.stroke();
 
-//   // fill
-//   a.globalAlpha=0.5;
-//   // a.fillStyle=pColor[(i0+i1)%eDim];
-//   // a.fillStyle=pColor[(i0)%eDim];
-//   a.fillStyle=pColor[(i0)%5];
-//   // a.fillStyle=(i0+i1)&1?'#fff':'#000';
-//   a.fill();
-// }
-
-// function drawPoint(p,clr,thick,opa){
-//   a.beginPath();
-//   a.arc(p.x,p.y,thick||0.05,0,6.29,false);
-//   a.fillStyle=clr||'gray';
-//   a.globalAlpha = opa||1;
-//   a.fill();
-// }
-// function projectCube(){
-//   var cube=[-1,0,1];
-//   cube.forEach(function(n0){
-//     cube.forEach(function(n1){
-//       cube.forEach(function(n2){
-//         cube.forEach(function(n3){
-//           cube.forEach(function(n4){
-//             var n = [n0,n1,n2,n3,n4];
-//             var p = { x:0, y:0 };
-//             for (var i=0;i<eDim;i++) {
-//               p.x+= n[i]*e[i].x;
-//               p.y+= n[i]*e[i].y;
-//             }
-//             drawPoint(p,'red',0.06,0.25);
-//           });
-//         });
-//       });
-//     });
-//   });
-// }
-// projectCube();
-
-}());
+}
+z(); setInterval(z,2000);
 
