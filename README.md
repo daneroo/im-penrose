@@ -9,6 +9,22 @@ Todo: rewrite as libray, and svg nodes in an html document to show all parts..
 ## Pentagrid Ribbons
 
 ## JS1k
+This is the contest blurb:
+
+### A Penrose by any other name
+
+n-Dimensional hypercube lattice projection into an n-fold symetric tiling of the plane.
+
+Random animation with n=3,5,7
+
+When n=5 dimensions this yields a Penrose Tiling,
+a 5-fold symmetric non-periodic tiling of the plane.
+
+Rich geometric subject 
+Beautiful tiling 
+under 1k - priceless 
+
+how to minify:
 
 	npm install uglify-js -g
 	uglifyjs p1k.js -o p1k-min.js --lint -m -c
