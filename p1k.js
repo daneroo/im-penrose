@@ -10,7 +10,7 @@ function z(){
   X=b.clientWidth,Y=window.innerHeight-4;
   c.width=X;c.height=Y; // setting width, clears a.clearRect(-X,-Y,2*X,2*Y)
   a.translate(X/2,Y/2);
-  a.scale(19,19);
+  a.scale(44,44);
   
   // var eDim = 5,
   var i0,i1,n0,n1,
@@ -32,9 +32,9 @@ function z(){
 for (i0=eDim;i0-->0;)
   for (i1=eDim;i1-->0;)
     if (i1-i0)
-      for (n0=7;n0-->-6;)
-        for (n1=7;n1-->-6;)
-          intersectAndRhomb(i0,n0, i1,n1);
+      for (n0=9;n0-->-9;)
+        for (n1=9;n1-->-9;)
+          intersectAndRhomb(i0,n0,i1,n1);
 //
 
   function intersectAndRhomb(i0,n0,i1,n1){
@@ -85,7 +85,7 @@ for (i0=eDim;i0-->0;)
   })
   a.globalAlpha=0.6;
   // a.fillStyle=pColor[(i0)%5];
-  a.fillStyle='#00'+M.floor(1+15*(i1+i0)/eDim).toString(16);
+  a.fillStyle='#00'+M.floor(1+15*(i0+i1)/eDim).toString(16);
   a.fill();
 }
 
