@@ -32,8 +32,8 @@ function z(){
 for (i0=eDim;i0-->0;)
   for (i1=eDim;i1-->0;)
     if (i1-i0)
-      for (n0=9;n0-->-9;)
-        for (n1=9;n1-->-9;)
+      for (n0=9;n0-->-8;)
+        for (n1=9;n1-->-8;)
           intersectAndRhomb(i0,n0,i1,n1);
 //
 
