@@ -10,7 +10,7 @@ function z(){
   X=b.clientWidth,Y=window.innerHeight-4;
   c.width=X;c.height=Y; // setting width, clears a.clearRect(-X,-Y,2*X,2*Y)
   a.translate(X/2,Y/2);
-  a.scale(44,44);
+  a.scale(55,55);
   
   // var eDim = 5,
   var i0,i1,n0,n1,
