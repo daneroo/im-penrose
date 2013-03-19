@@ -91,5 +91,5 @@ function intersectAndRhomb(i0,n0,i1,n1){
 }
 
 }
-z(); setInterval(z,5000);
+z(); setInterval(z,3000);
 
