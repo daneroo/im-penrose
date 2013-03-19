@@ -37,7 +37,7 @@ for (i0=eDim;i0-->0;)
           intersectAndRhomb(i0,n0,i1,n1);
 //
 
-  function intersectAndRhomb(i0,n0,i1,n1){
+function intersectAndRhomb(i0,n0,i1,n1){
     var n=Array(eDim),//[null,null,null,null,null];
     ni0,ni1,
     // intr = intersect(i0,n0,i1,n1),
@@ -85,12 +85,11 @@ for (i0=eDim;i0-->0;)
   })
   a.globalAlpha=0.6;
   // a.fillStyle=pColor[(i0)%5];
-  a.fillStyle='#00'+M.floor(1+15*(i0+i1)/eDim).toString(16);
+  // i0+i1: min 1, max eDim-1+eDim-2
+  a.fillStyle='#00'+M.floor(15*(i0+i1)/(2*eDim-3)).toString(16);
   a.fill();
 }
 
-
-
 }
-z(); setInterval(z,2000);
+z(); setInterval(z,5000);
 

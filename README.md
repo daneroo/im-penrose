@@ -8,21 +8,20 @@ Todo: rewrite as libray, and svg nodes in an html document to show all parts..
 
 ## Pentagrid Ribbons
 
-## JS1k
+## JS1K
 This is the contest blurb:
 
 ### A Penrose by any other name
 
-n-Dimensional hypercube lattice projection into an n-fold symetric tiling of the plane.
-
-Random animation with n=3,5,7
-
-When n=5 dimensions this yields a Penrose Tiling,
+With 5 dimensions this yields a Penrose Tiling;
 a 5-fold symmetric non-periodic tiling of the plane.
 
-Rich geometric subject 
-Beautiful tiling 
-under 1k - priceless 
+Rich geometric subject, and beautiful tiling.
+squeezing it into 1k - priceless 
+
+tl;dr
+n-Dimensional hypercube lattice projection onto an n-fold symetric tiling of the plane.
+Random animation with n=3,5,7
 
 how to minify:
 
