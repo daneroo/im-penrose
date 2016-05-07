@@ -1,4 +1,4 @@
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='-20 -20 40 40'>
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='-20 -20 40 40' onload="start(evt)">
 <script type="text/ecmascript"><![CDATA[
   var root;
   var svgns = 'http://www.w3.org/2000/svg';
@@ -195,6 +195,7 @@
   var pColor=[solarized.yellow,solarized.magenta,solarized.violet,solarized.cyan,solarized.green,solarized.orange,solarized.blue,solarized.red];
   var range=[]; for (var i=-50;i<=50;i++)range.push(i);
   function start(evt) {
+    console.log('start');
     root = evt.target;
 
     // grid

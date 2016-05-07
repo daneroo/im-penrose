@@ -1,4 +1,4 @@
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='-500 -500 1000 1000'>
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='-500 -500 1000 1000' onload="start(evt)">
 <script type="text/ecmascript"><![CDATA[
   var colors = ['red', 'blue'];
 
