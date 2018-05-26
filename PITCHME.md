@@ -1,5 +1,7 @@
 # Penrose Tiling
 
+![Tiling](assets/penrose-subdivide.png)
+
 +++
 
 Hola!
