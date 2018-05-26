@@ -1,6 +1,5 @@
-Hello!
+# Penrose Tiling
 
-![Tiling](https://raw.githubusercontent.com/daneroo/im-penrose/master/penroseTiling.svg)
 +++
 
 Hola!
