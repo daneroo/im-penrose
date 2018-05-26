@@ -5,7 +5,7 @@
 
 Hola!
 
-----
+---
 
 Goodbye!
 
