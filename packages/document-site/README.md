@@ -15,3 +15,6 @@ Each of these is in it's own repo, and each should start with a minimal app.
 ```
 npx gatsby new experimentname https://github.com/gatsbyjs/gatsby-starter-default
 ```
+
+## Tool setup
+VSCode plusings and settings:
