@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "name":"mdx-deck-now",
+  "build": {
+    "env": {
+      "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD": "true"
+    }
+  },
+  "builds": [
+    { "src": "package.json", "use": "@now/static-build" }
+  ]
+}
