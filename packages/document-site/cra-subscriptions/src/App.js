@@ -10,9 +10,9 @@ import { onError } from 'apollo-link-error';
 import { ApolloLink, split } from 'apollo-link';
 import { getMainDefinition } from 'apollo-utilities';
 import { ApolloProvider } from "react-apollo";
-import { Query , Subscription} from "react-apollo";
+import { Query, Subscription } from "react-apollo";
 
-import {GET_MESSAGES_QUERY,ON_NEW_MESSAGE_SUBSCRIPTION} from './queries';
+import { GET_MESSAGES_QUERY, ON_NEW_MESSAGE_SUBSCRIPTION } from './queries';
 
 
 const endpoint = "https://api.qcic.n.imetrical.com/graphql"
@@ -53,6 +53,7 @@ const client = new ApolloClient({
 });
 
 class App extends Component {
+
   render() {
     return (
       <ApolloProvider client={client}>
@@ -68,35 +69,79 @@ class App extends Component {
     );
   }
 }
-
-const MessageList = ({title,messages}) => {
-  return (<div>
-    <h4>{title}:</h4>
-    <pre>{messages.map(r => JSON.stringify(r)).join('\n')}</pre>
-  </div>)
-
-}
 export default App;
+
+class MessageList extends Component {
+  componentDidMount() {
+    const {subscribeToNewMessages} = this.props
+    if (subscribeToNewMessages) {
+      subscribeToNewMessages()
+    }
+    // this.props.data.refetch()
+    // // subscribe to new messages
+    // if (process.browser) {
+    //   this.unsubscribe = this.props.subscribeToNewMessages()
+    // }
+  }
+  render() {
+    const { loading, error, title, messages } = this.props
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error :(</p>;
+    return (<div>
+      <h4>{title}:</h4>
+      <pre>{messages.map(r => JSON.stringify(r)).join('\n')}</pre>
+    </div>)
+
+  }
+}
+
+const updateQuery = (prev, { subscriptionData }) => {
+  const messagesToKeep = 4 // how do I configure this?
+  if (!subscriptionData.data) {
+    return prev
+  }
+  const newMessage = subscriptionData.data.newMessage
+  // console.log('newMessage', JSON.stringify(newMessage))
+  return Object.assign({}, prev, {
+    messages: [...prev.messages.slice(-messagesToKeep), newMessage]
+  })
+}
 
 const Messages = () => (
   <Query
     query={GET_MESSAGES_QUERY}
   >
-    {({ loading, error, data }) => {
-      if (loading) return <p>Loading...</p>;
-      if (error) return <p>Error :(</p>;
-      return <MessageList title="Messages" messages={data.messages}/>
+    {({ loading, error, data ,subscribeToMore}) => {
+      return (
+        <MessageList
+          loading={loading}
+          error={error}
+          title="Messages"
+          messages={data.messages}
+          subscribeToNewMessages={() => {
+            subscribeToMore({
+              document:ON_NEW_MESSAGE_SUBSCRIPTION,
+              onError: (err) => console.error(err),
+              updateQuery
+            })
+          }}
+        />)
     }}
   </Query>
-);
+)
+
 
 const NewMessage = ({ data }) => (
   <Subscription subscription={ON_NEW_MESSAGE_SUBSCRIPTION}>
     {({ loading, error, data }) => {
-      if (loading) return <p>Loading...</p>;
-      if (error) return <p>Error :(</p>;
-      const {newMessage} = data
-      return <MessageList title="Incoming Message" messages={[newMessage]}/>
+      const { newMessage } = (data)?data:{}
+      return (
+        <MessageList
+          loading={loading}
+          error={error}
+          title="Incoming"
+          messages={[newMessage]}
+        />)
     }}
   </Subscription>
 );
