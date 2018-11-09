@@ -2,6 +2,8 @@
 
 I am using [Gatsby](https://www.gatsbyjs.org/) (v2), and these are minimal examples to de-risk things I need:
 
+- Setup VSCode / lint / format
+- Hooks
 - Dynamic client side querying (fetch)
   - Same with GraphQL
 - Styling:
