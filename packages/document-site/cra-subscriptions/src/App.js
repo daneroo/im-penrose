@@ -9,13 +9,11 @@ import { WebSocketLink } from 'apollo-link-ws'
 import { onError } from 'apollo-link-error';
 import { ApolloLink, split } from 'apollo-link';
 import { getMainDefinition } from 'apollo-utilities';
-// apollo-link-state
-// graphql-anywhere
-// graphql-tag
-
 import { ApolloProvider } from "react-apollo";
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
+import { Query , Subscription} from "react-apollo";
+
+import {GET_MESSAGES_QUERY,ON_NEW_MESSAGE_SUBSCRIPTION} from './queries';
+
 
 const endpoint = "https://api.qcic.n.imetrical.com/graphql"
 
@@ -61,43 +59,44 @@ class App extends Component {
         <div className="App">
           <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
-            <p>
-              Edit <code>src/App.js</code> and save to reload.
-            </p>
-            <a
-              className="App-link"
-              href="https://reactjs.org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn React
-          </a>
+            <div>Gatsby.js - GraphQL - D3.js</div>
           </header>
         </div>
         <Messages></Messages>
+        <NewMessage></NewMessage>
       </ApolloProvider>
     );
   }
 }
 
+const MessageList = ({title,messages}) => {
+  return (<div>
+    <h4>{title}:</h4>
+    <pre>{messages.map(r => JSON.stringify(r)).join('\n')}</pre>
+  </div>)
+
+}
 export default App;
 
 const Messages = () => (
   <Query
-    query={gql`{
-        messages {
-          id
-          stamp
-          host
-          text
-        }
-    }
-    `}
+    query={GET_MESSAGES_QUERY}
   >
     {({ loading, error, data }) => {
       if (loading) return <p>Loading...</p>;
       if (error) return <p>Error :(</p>;
-      return <pre>{data.messages.map(r => JSON.stringify(r)).join('\n')}</pre>
+      return <MessageList title="Messages" messages={data.messages}/>
     }}
   </Query>
+);
+
+const NewMessage = ({ data }) => (
+  <Subscription subscription={ON_NEW_MESSAGE_SUBSCRIPTION}>
+    {({ loading, error, data }) => {
+      if (loading) return <p>Loading...</p>;
+      if (error) return <p>Error :(</p>;
+      const {newMessage} = data
+      return <MessageList title="Incoming Message" messages={[newMessage]}/>
+    }}
+  </Subscription>
 );

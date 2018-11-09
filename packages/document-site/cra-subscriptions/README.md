@@ -1,6 +1,12 @@
 # Create react app - GraphQL Subscriptions
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Dependencies
+```
+apollo-link-state
+graphql-anywhere
+graphql-tag
+```
 ## Operations
 In the project directory, you can run:
 ```
