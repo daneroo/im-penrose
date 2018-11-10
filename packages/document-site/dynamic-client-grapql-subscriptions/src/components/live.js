@@ -1,7 +1,8 @@
-import React from 'react'
+/* global fetch */
 
-function delay(millis) {
-  return function(value) {
+import React from 'react'
+function delay (millis) {
+  return function (value) {
     return new Promise(resolve =>
       setTimeout(() => {
         resolve(value)
@@ -10,17 +11,17 @@ function delay(millis) {
   }
 }
 class Live extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       error: null,
       isLoaded: false,
       liveStamp: '',
-      buildStamp: new Date().toISOString(),
+      buildStamp: new Date().toISOString()
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     fetch('http://worldclockapi.com/api/json/utc/now')
       // artificial delay to show Loading...
       .then(delay(1000))
@@ -28,18 +29,18 @@ class Live extends React.Component {
       .then(result => {
         this.setState({
           isLoaded: true,
-          liveStamp: result.currentDateTime,
+          liveStamp: result.currentDateTime
         })
       })
       .catch(error => {
         this.setState({
           isLoaded: true,
-          error,
+          error
         })
       })
   }
 
-  render() {
+  render () {
     const { error, isLoaded, liveStamp, buildStamp } = this.state
 
     let live

@@ -8,7 +8,7 @@ import Image from '../components/image'
 const IndexPage = () => (
   <Layout>
     <h1>This is Dynamic Content</h1>
-    <Link to="/page-2/">Go to page 2</Link>
+    <Link to='/page-2/'>Go to page 2</Link>
     <p>This is how we get data from the client (browser)</p>
     <p>
       In our component's{' '}
