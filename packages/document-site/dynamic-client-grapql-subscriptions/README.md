@@ -14,7 +14,8 @@ gatsby serve     # Serve previously built Gatsby site.
 
 ## Dependencies
 
-These were added for graphql query/subscriptions
+These were added for graphql query/subscriptions.
+_The `grapql` package itself is already included in gatsby._
 
 ```bash
 npm install \
@@ -24,7 +25,7 @@ npm install \
   apollo-link-error \
   apollo-link-http \
   apollo-link-ws \
-  graphql \
+  subscriptions-transport-ws \
   graphql-tag
 ```
 
