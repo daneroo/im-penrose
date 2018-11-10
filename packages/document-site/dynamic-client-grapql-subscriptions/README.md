@@ -25,6 +25,8 @@ npm install \
   apollo-link-error \
   apollo-link-http \
   apollo-link-ws \
+  isomorphic-unfetch \
+  react-apollo \
   subscriptions-transport-ws \
   graphql-tag
 ```
