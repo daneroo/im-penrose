@@ -8,7 +8,6 @@ Dynamic (not at build time/ssr time) GraphQL required:
 
 - conditional browser detection in `src/components/ApolloCLient.js`
 
-
 ## Operations
 
 In the project directory, you can run:
