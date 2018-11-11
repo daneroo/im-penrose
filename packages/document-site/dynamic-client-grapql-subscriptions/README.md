@@ -1,6 +1,13 @@
 # Gatsby - GraphQL Subscriptions
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with Gatsby.
+
+I removed `gatsby-plugin-offline` because workbox logging was sooo annoying
+
+Dynamic (not at build time/ssr time) GraphQL required:
+
+- conditional browser detection in `src/components/ApolloCLient.js`
+
 
 ## Operations
 

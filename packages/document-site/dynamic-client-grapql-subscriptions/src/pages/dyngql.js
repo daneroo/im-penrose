@@ -2,25 +2,22 @@ import React, { Component } from 'react'
 import { Link } from 'gatsby'
 
 import Layout from '../components/layout'
-import { ApolloProvider, Query, Subscription } from 'react-apollo'
-import { newClient } from '../components/ApolloClient'
+import { Query, Subscription } from 'react-apollo'
+import { NoSSRApolloProvider } from '../components/ApolloClient'
 import { GET_MESSAGES_QUERY, ON_NEW_MESSAGE_SUBSCRIPTION } from '../components/queries'
+
+const endpoint = 'https://api.qcic.n.imetrical.com/graphql'
 
 const DynGQL = () => (
   <Layout>
     <h2>Dynamic Content from GraphQL</h2>
     <Link to='/'>Go back to the homepage</Link>
 
-    {(() => {
-      // Kludgy, just to bypass SSR
-      if (!process.browser) return <div>You are not a browser</div>
-      return (<ApolloProvider client={newClient()}>
-        <p>This component performa a GraphQL Query, and a Subscription</p>
-        <Messages />
-        <NewMessage />
-      </ApolloProvider>
-      )
-    })()}
+    <NoSSRApolloProvider endpoint={endpoint}>
+      <p>This component performa a GraphQL Query, and a Subscription</p>
+      <Messages />
+      <NewMessage />
+    </NoSSRApolloProvider>
 
   </Layout>
 )

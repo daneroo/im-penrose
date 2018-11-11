@@ -2,6 +2,7 @@
 // a warning of not having `fetch` globally available.
 // @see https://github.com/apollographql/apollo-link/issues/493
 import 'isomorphic-unfetch'
+import React from 'react'
 import { ApolloClient } from 'apollo-client'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { HttpLink } from 'apollo-link-http'
@@ -9,10 +10,9 @@ import { WebSocketLink } from 'apollo-link-ws'
 import { onError } from 'apollo-link-error'
 import { ApolloLink, split } from 'apollo-link'
 import { getMainDefinition } from 'apollo-utilities'
+import { ApolloProvider } from 'react-apollo'
 
-const endpoint = 'https://api.qcic.n.imetrical.com/graphql'
-
-export function newClient () {
+function newClient (endpoint) {
   if (!process.browser) return
 
   const httpLink = new HttpLink({
@@ -53,4 +53,14 @@ export function newClient () {
   })
 
   return client
+}
+
+export const NoSSRApolloProvider = ({ endpoint, children, ...otherprops }) => {
+  if (!process.browser) return <div>You are not a browser</div>
+  const client = newClient(endpoint)
+  return (
+    <ApolloProvider client={client} {...otherprops} >
+      {children}
+    </ApolloProvider>
+  )
 }
