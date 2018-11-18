@@ -1,7 +1,7 @@
 import React from 'react'
 import * as d3 from 'd3'
+import D3blackbox from 'd3blackbox'
 
-// import { useD3 } from '../../src'
 const useD3 = function (render) {
   const refAnchor = React.useRef(null)
   React.useEffect(() => {
@@ -12,7 +12,9 @@ const useD3 = function (render) {
 
 // Recaman sequence animation borrowed from http://blockbuilder.org/johnwalley/25b77d49bbbee7aef480d7598708e039
 
-function recaman (svg, width, height) {
+function recaman (props) {
+  console.log({ props })
+  const { anchor, width } = props
   var n = 60
 
   var curr = 0
@@ -45,7 +47,7 @@ function recaman (svg, width, height) {
 
   // console.log(data)
 
-  var g = d3.select(svg).append('g')
+  var g = d3.select(anchor).append('g')
 
   var x = d3
     .scaleLinear()
@@ -98,10 +100,12 @@ function recaman (svg, width, height) {
     .attr('stroke-dashoffset', 0)
 }
 
-const Recaman = ({ x, y, width, height }) => {
-  const refAnchor = useD3(anchor => recaman(anchor, width, height))
+export const RecamanWithHook = (props) => {
+  const refAnchor = useD3(anchor => recaman({ anchor, ...props }))
 
-  return <g ref={refAnchor} transform={`translate(${x}, ${y})`} />
+  return <g ref={refAnchor} transform={`translate(${props.x}, ${props.y})`} />
 }
 
-export default Recaman
+export const Recaman = D3blackbox(function (anchor, props, state) {
+  recaman({ anchor: anchor.current, ...props })
+})

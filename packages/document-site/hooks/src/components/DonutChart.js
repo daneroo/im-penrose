@@ -10,17 +10,17 @@ const useD3 = function (render) {
   return refAnchor
 }
 
-export const DonutChartWithHook = ({ x, y }) => {
-  const refAnchor = useD3(anchor => d3DonutFunc(anchor))
-  return <g ref={refAnchor} transform={`translate(${x}, ${y})`} />
+export const DonutChartWithHook = (props) => {
+  const refAnchor = useD3(anchor => d3DonutFunc({ anchor, ...props }))
+  return <g ref={refAnchor} transform={`translate(${props.x}, ${props.y})`} />
 }
 
 export const DonutChart = D3blackbox(function (anchor, props, state) {
-  d3DonutFunc(anchor, props.data, 640, 320)
+  d3DonutFunc({ anchor: anchor.current, ...props })
 })
 
-function d3DonutFunc (anchor, data, width, height) {
-  d3.select(anchor)
+function d3DonutFunc (props) {
+  const { anchor, width, height, data } = props
 
   const donut = donutChart()
     .width(width)
@@ -30,7 +30,7 @@ function d3DonutFunc (anchor, data, width, height) {
     .variable('Probability')
     .category('Species')
 
-  d3.select(anchor.current)
+  d3.select(anchor)
     .datum(data)
     .call(donut)
 

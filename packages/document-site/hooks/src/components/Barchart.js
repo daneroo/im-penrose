@@ -1,8 +1,27 @@
+import React from 'react'
 import * as d3 from 'd3'
 import D3blackbox from 'd3blackbox'
 
-const Barchart = D3blackbox(function (anchor, props) {
-  var svg = d3.select(anchor.current)
+const useD3 = function (render) {
+  const refAnchor = React.useRef(null)
+  React.useEffect(() => {
+    render(refAnchor.current)
+  })
+  return refAnchor
+}
+
+export const BarchartWithHook = (props) => {
+  const refAnchor = useD3(anchor => d3BarchartFunc({ anchor, ...props }))
+  return <g ref={refAnchor} transform={`translate(${props.x}, ${props.y})`} />
+}
+
+export const Barchart = D3blackbox(function (anchor, props, state) {
+  d3BarchartFunc({ anchor: anchor.current, ...props })
+})
+
+function d3BarchartFunc (props) {
+  const { anchor } = props
+  var svg = d3.select(anchor)
 
   var margin = { top: 20, right: 20, bottom: 30, left: 40 }
 
@@ -71,6 +90,4 @@ const Barchart = D3blackbox(function (anchor, props) {
         return height - y(d.frequency)
       })
   })
-})
-
-export default Barchart
+}

@@ -28,6 +28,7 @@ npx gatsby new experimentname
 ## References
 
 - [Inter UI font](https://rsms.me/inter/)
+- [Bits - Sharing Components](https://bitsrc.io/)
 - [Eghead.io: Markdown in Gatsby](https://egghead.io/lessons/gatsby-format-markdown-files-for-gatsby-js)
 - [Swizec's d3Blackbox and useD3](https://swizec.com/blog/announcing-d3blackbox-used3/swizec/8703?__s=ui6bft3mqwotihs8qbnu)
 - [Mike's Blog on D3 and React](https://mikewilliamson.wordpress.com/2016/06/03/d3-and-react-3-ways/)

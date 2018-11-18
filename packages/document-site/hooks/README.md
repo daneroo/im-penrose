@@ -1,6 +1,7 @@
 # Hooks experiment
 
-- Had to use  `cold` from `react-hot-loader` to make HMR work.
+- Had to use  `cold` from `react-hot-loader` to make HMR work (with d3).
+- See [usehooks.com](https://usehooks.com/) for more examples
 
 ```js
 import { cold } from 'react-hot-loader'
