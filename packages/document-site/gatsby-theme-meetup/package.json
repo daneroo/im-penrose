@@ -1,0 +1,25 @@
+{
+  "name": "gatsby-theme-meetup",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "clean": "gatsby clean"
+  },
+  "peerDependencies": {
+    "gatsby": "^2.17.13",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0"
+  },
+  "devDependencies": {
+    "gatsby": "^2.17.13",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0"
+  },
+  "dependencies": {
+    "gatsby-source-filesystem": "^2.1.36",
+    "gatsby-transformer-yaml": "^2.2.16"
+  }
+}

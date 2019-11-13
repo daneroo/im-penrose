@@ -1,5 +1,12 @@
 # Gatsby Trials
 
+Restarting these experiments with [gatsby themes](https://www.gatsbyjs.org/docs/themes/)
+and will also experiment with yarn workspaces.
+
+Replicate example in this [egghead course](https://egghead.io/courses/gatsby-theme-authoring)
+
+## Legacy Below ---
+
 I am using [Gatsby](https://www.gatsbyjs.org/) (v2), and these are minimal examples to de-risk things I need:
 
 - Hooks
