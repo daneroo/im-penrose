@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "gatsby-theme-meetup",
   "version": "1.0.0",
   "license": "MIT",
@@ -19,7 +20,12 @@
     "react-dom": "^16.11.0"
   },
   "dependencies": {
+    "@emotion/core": "^10.0.22",
+    "@emotion/styled": "^10.0.23",
+    "@mdx-js/react": "^1.5.1",
     "gatsby-source-filesystem": "^2.1.36",
-    "gatsby-transformer-yaml": "^2.2.16"
+    "gatsby-theme-ui": "^0.2.0",
+    "gatsby-transformer-yaml": "^2.2.16",
+    "theme-ui": "^0.2.46"
   }
 }

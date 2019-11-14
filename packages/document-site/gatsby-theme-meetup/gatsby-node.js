@@ -1,8 +1,8 @@
 const fs = require('fs')
 
 // 1- make sure data directory exists
-exports.onPreBootstrap = ({ reporter }) => {
-  const contentPath = 'data'
+exports.onPreBootstrap = ({ reporter }, options) => {
+  const contentPath = options.contentPath || 'data'
   if (!fs.existsSync(contentPath)) {
     reporter.info(`creating the ${contentPath} directory`)
     fs.mkdirSync(contentPath)
@@ -24,8 +24,8 @@ exports.sourceNodes = ({ actions }) => {
 }
 
 // 3- Custom resolvers for derived fiels (slug)
-exports.createResolvers = ({ createResolvers }) => {
-  const basePath = '/'
+exports.createResolvers = ({ createResolvers }, options) => {
+  const basePath = options.basePath || '/'
   const slugify = str => {
     const slug = str
       .toLowerCase()
@@ -46,8 +46,8 @@ exports.createResolvers = ({ createResolvers }) => {
 }
 
 // 4- Query for meetups and create pages
-exports.createPages = async ({ actions, graphql, reporter }) => {
-  const basePath = '/'
+exports.createPages = async ({ actions, graphql, reporter }, options) => {
+  const basePath = options.basePath || '/'
   actions.createPage({
     path: basePath,
     component: require.resolve('./src/templates/meetups.js')
@@ -65,7 +65,7 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
   `)
 
   if (result.errors) {
-    reporter.panic('error loading meetups', reporter.errors)
+    reporter.panic('error loading meetups', result.errors) // not reporter.errors
     return
   }
 
