@@ -1,9 +1,16 @@
 # Slides with mdx-deck
 
-This uses `mdx-deck` and deploys to zeit/now
+This uses `mdx-deck` and deploys to zeit/now.
 
-- It uses the `@now/static-build` builder instead of `@now/mdx-deck` to allow the use of cumston components (a.k.a `CodeSurfer`).
-  - Also, need to prevent `puppeteer from downloading Chromium` (for size constraints)
+It also uses a pre-release of `CodeSurfer`
+
+You can recreate it easily with:
+
+```bash
+npm init code-surfer-deck my-deck-name
+```
+
+- It uses the `@now/static-build` for deployment to `zeit/now`
 
 ```json
 "build": {
@@ -13,22 +20,11 @@ This uses `mdx-deck` and deploys to zeit/now
 },
 ```
 
-- We use yarn instead of npm, because upstream builder uses yarn, and it causes conflicts/warnings
+## Operation
 
 ```bash
-npx yarn install
-npx yarn start  # for dev
-npx yarn now-build # for prod build -> ./dist/
+npm install
+npm start  # for dev
+npm run now-build # for prod build -> ./dist/
 now # to deploy
-```
-
-- there is an issue with `Appear` and `CodeSurfer`, so I build with `--no-html` option. _(see package.json)_
-
-```json
-{
-  ...
-  "scripts": {
-    "now-build": "mdx-deck build --no-html index.mdx"
-  }
-}
 ```

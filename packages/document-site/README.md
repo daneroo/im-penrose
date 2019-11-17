@@ -3,7 +3,8 @@
 Restarting these experiments with [gatsby themes](https://www.gatsbyjs.org/docs/themes/)
 and will also experiment with yarn workspaces.
 
-Replicate example in this [egghead course](https://egghead.io/courses/gatsby-theme-authoring)
+- `gatsby-theme-meetup` and `site`: Replicate example in this [egghead course](https://egghead.io/courses/gatsby-theme-authoring)
+- `mdx-deck-now`: mdx-deck and CodeSurfer (v3-beta) deployed to `zeit/now`
 
 ## Legacy Below ---
 
