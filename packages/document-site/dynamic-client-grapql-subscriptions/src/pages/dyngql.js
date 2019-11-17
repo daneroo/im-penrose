@@ -6,7 +6,8 @@ import { Query, Subscription } from 'react-apollo'
 import { NoSSRApolloProvider } from '../components/ApolloClient'
 import { GET_MESSAGES_QUERY, ON_NEW_MESSAGE_SUBSCRIPTION } from '../components/queries'
 
-const endpoint = 'https://api.qcic.n.imetrical.com/graphql'
+// const endpoint = 'https://api.qcic.n.imetrical.com/graphql'
+const endpoint = 'https://fizzbuzzclock.n.imetrical.com/graphql'
 
 const DynGQL = () => (
   <Layout>

@@ -5,7 +5,6 @@ query getAll {
   messages {
     id
     stamp
-    host
     text
   }
 }`
@@ -15,18 +14,17 @@ subscription OnNewMessage {
   newMessage {
     id
     stamp
-    host
     text
   }
 }`
 
-export const MUTATE_MESSAGE = gql`
-mutation AddMessage($stamp: String!,$host: String!,$text: String!) {
-  addMessage(message: {
-    stamp: $stamp
-    host: $host,
-    text: $text
-  }) {
-    id
-  }
-}`
+// export const MUTATE_MESSAGE = gql`
+// mutation AddMessage($stamp: String!,$host: String!,$text: String!) {
+//   addMessage(message: {
+//     stamp: $stamp
+//     host: $host,
+//     text: $text
+//   }) {
+//     id
+//   }
+// }`

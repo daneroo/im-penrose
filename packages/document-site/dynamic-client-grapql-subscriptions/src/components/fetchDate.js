@@ -1,6 +1,7 @@
 /* global fetch */
 
 import React from 'react'
+
 function delay (millis) {
   return function (value) {
     return new Promise(resolve =>
@@ -10,7 +11,7 @@ function delay (millis) {
     )
   }
 }
-class Live extends React.Component {
+class FetchDate extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -24,7 +25,7 @@ class Live extends React.Component {
   componentDidMount () {
     fetch('http://worldclockapi.com/api/json/utc/now')
       // artificial delay to show Loading...
-      .then(delay(1000))
+      .then(delay(2000))
       .then(resp => resp.json())
       .then(result => {
         this.setState({
@@ -65,4 +66,4 @@ class Live extends React.Component {
   }
 }
 
-export default Live
+export default FetchDate
