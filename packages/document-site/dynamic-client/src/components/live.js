@@ -1,27 +1,44 @@
 import React from 'react'
+import { useStaticQuery, graphql } from 'gatsby'
 import fetch from '../libs/fetch'
 import useSWR from 'swr'
 
-const buildStamp = new Date().toISOString()
+// const externalUrl = 'http://worldclockapi.com/api/json/utc/now' // .currentDateTime
+// const externalUrl = 'https://fizzbuzzclock.n.imetrical.com/' // .stamp
+const externalUrl = 'https://time.qcic.n.imetrical.com/' // .time
 
 export default () => {
+  const { site } = useStaticQuery(graphql`
+    query BuildTime {
+      site {
+        buildTime
+      }
+    }
+  `)
 
-  const { data, error } = useSWR('http://worldclockapi.com/api/json/utc/now', fetch)
+  const { data, error } = useSWR(externalUrl, fetch)
 
-  let live
+  let color, content
   if (error) {
-    live = <div style={{ color: 'red' }}>Error: {JSON.stringify(error)}</div>
+    color = 'red'
+    content = ['Error', 'Failed to Fecth Time'] // error.message
   } else if (!data) {
-    live = <div style={{ color: 'blue' }}>Fetching...</div>
+    color = 'blue'
+    content = ['Fetching', '...']
   } else {
-    live = <div style={{ color: 'green' }}>Render time: {data.currentDateTime}</div>
+    color = 'green'
+    content = ['Render time', data.time] // stamp for fizzbuzz
   }
 
-  return <div style={{ fontFamily: 'Helvetica Neue,Helvetica,Arial,sans-serif', marginBottom: '1em' }}>
-    <div>Fetched Time</div>
-    <div>
-      {live}
-      <div style={{ color: 'grey' }}>Build time: {buildStamp}</div>
-    </div>
+  return <div style={{
+    fontFamily: 'Helvetica Neue,Helvetica,Arial,sans-serif',
+    marginBottom: '1em',
+    display: 'grid',
+    gridTemplateColumns: '10em 1fr'
+
+  }}>
+    <div>Fetched from:</div><div><a href={externalUrl} target="_blank" rel="noopener noreferrer">{externalUrl}</a></div>
+    <div style={{ color }}>{content[0]}:</div><div>{content[1]}</div>
+    <div style={{ color: 'grey' }}>Build time:</div><div>{site.buildTime}</div>
   </div>
 }
