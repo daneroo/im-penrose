@@ -4,6 +4,7 @@ Restarting these experiments with [gatsby themes](https://www.gatsbyjs.org/docs/
 and will also experiment with yarn workspaces.
 
 - `gatsby-theme-meetup` and `site`: Replicate example in this [egghead course](https://egghead.io/courses/gatsby-theme-authoring)
+- `dynamic-client` shows how a gatsby site can pull in dynamic content (from <https://fizzbuzzclock.n.imetrical.com>)
 - `mdx-deck-now`: mdx-deck and CodeSurfer (v3-beta) deployed to `zeit/now`
 
 ## Legacy Below ---

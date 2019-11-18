@@ -3,9 +3,8 @@ import { useStaticQuery, graphql } from 'gatsby'
 import fetch from '../libs/fetch'
 import useSWR from 'swr'
 
-// const externalUrl = 'http://worldclockapi.com/api/json/utc/now' // .currentDateTime
-// const externalUrl = 'https://fizzbuzzclock.n.imetrical.com/' // .stamp
-const externalUrl = 'https://time.qcic.n.imetrical.com/' // .time
+// const externalUrl = 'https://time.qcic.n.imetrical.com/' // .time
+const externalUrl = 'https://fizzbuzzclock.n.imetrical.com/' // .stamp
 
 export default () => {
   const { site } = useStaticQuery(graphql`
@@ -27,7 +26,7 @@ export default () => {
     content = ['Fetching', '...']
   } else {
     color = 'green'
-    content = ['Render time', data.time] // stamp for fizzbuzz
+    content = ['Render time', data.stamp] // .time for time.qcic.n.imetrical.com
   }
 
   return <div style={{
