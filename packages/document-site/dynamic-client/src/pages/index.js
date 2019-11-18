@@ -1,14 +1,18 @@
 import React from 'react'
 import { Link } from 'gatsby'
-import Live from '../components/live'
 
 import Layout from '../components/layout'
 import Image from '../components/image'
+import SEO from '../components/seo'
+
+import Live from '../components/live'
 
 const IndexPage = () => (
   <Layout>
+    <SEO title="Home" />
     <h1>This is Dynamic Content</h1>
     <Link to="/page-2/">Go to page 2</Link>
+
     <p>This is how we get data from the client (browser)</p>
     <p>
       In our component's{' '}
@@ -18,7 +22,7 @@ const IndexPage = () => (
 
     <Live />
 
-    <div style={{ maxWidth: '300px', marginBottom: '1.45rem' }}>
+    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
       <Image />
     </div>
   </Layout>
