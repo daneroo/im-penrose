@@ -10,7 +10,8 @@ const SecondPage = () => (
   <Layout>
     <SEO title="Page two" />
     <h1>Hi from the second page</h1>
-    <Link to="/">Go back to the homepage</Link>
+    <p><Link to="/">Go back to the homepage</Link></p>
+
     <p>Notice how the data is re-fetched when the component is rendered.</p>
     <Live />
   </Layout>

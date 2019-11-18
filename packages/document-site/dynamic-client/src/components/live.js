@@ -1,67 +1,27 @@
 import React from 'react'
+import fetch from '../libs/fetch'
+import useSWR from 'swr'
 
-function delay(millis) {
-  return function(value) {
-    return new Promise(resolve =>
-      setTimeout(() => {
-        resolve(value)
-      }, millis)
-    )
+const buildStamp = new Date().toISOString()
+
+export default () => {
+
+  const { data, error } = useSWR('http://worldclockapi.com/api/json/utc/now', fetch)
+
+  let live
+  if (error) {
+    live = <div style={{ color: 'red' }}>Error: {JSON.stringify(error)}</div>
+  } else if (!data) {
+    live = <div style={{ color: 'blue' }}>Fetching...</div>
+  } else {
+    live = <div style={{ color: 'green' }}>Render time: {data.currentDateTime}</div>
   }
+
+  return <div style={{ fontFamily: 'Helvetica Neue,Helvetica,Arial,sans-serif', marginBottom: '1em' }}>
+    <div>Fetched Time</div>
+    <div>
+      {live}
+      <div style={{ color: 'grey' }}>Build time: {buildStamp}</div>
+    </div>
+  </div>
 }
-class Live extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      error: null,
-      isLoaded: false,
-      liveStamp: '',
-      buildStamp: new Date().toISOString(),
-    }
-  }
-
-  componentDidMount() {
-    fetch('http://worldclockapi.com/api/json/utc/now')
-      // artificial delay to show Loading...
-      .then(delay(1000))
-      .then(resp => resp.json())
-      .then(result => {
-        this.setState({
-          isLoaded: true,
-          liveStamp: result.currentDateTime,
-        })
-      })
-      .catch(error => {
-        this.setState({
-          isLoaded: true,
-          error,
-        })
-      })
-  }
-
-  render() {
-    const { error, isLoaded, liveStamp, buildStamp } = this.state
-
-    let live
-    if (error) {
-      live = <div style={{ color: 'red' }}>Error: {error.message}</div>
-    } else if (!isLoaded) {
-      live = <div style={{ color: 'blue' }}>Fetching...</div>
-    } else {
-      live = (
-        <div>
-          Render time:
-          <span style={{ color: 'green' }}>{liveStamp}</span>
-        </div>
-      )
-    }
-    return (
-      <div style={{ fontFamily: 'Helvetica Neue,Helvetica,Arial,sans-serif' }}>
-        {live}
-        <div style={{ color: 'grey' }}>Build time: {buildStamp}</div>
-      </div>
-    )
-  }
-}
-
-export default Live

@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: 'Gatsby Dynamic Client',
+    title: 'Dynamic Client',
     description: `Fetching data from client (not the build)`,
     author: `@daneroo`,
   },
