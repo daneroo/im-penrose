@@ -1,20 +1,27 @@
 {
-  "name": "gatsby-starter-default",
-  "description": "Gatsby Dynamic Client GraphQL",
+  "name": "dynamic-client-minimal-graphql",
+  "private": true,
+  "description": "Gatsby Dynamic Client Minimal GraphQL",
   "version": "1.0.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Daniel Lauzon <daniel.lauzon@gmail.com>",
   "dependencies": {
-    "gatsby": "^2.0.38",
-    "gatsby-image": "^2.0.19",
-    "gatsby-plugin-manifest": "^2.0.7",
-    "gatsby-plugin-offline": "^2.0.11",
-    "gatsby-plugin-react-helmet": "^3.0.1",
-    "gatsby-plugin-sharp": "^2.0.11",
-    "gatsby-source-filesystem": "^2.0.7",
-    "gatsby-transformer-sharp": "^2.1.7",
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0",
-    "react-helmet": "^5.2.0"
+    "gatsby": "^2.17.11",
+    "gatsby-image": "^2.2.31",
+    "gatsby-plugin-manifest": "^2.2.27",
+    "gatsby-plugin-offline": "^3.0.19",
+    "gatsby-plugin-react-helmet": "^3.1.14",
+    "gatsby-plugin-sharp": "^2.2.37",
+    "gatsby-source-filesystem": "^2.1.36",
+    "gatsby-transformer-sharp": "^2.3.3",
+    "graphql-request": "^1.8.2",
+    "prop-types": "^15.7.2",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-helmet": "^5.2.1",
+    "swr": "^0.1.10"
+  },
+  "devDependencies": {
+    "prettier": "^1.19.1"
   },
   "keywords": [
     "gatsby"
@@ -23,16 +30,16 @@
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",
-    "serve": "gatsby serve",
+    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "start": "npm run develop",
-    "format": "prettier --write \"src/**/*.js\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "devDependencies": {
-    "prettier": "^1.14.2"
+    "serve": "gatsby serve",
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
+    "url": "https://github.com/daneroo/gatsby-trials"
+  },
+  "bugs": {
+    "url": "https://github.com/daneroo/gatsby-trials/issues"
   }
 }

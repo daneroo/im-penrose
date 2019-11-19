@@ -1,70 +1,76 @@
 import React from 'react'
+import { useStaticQuery, graphql } from 'gatsby'
 import { request } from 'graphql-request'
+import useSWR from 'swr'
 
+const externalUrl = 'https://fizzbuzzclock.n.imetrical.com/graphql' // .stamp
+const fetcher = query => request(externalUrl, query)
 
-const query = `{
+const msgQy = `query recentMessages {
   messages {
     id
     stamp
-    host
     text
   }
-}`
+}
+`
 
-// const query = `{
-//   Movie(title: "Inception") {
-//     releaseDate
-//     actors {
-//       name
-//     }
-//   }
-// }`
+const colorForText = (text) => {
+  if (text === 'fizz') return '#f00'
+  if (text === 'buzz') return '#00f'
+  if (text === 'fizzbuzz') return '#f0f'
+  return ''
+}
+const Message = ({ message }) => {
+  const { stamp, text } = message
 
-
-
-class Live extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      error: null,
-      isLoaded: false,
-      result: ''
-    }
-  }
-
-  componentDidMount() {
-    const endpoint =  "https://api.qcic.n.imetrical.com/graphql"
-    // const endpoint =  "https://api.graph.cool/simple/v1/movies"
-    request(endpoint, query)
-      // artificial delay to show Loading...
-      .then(result => {
-        console.log(JSON.stringify(result))
-        this.setState({
-          isLoaded: true,
-          result,
-        })
-      })
-      .catch(error => {
-        this.setState({
-          isLoaded: true,
-          error,
-        })
-      })
-  }
-
-  render() {
-    const { error, isLoaded, result } = this.state
-
-    if (error) {
-      return <div style={{ color: 'red' }}>Error: {error.message}</div>
-    } else if (!isLoaded) {
-      return <div style={{ color: 'blue' }}>Fetching...</div>
-    } else {
-      return (
-        <pre>{JSON.stringify(result,null,2)}</pre>
-      )
-    }
-  }
+  return (
+    <div>{stamp}: <span style={{ color: colorForText(text) }}>{text}</span></div>
+  )
 }
 
-export default Live
+const MessageList = ({ messages }) => (
+  <div>{messages.map(message => <Message message={message} />)}</div>
+)
+
+// exported component (Live)
+export default () => {
+  const { site } = useStaticQuery(graphql`
+    query BuildTime {
+      site {
+        buildTime
+      }
+    }
+  `)
+
+  const { data, error } = useSWR(msgQy, fetcher, {
+    refreshInterval: 1000,
+    dedupingInterval: 1000
+  })
+
+  let color, content
+  if (error) {
+    color = 'red'
+    content = ['Error', 'Failed to Fecth Time'] // error.message
+  } else if (!data) {
+    color = 'blue'
+    content = ['Fetching', '...']
+  } else {
+    color = 'green'
+    // content = ['Recent Messages', <pre>{JSON.stringify(data.messages, null, 2)}</pre>]
+    content = ['Recent Messages', <MessageList messages={data.messages} />]
+  }
+
+  return <div style={{
+    fontFamily: 'Helvetica Neue,Helvetica,Arial,sans-serif',
+    marginBottom: '1em',
+    display: 'grid',
+    gridTemplateColumns: '10em 1fr'
+
+  }}>
+    <div>Fetched from:</div><div><a href={externalUrl} target="_blank" rel="noopener noreferrer">{externalUrl}</a></div>
+    <div style={{ color }}>{content[0]}:</div><div>{content[1]}</div>
+    <div style={{ color: 'grey' }}>Build time:</div><div>{site.buildTime}</div>
+  </div>
+}
+

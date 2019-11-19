@@ -1,10 +1,15 @@
 import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
-import fetch from '../libs/fetch'
 import useSWR from 'swr'
+import fetch from 'isomorphic-unfetch'
 
 // const externalUrl = 'https://time.qcic.n.imetrical.com/' // .time
 const externalUrl = 'https://fizzbuzzclock.n.imetrical.com/' // .stamp
+
+async function fetcher(...args) {
+  const res = await fetch(...args)
+  return await res.json()
+}
 
 export default () => {
   const { site } = useStaticQuery(graphql`
@@ -15,7 +20,7 @@ export default () => {
     }
   `)
 
-  const { data, error } = useSWR(externalUrl, fetch)
+  const { data, error } = useSWR(externalUrl, fetcher)
 
   let color, content
   if (error) {
