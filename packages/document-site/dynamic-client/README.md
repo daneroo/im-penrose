@@ -1,4 +1,4 @@
-# Dynamic CLient
+# Dynamic Client
 
 This is just the standard gatsby starter.
 
