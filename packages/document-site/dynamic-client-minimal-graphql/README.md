@@ -2,7 +2,19 @@
 
 This is just the standard gatsby starter.
 
-It uses `swr` to fecth messages from external API (<https://fizzbuzzclock.n.imetrical.com/graphql>). Which is done from the client.
+It uses `swr` to fecth messages from external GraphQL Query Which is done from the client.
+
+Call <https://fizzbuzzclock.n.imetrical.com/graphql> with this query
+
+```graphql
+query recentMessages {
+  messages {
+    id
+    stamp
+    text
+  }
+}
+```
 
 The `Live` component also exposes build time, which stays fixed after deployment.
 
