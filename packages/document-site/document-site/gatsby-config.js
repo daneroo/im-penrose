@@ -1,17 +1,17 @@
 module.exports = {
   siteMetadata: {
-    title: `Document by Code Bushi`,
-    name: `Code Bushi`,
-    siteUrl: `https://gatsby-theme-document.netlify.com`,
-    description: `This is my description that will be used in the meta tags and important for search results`,
+    title: `Document Theme Example`,
+    name: `DocumentThemeBase`,
+    siteUrl: `https://gatsby-theme-document.n.imetrical.com`,
+    description: `Gatsby Document theme example site`,
     social: [
       {
         name: `github`,
-        url: `https://github.com/codebushi/gatsby-theme-document`
+        url: `https://github.com/daneroo/gatsby-trials`
       },
       {
         name: `twitter`,
-        url: `https://twitter.com/HuntaroSan`
+        url: `https://twitter.com/daneroo`
       }
     ],
     sidebarConfig: {
@@ -19,5 +19,8 @@ module.exports = {
       ignoreIndex: true
     }
   },
-  plugins: [{ resolve: `gatsby-theme-document` }]
+  plugins: [
+    { resolve: `gatsby-theme-document` },
+    'gatsby-theme-style-guide'
+  ]
 };

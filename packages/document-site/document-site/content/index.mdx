@@ -1,81 +1,68 @@
 ---
-title: "Document by Code Bushi"
-description: "Welcome to Document, a Gatsby.js theme by Code Bushi. Quickly and easily create documentation for anything using MDX or Markdown."
+title: "Document Theme Site"
+description: "Example Site using codebushi/gatsby-theme-document"
 ---
 
-Welcome to Document, a Gatsby.js theme by [Code Bushi](https://codebushi.com/gatsby-starters-and-themes/). Quickly and easily create documentation for anything using MDX or Markdown.
+I am looking for a good base theme for all my simple sites. 
+I had previously been using [docz](https://www.docz.site/) 
+which is now also based on a gatsby-theme (<https://github.com/doczjs/docz/tree/master/core/gatsby-theme-docz>).
 
-👀 [View the Live Demo](https://gatsby-theme-document.netlify.com/)
+However I now prefer the Document Theme by CodeBushi. On which this site is based.
 
-## Getting Started
+## Bootstrapping
 
-Using the Gatsby CLI
+Until I make my own theme/starter: @daneroo/gatsby-theme-base
+
+This is an example site using the Gatsby theme [Document](https://github.com/codebushi/gatsby-theme-document)
+ by [Code Bushi](https://codebushi.com/gatsby-starters-and-themes/).
+ [Live Demo](https://gatsby-theme-document.netlify.com/)
+
+It was boostrapped with:
 
 ```bash
-gatsby new document-site https://github.com/codebushi/gatsby-starter-dimension.git
+gatsby new document-site https://github.com/codebushi/gatsby-theme-document-example.git
 cd document-site
 gatsby develop
 ```
 
-Your new site will be up at http://localhost:8000
 
-Try changing the logo by editing the file at `src/gatsby-theme-document/logo.mdx`.
-
-## Adding Content
-
-Document is built with [MDX](https://mdxjs.com/). Content can be added by creating or editing the MDX files in the content folder `content/index.mdx`.
-
-With MDX, you can add JSX or even React components to your markdown files. Images can also be added to any `.mdx` file, and will be automatically optimized using [gatsby-remark-images](https://www.gatsbyjs.org/packages/gatsby-remark-images/).
-
-### Left Sidebar
-
-The left sidebar navigation is automatically populated by the pages in the content folder. To sort the top level navigation, edit the `forcedNavOrder` option in the `gatsby-config.js` file.
-
-The logo will link to the `index.mdx` page. To make the `index.mdx` page visible in the left navigation, set `ignoreIndex` to `false`.
-
-Sub navigation items are created by making a folder with the same name as the top level `.mdx` file. The sub navigation is ordered alphabetically.
-
-### Right Sidebar
-
-The contents of the right sidebar will be automatically populated by any heading tags `h1, h2, h3, etc.` that are added to the page. They will anchor link to the corresponding heading.
-
-## Theme Colors
-
-Document is also built with [Theme UI](https://theme-ui.com). The icon in the top right of the site will cycle through the various color modes that are available.
-
-To edit or add colors modes, edit the file at `src/gatsby-plugin-theme-ui/colors.js`. To learn more about color modes, check out the [Theme UI docs](https://theme-ui.com/color-modes).
-
-The contents of the MDX files are also styled with Theme UI and can be edited at `src/gatsby-plugin-theme-ui/index.js`. The styles for the heading tags are found at `src/gatsby-plugin-theme-ui/headingsjs`. Learn more about [styling MDX](https://theme-ui.com/styling-mdx) from the Theme UI docs.
-
-## Syntax Colors
-
-Document uses [@theme-ui/prism](https://theme-ui.com/prism) for syntax highlighting. Different presets can be used by editing the file at `src/gatsby-plugin-theme-ui/index.js`. The desired preset must be included at the top of the file and spread into the `pre` styles
-
-```javascript
-import dracula from '@theme-ui/prism/presets/dracula.json';
-
-styles: {
-  pre: {
-    ...dracula,
-  }
+Then customize the `gatsby-config.js` for SiteMetadata, SocialLinks, and:
+```json
+sidebarConfig: {
+  forcedNavOrder: ["/introduction", "/codeblock"],
+  ignoreIndex: true
 }
 ```
 
-The code blocks will not change color based on the color modes. For a complete list of all available prism presets, check out the Theme UI [syntax themes](https://theme-ui.com/prism#syntax-themes).
+## Styling
 
-## Social Media Icons
+The theme already supports styiling with theme-ui, and even has multiple modes and swithcher.
 
-The social media icons in the header can be edited in the `gatsby-config.js` file, under social. Currently, you can only add Twitter and Github links.
+### Typography
 
-## SEO, Site Image, and Manifest Icons
+In `src/gatsby-plugin-theme-ui/index.js`, added:
 
-Document uses React Helmet to add meta tags to the website's `<head>` tag. When adding/editing a file in the content folder, be sure to include the Title and Description in the frontmatter. These are automatically used to generate the title and description meta tags for the page.
-
-```md
----
-title: "Document by Code Bushi"
-description: "This is the meta description"
----
+```js
+import 'typeface-roboto' // npm i typeface-roboto
+import 'typeface-roboto-mono' // npm i typeface-roboto-mono
 ```
 
-There is also an image at `src/site-image.jpg` which is used for the Open Graph image tag, as well as the Twitter card. Another image at `src/site-icon.png` is used by the [gatsby-plugin-manifest](https://www.gatsbyjs.org/packages/gatsby-plugin-manifest/) to generate a Favicon and other device icons.
+after installing `npm i typeface-roboto typeface-roboto-mono`, for local serving
+
+### Added style-guide
+
+This plugin generates a <a href="/style-guide">style guide page</a>
+
+```bash
+npm i gatsby-theme-style-guide
+```
+
+And in `gatsby-config.js`:
+```json
+{
+  plugins: [
+    ...
+    'gatsby-theme-style-guide'
+  ]
+}
+```

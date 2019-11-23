@@ -1,22 +1,38 @@
 import nightOwl from "@theme-ui/prism/presets/night-owl.json";
+// import solarizedlight from "@theme-ui/prism/presets/prism-solarizedlight.json";
+// import shadesOfPurple from "@theme-ui/prism/presets/shades-of-purple.json";
+// import prism from '@theme-ui/prism/presets/theme-ui'
+
+
 import colors from "./colors";
 import headings from "./headings";
 
+import 'typeface-roboto' // npm i typeface-roboto
+import 'typeface-roboto-mono' // npm i typeface-roboto-mono
+
+const prismTheme = nightOwl
+
 const transition = "0.2s ease-out";
-const systemFonts =
-  "-apple-system, BlinkMacSystemFont, San Francisco, Helvetica Neue, Helvetica, Ubuntu, Roboto, Noto, Segoe UI, Arial, sans-serif";
+// const systemFonts = "-apple-system, BlinkMacSystemFont, San Francisco, Helvetica Neue, Helvetica, Ubuntu, Roboto, Noto, Segoe UI, Arial, sans-serif";
 
 export default {
-  initialColorMode: `dark`,
+  initialColorMode: `light`,
   colors,
   fonts: {
-    body: systemFonts,
-    heading: systemFonts,
-    monospace: "Menlo, monospace"
+    // body: systemFonts,
+    body: `"Roboto", sans-serif`,
+    // body: `sans-serif`,
+    // heading: systemFonts,
+    heading: '"Roboto", sans-serif',
+    // monospace: "Menlo, monospace"
+    // monospace: `"Operator Mono", monospace`
+    monospace: `"Roboto Mono", monospace`
+
   },
   fontSizes: [12, 14, 16, 24, 28, 36, 48, 64],
   fontWeights: {
     body: 400,
+    monospace: 400,
     heading: 700,
     bold: 700
   },
@@ -51,14 +67,16 @@ export default {
     },
     a: {
       color: "secondary",
-      transition: `color ${transition}`,
+      transition: `color ${transition} `,
       ":hover,:focus": {
         color: "text"
       }
     },
     pre: {
-      ...nightOwl,
-      fontFamily: `"Operator Mono", monospace`,
+      ...prismTheme,
+      // fontFamily: `"Operator Mono", monospace`,
+      fontFamily: "monospace",
+      fontWeight: "monospace",
       fontSize: "0.9rem",
       tabSize: 4,
       hyphens: `none`,

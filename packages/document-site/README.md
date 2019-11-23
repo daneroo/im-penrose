@@ -5,7 +5,23 @@ and will also experiment with yarn workspaces.
 
 - `gatsby-theme-meetup` and `site`: Replicate example in this [egghead course](https://egghead.io/courses/gatsby-theme-authoring)
 - `dynamic-client` shows how a gatsby site can pull in dynamic content (from <https://fizzbuzzclock.n.imetrical.com>)
+- `dynamic-client-minimal-graphql` shows how a gatsby site can pull in dynamic content with a GraphQL query (from <https://fizzbuzzclock.n.imetrical.com>)
 - `mdx-deck-now`: mdx-deck and CodeSurfer (v3-beta) deployed to `zeit/now`
+
+```bash
+gatsby new document-site https://github.com/codebushi/gatsby-theme-document-example
+cd document-site
+gatsby develop
+```
+
+## TODO
+
+- Restart `document-site` to track changes and steps.
+- Figure out fonts (Tondo) `typefce-XX` for local serving
+- Figure out Theming Prism with modes.
+- Consolidate examples into a `gatsby-theme-document` based site
+- Try [gatsby-theme-document](https://www.gatsbyjs.org/packages/gatsby-theme-document/) by [Code Bushi](https://codebushi.com/gatsby-starters-and-themes/)
+- Also check out [Novella](https://github.com/narative/gatsby-theme-novela) by [Code Bushi](https://codebushi.com/gatsby-starters-and-themes/)
 
 ## Legacy Below ---
 
