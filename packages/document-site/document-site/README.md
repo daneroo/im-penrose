@@ -4,6 +4,13 @@ This is an example site using the Gatsby theme [Document](https://github.com/cod
  by [Code Bushi](https://codebushi.com/gatsby-starters-and-themes/).
  [Live Demo](https://gatsby-theme-document.netlify.com/)
 
+## TODO
+
+- Figure out fonts (Tondo) `typefce-XX` for local serving
+- Figure out Theming modes for Prism
+
+## Bootstrapping
+
 It was boostrapped with:
 
 ```bash
