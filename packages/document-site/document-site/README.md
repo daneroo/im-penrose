@@ -6,7 +6,9 @@ This is an example site using the Gatsby theme [Document](https://github.com/cod
 
 ## TODO
 
-- Figure out fonts (Tondo) `typefce-XX` for local serving
+- Extend Yarn Workspaces, or move to Lerna
+- Theme-ui'ify My own component examples GetJSON/GetGraphQL.
+- Figure out fonts (Tondo) `typeface-XX` for local serving
 - Figure out Theming modes for Prism
 
 ## Bootstrapping
