@@ -1,9 +1,65 @@
 ---
 title: 'Codeblock'
-description: 'This is the meta description for this page'
+description: 'Code blocks with Prism'
 ---
 
-Syntax Highlighting
+Syntax Highlighting with Prism
+
+## JavaScript
+
+```js
+console.log("Hello World");
+```
+
+## JSX
+
+```jsx
+import React from 'react'
+
+export default ({user}) => {
+  if (user) {
+    return <h1>Hello, {user}!</h1>;
+  }
+  return <h1>Hello, Stranger.</h1>;
+}
+```
+
+## Bash
+
+```bash
+echo "Hello World"
+```
+
+## Go
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+ fmt.Printf("Hello World\n")
+}
+```
+
+## Python
+
+```python
+print("Hello World")
+```
+
+## C
+
+```C
+#include 
+ 
+int main(void)
+{
+    puts("Hello, world!");
+}
+```
+
+## jsx
 
 ```jsx
 import React, { useReducer } from 'react';
