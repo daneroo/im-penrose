@@ -21,6 +21,7 @@ const colorForText = (text) => {
   if (text === 'fizzbuzz') return '#f0f'
   return ''
 }
+
 const Message = ({ message }) => {
   const { stamp, text } = message
 
@@ -30,7 +31,7 @@ const Message = ({ message }) => {
 }
 
 const MessageList = ({ messages }) => (
-  <div>{messages.map(message => <Message message={message} />)}</div>
+  <div>{messages.map(message => <Message key={message.id} message={message} />)}</div>
 )
 
 // exported component (Live)
