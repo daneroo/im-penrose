@@ -63,7 +63,7 @@ export default {
     },
     ...headings,
     p: {
-      my: 4
+      my: 3 // titghten these up: 4->3 (32->16)
     },
     a: {
       color: "secondary",

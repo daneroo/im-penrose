@@ -12,8 +12,7 @@ const msgQy = `query recentMessages {
     stamp
     text
   }
-}
-`
+}`
 
 const colorForText = (text) => {
   if (text === 'fizz') return '#f00'

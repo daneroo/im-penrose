@@ -7,8 +7,8 @@ const headingBase = {
   '::before': {
     content: '" "',
     display: 'block',
-    paddingTop: 30,
-    marginBottom: 40,
+    paddingTop: 10, // titghten these up: 30->10
+    marginBottom: 20, // titghten these up: 40->20
     borderBottom: '1px solid',
     borderBottomColor: 'borderColor'
   }
