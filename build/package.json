@@ -3,6 +3,6 @@
     "version": "0.0.1",
     "description": "build im-penrose site",
     "dependencies": { 
-        "handlebars": "1.0.x" 
+        "handlebars": "4.5.x" 
     }
 }
