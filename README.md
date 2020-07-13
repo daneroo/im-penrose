@@ -3,6 +3,10 @@
 - [js1k entry](https://js1k.com/2013-spring/demo/1437)
 - Local/uncompressed `./js1k.html`
 
+## TODO
+
+- Redeploy as a gatsby site using  the Document theme  by [Code Bushi](https://codebushi.com/gatsby-starters-and-themes/), see [im-qcic/site](https://github.com/daneroo/im-qcic/tree/master/packages/site)
+
 ## Penrose Tiling - substitution or deflation approach
 It is possible to define a penrose tiling through substitution rules.
 
