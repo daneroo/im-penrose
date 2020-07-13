@@ -1,6 +1,6 @@
 # Penrose Tiling - Quasiperiodic Tilig
 
-- [js1k entry](https://js1k.com/2013-spring/demo/1437>
+- [js1k entry](https://js1k.com/2013-spring/demo/1437)
 - Local/uncompressed `./js1k.html`
 
 ## Penrose Tiling - substitution or deflation approach
