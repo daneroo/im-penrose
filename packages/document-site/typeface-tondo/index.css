@@ -1,0 +1,66 @@
+
+@font-face{
+  font-family:'Tondo Bold';
+  src:
+    url(./files/Tondo_W_Bd.woff2) format('woff2'),
+    url(./files/Tondo_W_Bd.woff2) format('woff');
+  font-weight:700;
+  font-style:normal
+}
+
+@font-face{
+  font-family:'Tondo Signage';
+  src:
+    url(./files/Tondo_W_Sign.woff2) format('woff2'),
+    url(./files/Tondo_W_Sign.woff) format('woff');
+  font-weight:400;
+  font-style:normal
+}
+
+@font-face{
+  font-family:'Tondo Regular';
+  src:
+    url(./files/Tondo_W_Rg.woff2) format('woff2'),
+    url(./files/Tondo_W_Rg.woff) format('woff');
+  font-weight:400;
+  font-style:normal
+}
+
+
+@font-face{
+  font-family:'Tondo Light';
+  src:
+    url(./files/Tondo_W_Lt.woff2) format('woff2'),
+    url(./files/Tondo_W_Lt.woff) format('woff');
+  font-weight:300;
+  font-style:normal
+}
+
+/* 
+@font-face{
+  font-family:'Tondo Bold';
+  src:
+    url(./files/tondo_bd.woff2) format('woff2'),
+    url(./files/tondo_bd.woff) format('woff');
+  font-weight:700;
+  font-style:normal
+}
+
+@font-face{
+  font-family:'Tondo Regular';
+  src:
+    url(./files/tondo_rg.woff2) format('woff2'),
+    url(./files/tondo_rg.woff) format('woff');
+  font-weight:400;
+  font-style:normal
+}
+
+@font-face{
+  font-family:'Tondo Light';
+  src:
+    url(./files/tondo_lt.woff2) format('woff2'),
+    url(./files/tondo_lt.woff) format('woff');
+  font-weight:300;
+  font-style:normal
+}
+*/

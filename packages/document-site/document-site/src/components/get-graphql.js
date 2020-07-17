@@ -56,7 +56,7 @@ export default () => {
   }
 
   return <div style={{
-    fontFamily: 'Helvetica Neue,Helvetica,Arial,sans-serif',
+    // fontFamily: 'Helvetica Neue,Helvetica,Arial,sans-serif',
     marginBottom: '1em',
     display: 'grid',
     gridTemplateColumns: '10em 1fr'
