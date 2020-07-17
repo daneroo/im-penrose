@@ -11,6 +11,22 @@ This is an example site using the Gatsby theme [Document](https://github.com/cod
 - Figure out fonts (Tondo) `typeface-XX` for local serving
 - Figure out Theming modes for Prism
 
+## Theme-ui with custom Font (Tondo)
+
+Made my own typeface package: `../typeface-tondo/`, which is imported directly in `./src/gatsby-plugin-theme-ui/index.js`:
+
+```js
+import 'typeface-roboto' // npm i typeface-roboto
+import 'typeface-roboto-mono' // npm i typeface-roboto-mono
+import '../../../typeface-tondo' // npm i typeface-tondo
+...
+  fonts: {
+    // body: systemFonts,
+    body: `"Tondo Regular", sans-serif`,
+    // body: '"Roboto", sans-serif',
+...
+```
+
 ## Bootstrapping
 
 It was boostrapped with:
