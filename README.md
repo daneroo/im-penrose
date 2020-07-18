@@ -5,6 +5,10 @@
 
 ## TODO
 
+- Move to lerna
+  - packages/
+    - site
+    - penrose/react
 - Redeploy as a gatsby site using  the Document theme  by [Code Bushi](https://codebushi.com/gatsby-starters-and-themes/), see [im-qcic/site](https://github.com/daneroo/im-qcic/tree/master/packages/site)
 
 ## Penrose Tiling - substitution or deflation approach
