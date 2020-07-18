@@ -1,5 +1,6 @@
 {
+  "name": "@daneroo/typeface-tondo",
+  "private": true,
   "main": "index.css",
-  "name": "typeface-tondo",
-  "version": "0.0.1"
+  "version": "1.0.0"
 }
