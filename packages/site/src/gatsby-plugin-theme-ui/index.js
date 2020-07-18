@@ -8,7 +8,7 @@ import headings from './headings'
 
 import 'typeface-roboto' // npm i typeface-roboto
 import 'typeface-roboto-mono' // npm i typeface-roboto-mono
-import '../../../typeface-tondo' // npm i typeface-tondo
+import '@daneroo/typeface-tondo' // npm i typeface-tondo
 
 const prismTheme = nightOwl
 

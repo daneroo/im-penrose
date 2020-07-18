@@ -1,13 +1,13 @@
 module.exports = {
   siteMetadata: {
-    title: `Document Theme Example`,
-    name: `DocumentThemeBase`,
-    siteUrl: `https://gatsby-theme-document.n.imetrical.com`,
-    description: `Gatsby Document theme example site`,
+    title: `Penrose Quasiperiodic Tiling`,
+    name: `im-penrose`,
+    siteUrl: `https://penrose.n.imetrical.com`,
+    description: `Penrose Quasiperiodic Tiling`,
     social: [
       {
         name: `github`,
-        url: `https://github.com/daneroo/gatsby-trials`
+        url: `https://github.com/daneroo/im-penrose`
       },
       {
         name: `twitter`,

@@ -1,8 +1,8 @@
 {
   "name": "@daneroo/penrose-site",
   "private": true,
-  "author": "Code Bushi",
-  "repository": "https://github.com/codebushi/gatsby-theme-document-example",
+  "author": "Daniel Lauzon",
+  "repository": "https://github.com/daneroo/im-penrose",
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
@@ -20,6 +20,10 @@
     "react-dom": "^16.13.1",
     "swr": "^0.2.3",
     "typeface-roboto": "^0.0.75",
-    "typeface-roboto-mono": "^0.0.75"
+    "typeface-roboto-mono": "^0.0.75",
+    "@daneroo/typeface-tondo": "^1.0.0"
+  },
+  "devDependencies": {
+    "standard": "^14.3.4"
   }
 }
