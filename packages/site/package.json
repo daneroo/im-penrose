@@ -1,5 +1,6 @@
 {
-  "name": "gatsby-theme-document-example",
+  "name": "@daneroo/penrose-site",
+  "private": true,
   "author": "Code Bushi",
   "repository": "https://github.com/codebushi/gatsby-theme-document-example",
   "version": "1.0.0",
