@@ -5,18 +5,19 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "develop": "gatsby develop",
+    "start": "npm run develop",
+    "develop": "gatsby develop -p 8001",
     "build": "gatsby build"
   },
   "dependencies": {
-    "gatsby": "^2.18.2",
-    "gatsby-theme-document": "^1.0.9",
-    "gatsby-theme-style-guide": "^0.2.49",
-    "graphql-request": "^1.8.2",
+    "gatsby": "^2.24.4",
+    "gatsby-theme-document": "^1.0.10",
+    "gatsby-theme-style-guide": "^0.3.1",
+    "graphql-request": "^2.0.0",
     "isomorphic-unfetch": "^3.0.0",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "swr": "^0.1.12",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "swr": "^0.2.3",
     "typeface-roboto": "^0.0.75",
     "typeface-roboto-mono": "^0.0.75"
   }

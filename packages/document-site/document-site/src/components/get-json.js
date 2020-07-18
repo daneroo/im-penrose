@@ -12,10 +12,10 @@ async function fetcher(...args) {
   return await res.json()
 }
 
-export default () => {
+export default ({url=externalUrl,swrOptions={}}) => {
   const { buildTime } = useBuildTime()
 
-  const { data, error } = useSWR(externalUrl, fetcher)
+  const { data, error } = useSWR(url, fetcher,swrOptions)
 
   let color, content
   if (error) {
@@ -26,11 +26,11 @@ export default () => {
     content = ['Fetching', '...']
   } else {
     color = 'green'
-    content = ['Render time', data.stamp] // .time for time.qcic.n.imetrical.com
+    content = ['Render time', `${data.stamp} - ${data.text}`] // .time for time.qcic.n.imetrical.com
   }
 
   return <div style={{
-    fontFamily: 'Helvetica Neue,Helvetica,Arial,sans-serif',
+    // fontFamily: 'Helvetica Neue,Helvetica,Arial,sans-serif',
     marginBottom: '1em',
     display: 'grid',
     gridTemplateColumns: '10em 1fr'

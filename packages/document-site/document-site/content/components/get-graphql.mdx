@@ -11,6 +11,17 @@ This Shows the `GetGraphQL` component, which has dependencies:
 npm i swr graphql-request
 ```
 
+Here we are using a composition of `useSWR`, and `graphql-request` as it's fetcher:
+
+```js
+import { request } from 'graphql-request'
+import useSWR from 'swr'
+
+const externalUrl = 'https://fizzbuzzclock.n.imetrical.com/graphql'
+const fetcher = query => request(externalUrl, query)
+
+```
+
 ```jsx
 <GetGraphQL />
 ```

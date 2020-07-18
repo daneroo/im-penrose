@@ -8,7 +8,6 @@ This is an example site using the Gatsby theme [Document](https://github.com/cod
 
 - Extend Yarn Workspaces, or move to Lerna
 - Theme-ui'ify My own component examples GetJSON/GetGraphQL.
-- Figure out fonts (Tondo) `typeface-XX` for local serving
 - Figure out Theming modes for Prism
 
 ## Theme-ui with custom Font (Tondo)

@@ -16,3 +16,16 @@ npm i swr isomorphic-unfetch
 ```
 
 <GetJSON />
+
+Now notice that we use refreshPolling, but if we use the same url,
+both renders would get updated.
+So we bust the cache with an ignored parameter, to make the two swr hooks independant
+
+```jsx
+<GetJSON 
+  url='https://fizzbuzzclock.n.imetrical.com?cache=bust' 
+  swrOptions={{refreshInterval:1000}}
+/>
+```
+
+<GetJSON url='https://fizzbuzzclock.n.imetrical.com?cache=bust' swrOptions={{refreshInterval:1000}}/>
