@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useThemeUI } from 'theme-ui'
+import { useThemeUI, Grid, Flex, Radio, Box, Button, Label, Slider } from 'theme-ui'
 
 function Line ({ angle, off, clr = 'grey', thick = 0.01, opa = 1 }) {
   // const line = 'M-1000,0 L1000,0 Z'
@@ -61,7 +61,7 @@ function Point ({ off, clr = 'grey', thick = 0.01, opa = 1 }) {
   )
 }
 
-function Grid ({ thick = 0.01 }) {
+function CGrid ({ thick = 0.01 }) {
   var range = []; for (var i = 0; i < 50; i++)range.push(i)
   return range.map(i => {
     return (
@@ -225,38 +225,49 @@ export default function Quasi2D () {
   const maxD = eHalfThickness(angleE)
 
   return (
-    <div style={{ border: `1px solid ${secondary}` }}>
-      <div>
-        <label htmlFor='scale'>scale ({scale})</label>
-        <input
-          id='scale'
-          name='scale'
-          type='range'
-          min='1' max='5'
-          value={scale}
-          onChange={(e) => setScale(e.target.value)}
-          step='1'
-        />
-      </div>
-      <div>
-        <label htmlFor='angleE'>angle θ ({Number(angleE).toFixed(1)})</label>
-        <input
-          id='angleE'
-          name='angleE'
-          type='range'
-          min='1' max='89'
-          value={angleE}
-          onChange={(e) => setAngleE(e.target.value)}
-          step='1'
-        />
-        <button onClick={() => setAngleE(angleIrrational)}>𝕀</button>
-        <button onClick={() => setAngleE(angleRational)}>ℚ</button>
-        <button onClick={() => setAngleE(90 - angleE)}>π - θ</button>
-      </div>
-      <div>
-        <label htmlFor='frame'>frame ({frameIsGrid ? 'Grid' : 'Line'})</label>
-        <button id='frame' onClick={() => setFrameIsGrid(!frameIsGrid)}>{frameIsGrid ? 'Line' : 'Grid'}</button>
-      </div>
+    <>
+      <Grid
+        gap={2}
+        columns={2}
+      >
+        <Box>
+          <Label htmlFor='scale'>scale ({scale})</Label>
+          <Slider
+            id='scale'
+            name='scale'
+            min='1' max='5'
+            value={scale}
+            onChange={(e) => setScale(e.target.value)}
+            step='1'
+          />
+        </Box>
+        <Box>
+          <Label htmlFor='angleE'>angle θ ({Number(angleE).toFixed(1)})</Label>
+          <Slider
+            id='angleE'
+            name='angleE'
+            type='range'
+            min='1' max='89'
+            value={angleE}
+            onChange={(e) => setAngleE(e.target.value)}
+            step='1'
+          />
+          <Flex mb={3}>
+            <Button sx={{ mx: 1 }} onClick={() => setAngleE(angleIrrational)}>𝕀</Button>
+            <Button sx={{ mx: 1 }} onClick={() => setAngleE(angleRational)}>ℚ</Button>
+            <Button sx={{ mx: 1 }} onClick={() => setAngleE(90 - angleE)}>π - θ</Button>
+          </Flex>
+        </Box>
+        <Flex mb={3}>
+          <Label htmlFor='frameIsGrid'>Frame</Label>
+          <Label>
+            <Radio checked={frameIsGrid} value onChange={(e) => setFrameIsGrid(e.target.value)} name='frameIsGrid' /> Grid
+          </Label>
+          <Label>
+            <Radio checked={!frameIsGrid} value={false} onChange={(e) => setFrameIsGrid(!e.target.value)} name='frameIsGrid' /> Line
+          </Label>
+        </Flex>
+      </Grid>
       <svg xmlns='http://www.w3.org/2000/svg' viewBox='-10 -10 20 20'>
         <g transform={`scale(${scale / 2},${-scale / 2})`}>
           <g id='rotation' transform={`rotate(${frameAngle})`}>
@@ -270,11 +281,11 @@ export default function Quasi2D () {
               />
               <Check p={{ x: 0, y: 0 }} isIn={check({ x: 0, y: 0 }, angleE, maxD)} />
               <CheckSteps start={{ x: 0, y: 0 }} angleE={angleE} steps={20} maxD={maxD} theme={theme} />
-              <Grid thick={0.01} />
+              <CGrid thick={0.01} />
             </g>
           </g>
         </g>
       </svg>
-    </div>
+    </>
   )
 }
