@@ -20,7 +20,7 @@ export default {
   colors,
   fonts: {
     // body: systemFonts,
-    body: `"Tondo Regular", sans-serif`,
+    body: '"Tondo Regular", sans-serif',
     // body: '"Roboto", sans-serif',
 
     // heading: systemFonts,

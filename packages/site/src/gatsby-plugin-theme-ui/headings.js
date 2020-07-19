@@ -12,7 +12,7 @@ const headingBase = {
     borderBottom: '1px solid',
     borderBottomColor: 'borderColor'
   }
-};
+}
 
 export default {
   h1: {
@@ -39,4 +39,4 @@ export default {
     ...headingBase,
     fontSize: 0
   }
-};
+}

@@ -52,19 +52,21 @@ export default () => {
   } else {
     color = 'green'
     // content = ['Recent Messages', <pre>{JSON.stringify(data.messages, null, 2)}</pre>]
-    content = ['Recent Messages', <MessageList messages={data.messages} />]
+    content = ['Recent Messages', <MessageList key='ml' messages={data.messages} />]
   }
 
-  return <div style={{
+  return (
+    <div style={{
     // fontFamily: 'Helvetica Neue,Helvetica,Arial,sans-serif',
-    marginBottom: '1em',
-    display: 'grid',
-    gridTemplateColumns: '10em 1fr'
+      marginBottom: '1em',
+      display: 'grid',
+      gridTemplateColumns: '10em 1fr'
 
-  }}>
-    <div>Fetched from:</div><div><a href={externalUrl} target="_blank" rel="noopener noreferrer">{externalUrl}</a></div>
-    <div style={{ color }}>{content[0]}:</div><div>{content[1]}</div>
-    <div style={{ color: 'grey' }}>Build time:</div><div>{buildTime}</div>
-  </div>
+    }}
+    >
+      <div>Fetched from:</div><div><a href={externalUrl} target='_blank' rel='noopener noreferrer'>{externalUrl}</a></div>
+      <div style={{ color }}>{content[0]}:</div><div>{content[1]}</div>
+      <div style={{ color: 'grey' }}>Build time:</div><div>{buildTime}</div>
+    </div>
+  )
 }
-

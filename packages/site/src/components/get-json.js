@@ -3,19 +3,18 @@ import useSWR from 'swr'
 import fetch from 'isomorphic-unfetch'
 import useBuildTime from '../hooks/useBuildTime'
 
-
 // const externalUrl = 'https://time.qcic.n.imetrical.com/' // .time
 const externalUrl = 'https://fizzbuzzclock.n.imetrical.com/' // .stamp
 
-async function fetcher(...args) {
+async function fetcher (...args) {
   const res = await fetch(...args)
   return await res.json()
 }
 
-export default ({url=externalUrl,swrOptions={}}) => {
+export default ({ url = externalUrl, swrOptions = {} }) => {
   const { buildTime } = useBuildTime()
 
-  const { data, error } = useSWR(url, fetcher,swrOptions)
+  const { data, error } = useSWR(url, fetcher, swrOptions)
 
   let color, content
   if (error) {
@@ -29,15 +28,18 @@ export default ({url=externalUrl,swrOptions={}}) => {
     content = ['Render time', `${data.stamp} - ${data.text}`] // .time for time.qcic.n.imetrical.com
   }
 
-  return <div style={{
+  return (
+    <div style={{
     // fontFamily: 'Helvetica Neue,Helvetica,Arial,sans-serif',
-    marginBottom: '1em',
-    display: 'grid',
-    gridTemplateColumns: '10em 1fr'
+      marginBottom: '1em',
+      display: 'grid',
+      gridTemplateColumns: '10em 1fr'
 
-  }}>
-    <div>Fetched from:</div><div><a href={externalUrl} target="_blank" rel="noopener noreferrer">{externalUrl}</a></div>
-    <div style={{ color }}>{content[0]}:</div><div>{content[1]}</div>
-    <div style={{ color: 'grey' }}>Build time:</div><div>{buildTime}</div>
-  </div>
+    }}
+    >
+      <div>Fetched from:</div><div><a href={externalUrl} target='_blank' rel='noopener noreferrer'>{externalUrl}</a></div>
+      <div style={{ color }}>{content[0]}:</div><div>{content[1]}</div>
+      <div style={{ color: 'grey' }}>Build time:</div><div>{buildTime}</div>
+    </div>
+  )
 }
