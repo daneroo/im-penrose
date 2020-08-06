@@ -5,10 +5,11 @@
 
 ## TODO
 
-- Move to lerna
+- Refactor lerna
   - packages/
     - site
     - penrose/react
+    - tondo
 - [Components?](https://theme-ui.com/components)
 - Redeploy as a gatsby site using  the Document theme  by [Code Bushi](https://codebushi.com/gatsby-starters-and-themes/), see [im-qcic/site](https://github.com/daneroo/im-qcic/tree/master/packages/site)
 

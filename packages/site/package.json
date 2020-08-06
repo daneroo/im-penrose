@@ -20,7 +20,9 @@
     "react-dom": "^16.13.1",
     "swr": "^0.2.3",
     "typeface-roboto": "^0.0.75",
-    "typeface-roboto-mono": "^0.0.75",
+    "typeface-roboto-mono": "^0.0.75"
+  },
+  "fix-for-lerna": {
     "@daneroo/typeface-tondo": "^1.0.0"
   },
   "devDependencies": {

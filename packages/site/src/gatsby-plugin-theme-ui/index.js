@@ -8,7 +8,7 @@ import headings from './headings'
 
 import 'typeface-roboto' // npm i typeface-roboto
 import 'typeface-roboto-mono' // npm i typeface-roboto-mono
-import '@daneroo/typeface-tondo' // npm i typeface-tondo
+// import '@daneroo/typeface-tondo' // npm i typeface-tondo
 
 const prismTheme = nightOwl
 
@@ -20,12 +20,12 @@ export default {
   colors,
   fonts: {
     // body: systemFonts,
-    body: '"Tondo Regular", sans-serif',
-    // body: '"Roboto", sans-serif',
+    // body: '"Tondo Regular", sans-serif',
+    body: '"Roboto", sans-serif',
 
     // heading: systemFonts,
-    heading: '"Tondo Bold", sans-serif',
-    // heading: '"Roboto", sans-serif',
+    // heading: '"Tondo Bold", sans-serif',
+    heading: '"Roboto", sans-serif',
 
     // monospace: "Menlo, monospace"
     // monospace: `"Operator Mono", monospace`

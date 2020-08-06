@@ -1,13 +1,18 @@
 # Gatsby Theme Document - Example Site
 
-This is an example site using the Gatsby theme [Document](https://github.com/codebushi/gatsby-theme-document)
+Started from Gatsby theme [Document](https://github.com/codebushi/gatsby-theme-document)
  by [Code Bushi](https://codebushi.com/gatsby-starters-and-themes/).
  [Live Demo](https://gatsby-theme-document.netlify.com/)
 
+Deployed to <https://penrose.vercel.app>
+
 ## TODO
 
-- Extend Yarn Workspaces, or move to Lerna
-- Theme-ui'ify My own component examples GetJSON/GetGraphQL.
+- Move to penrose.v.imetrical.com
+- Consolidate top level README
+- More Tilings
+- remove or publish tondo (lerna deps...)
+- Theme-UI'ify My own component examples GetJSON/GetGraphQL.
 - Figure out Theming modes for Prism
 
 ## Theme-ui with custom Font (Tondo)

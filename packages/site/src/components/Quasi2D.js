@@ -231,17 +231,6 @@ export default function Quasi2D () {
         columns={2}
       >
         <Box>
-          <Label htmlFor='scale'>scale ({scale})</Label>
-          <Slider
-            id='scale'
-            name='scale'
-            min='1' max='5'
-            value={scale}
-            onChange={(e) => setScale(e.target.value)}
-            step='1'
-          />
-        </Box>
-        <Box>
           <Label htmlFor='angleE'>angle θ ({Number(angleE).toFixed(1)})</Label>
           <Slider
             id='angleE'
@@ -257,6 +246,17 @@ export default function Quasi2D () {
             <Button sx={{ mx: 1 }} onClick={() => setAngleE(angleRational)}>ℚ</Button>
             <Button sx={{ mx: 1 }} onClick={() => setAngleE(90 - angleE)}>π - θ</Button>
           </Flex>
+        </Box>
+        <Box>
+          <Label htmlFor='scale'>scale ({scale})</Label>
+          <Slider
+            id='scale'
+            name='scale'
+            min='1' max='5'
+            value={scale}
+            onChange={(e) => setScale(e.target.value)}
+            step='1'
+          />
         </Box>
         <Flex mb={3}>
           <Label htmlFor='frameIsGrid'>Frame</Label>
