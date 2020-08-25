@@ -4,14 +4,15 @@ Started from Gatsby theme [Document](https://github.com/codebushi/gatsby-theme-d
  by [Code Bushi](https://codebushi.com/gatsby-starters-and-themes/).
  [Live Demo](https://gatsby-theme-document.netlify.com/)
 
-Deployed to <https://penrose.vercel.app>
+Deployed to <https://penrose.v.imetrical.com>
 
 ## TODO
 
-- Move to penrose.v.imetrical.com
+- Move to 
 - Consolidate top level README
 - More Tilings
 - remove or publish tondo (lerna deps...)
+- remove components and samples
 - Theme-UI'ify My own component examples GetJSON/GetGraphQL.
 - Figure out Theming modes for Prism
 
