@@ -8,11 +8,9 @@ Deployed to <https://penrose.v.imetrical.com>
 
 ## TODO
 
-- Move to 
 - Consolidate top level README
 - More Tilings
 - remove or publish tondo (lerna deps...)
-- remove components and samples
 - Theme-UI'ify My own component examples GetJSON/GetGraphQL.
 - Figure out Theming modes for Prism
 
