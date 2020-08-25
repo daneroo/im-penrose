@@ -9,10 +9,10 @@ Deployed to <https://penrose.v.imetrical.com>
 ## TODO
 
 - Consolidate top level README
-- More Tilings
+- Subdivide (arrows)
+- penroseTiling.svf
+- pentagrid-ribbons.svg
 - remove or publish tondo (lerna deps...)
-- Theme-UI'ify My own component examples GetJSON/GetGraphQL.
-- Figure out Theming modes for Prism
 
 ## Theme-ui with custom Font (Tondo)
 
