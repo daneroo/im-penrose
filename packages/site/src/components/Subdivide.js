@@ -1,6 +1,6 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState } from 'react'
 // import { useThemeUI, Grid, Flex, Radio, Box, Button, Label, Slider } from 'theme-ui'
-import { useThemeUI, Grid, Box, Label, Slider } from 'theme-ui'
+import { useThemeUI, Grid, Flex, Box, Button, Label, Slider } from 'theme-ui'
 
 const goldenRatio = (1 + Math.sqrt(5)) / 2
 
@@ -64,15 +64,13 @@ function level (depth) {
   const key = `${depth}`
   if (!(key in memoized)) {
     const triangles = (depth <= 0) ? level0() : subdivide(level(depth - 1))
-    console.log('cache miss')
     memoized[key] = triangles
   }
-  console.log(memoized[key].length)
   return memoized[key]
 }
 
 function Triangle ({ t, colors }) {
-  // const d = 'M' + [t.A, t.B, t.C, t.A].map(function (p) { return [p.x, p.y] }).join('L')
+  // M {A} L {B} L {C} Z
   const d = [t.A, t.B, t.C].map(({ x, y }, i) => `${i ? 'L' : 'M'}${x},${y}`) + 'Z'
   const fill = colors[t.color]
   return (
@@ -92,10 +90,10 @@ export default function Subdivide () {
 
   // const goldenRatio = (1 + Math.sqrt(5)) / 2
   const [depth, setDepth] = useState(3)
-  const triangles = useMemo(() => level(depth), [depth])
+  const triangles = level(depth)
   // const triangles = level(depth)
   const strokeWidth = 0.005
-
+  const maxDepth = 6
   return (
     <>
       <Grid
@@ -103,14 +101,20 @@ export default function Subdivide () {
         columns={2}
       >
         <Box>
-          <Label htmlFor='scale'>Depth ({depth})</Label>
-          <Slider
-            name='depth'
-            min='0' max='6'
-            value={depth}
-            onChange={(e) => setDepth(e.target.value)}
-            step='1'
-          />
+          <Flex sx={{ flexDirection: 'column' }}>
+            <Label htmlFor='scale'>Depth ({depth}) - {triangles.length}Δ</Label>
+            <Flex mb={3}>
+              <Button sx={{ mx: 1 }} onClick={() => setDepth(Math.max(0, depth - 1))}>-</Button>
+              <Slider
+                name='depth'
+                min='0' max={maxDepth}
+                value={depth}
+                onChange={(e) => setDepth(e.target.value)}
+                step='1'
+              />
+              <Button sx={{ mx: 1 }} onClick={() => setDepth(Math.min(maxDepth, depth + 1))}>+</Button>
+            </Flex>
+          </Flex>
         </Box>
         <Box>Animate</Box>
       </Grid>
