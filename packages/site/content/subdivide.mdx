@@ -4,5 +4,42 @@ description: "Subdivide"
 ---
 import Subdivide from '../src/components/Subdivide'
 
+This is geometric construction of the tiling.
+
+These are the recursive subdivision rules for a triangle define by `ABC`:
+
+- Define φ as the golden ratio: `(1 + sqrt(5) / 2`
+- Define `P` as midpoint on `AB`: `P = A + (B - A) / φ ` 
+- Add the triangle: `CPB`,..
+- `({ color: 0, A: C, B: P, C: B }, { color: 1, A: P, B: C, C: A })`
+- Define `Q` as midpoint on `AB`: `Q = B + (A - B) / φ `
+- Define `R` as midpoint on `BC`: `R = B + (C - B) / φ `
+- Add the triangle: `RCA`,..
+- `result.push({ color: 1, A: R, B: C, C: A }, { color: 1, A: Q, B: R, C: B }, { color: 0, A: R, B: Q, C: A })`
+
+
+```js
+function subdivide (triangles) {
+  var result = []
+  triangles.forEach(function (triangle) {
+    var color = triangle.color; var A = triangle.A; var B = triangle.B; var C = triangle.C
+    if (color === 0) {
+      // # Subdivide red triangle
+      // P = A + (B - A) / goldenRatio;
+      var P = midpoint(A, B)
+      result.push({ color: 0, A: C, B: P, C: B }, { color: 1, A: P, B: C, C: A })
+    } else {
+      // # Subdivide blue triangle
+      // Q = B + (A - B) / goldenRatio;
+      var Q = midpoint(B, A)
+      // R = B + (C - B) / goldenRatio;
+      var R = midpoint(B, C)
+      result.push({ color: 1, A: R, B: C, C: A }, { color: 1, A: Q, B: R, C: B }, { color: 0, A: R, B: Q, C: A })
+    }
+  })
+  return result
+}
+```
+
 
 <Subdivide />

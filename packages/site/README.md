@@ -10,8 +10,7 @@ Deployed to <https://penrose.v.imetrical.com>
 
 - Consolidate top level README
 - Subdivide (arrows)
-- penroseTiling.svf
-- pentagrid-ribbons.svg
+- Rewrite ribbons and tiling svg into components
 - remove or publish tondo (lerna deps...)
 
 ## Theme-ui with custom Font (Tondo)

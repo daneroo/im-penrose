@@ -1,5 +1,5 @@
 <svg xmlns='http://www.w3.org/2000/svg' viewBox='-20 -20 40 40' onload="start(evt)">
-<script type="text/ecmascript"><![CDATA[
+  <script type="text/ecmascript"><![CDATA[
   var root;
   var svgns = 'http://www.w3.org/2000/svg';
 
@@ -53,7 +53,7 @@
       drawSegment(rh[1],rh[3],c0,thick);
     }
     // actual rhomb
-    var opa=0.1;
+    var opa=0.5;
     var fill=(angle===72||angle===288)?solarized.blue:'none';
     var fill= pColor[(i0+0*i1)%eDim];
     // var fill='none';
@@ -219,7 +219,7 @@
       }
     }
 
-    if (0) projectCube();
+    if (1) projectCube();
 
     function intersectAndRhomb(i0,n0,i1,n1){
       var intr = intersect(i0,n0,i1,n1);
@@ -308,7 +308,7 @@
     });
   }
   
-]]></script>
+]]>  </script>
   <g transform="scale(1,-1)">
     <g id="rotation" transform="rotate(0)">
       <g id="root" stroke="black" fill="none" onload="start(evt)"/>

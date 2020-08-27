@@ -86,14 +86,13 @@ export default function Subdivide () {
   const { theme } = useThemeUI()
   const { colors: { primary, secondary } } = theme
   const colors = [primary, secondary]
-  console.log()
 
   // const goldenRatio = (1 + Math.sqrt(5)) / 2
   const [depth, setDepth] = useState(3)
   const triangles = level(depth)
   // const triangles = level(depth)
   const strokeWidth = 0.005
-  const maxDepth = 6
+  const maxDepth = 7
   return (
     <>
       <Grid

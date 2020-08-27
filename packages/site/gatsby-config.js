@@ -2,7 +2,7 @@ module.exports = {
   siteMetadata: {
     title: 'Penrose Quasiperiodic Tiling',
     name: 'im-penrose',
-    siteUrl: 'https://penrose.n.imetrical.com',
+    siteUrl: 'https://penrose.v.imetrical.com',
     description: 'Penrose Quasiperiodic Tiling',
     social: [
       {
