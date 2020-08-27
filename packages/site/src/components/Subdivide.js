@@ -70,6 +70,7 @@ function level (depth) {
 }
 
 function Triangle ({ t, colors }) {
+  // TODO(@daneroo) #8 Add arrows option
   // M {A} L {B} L {C} Z
   const d = [t.A, t.B, t.C].map(({ x, y }, i) => `${i ? 'L' : 'M'}${x},${y}`) + 'Z'
   const fill = colors[t.color]
