@@ -8,6 +8,7 @@ Deployed to <https://penrose.v.imetrical.com>
 
 ## TODO
 
+- Try [VS Code Github Issues extension](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github)
 - Consolidate top level README
 - Subdivide (arrows)
 - Rewrite ribbons and tiling svg into components
