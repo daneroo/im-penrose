@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 // import { useThemeUI, Grid, Flex, Radio, Box, Button, Label, Slider } from 'theme-ui'
-import { useThemeUI, Grid, Flex, Box, Button, Label, Slider } from 'theme-ui'
+import { useThemeUI, Grid, Flex, Box, Button, Label, Slider, Checkbox } from 'theme-ui'
 
 const goldenRatio = (1 + Math.sqrt(5)) / 2
 
@@ -69,30 +69,70 @@ function level (depth) {
   return memoized[key]
 }
 
-function Triangle ({ t, colors }) {
+function center (t) {
+  const mid3 = [t.A, t.B, t.C].reduce(
+    ({ sx, sy }, { x, y }) => {
+      return { sx: sx + x, sy: sy + y }
+    },
+    { sx: 0, sy: 0 }
+  )
+  return { x: mid3.sx / 3, y: mid3.sy / 3 }
+}
+
+function TriangleWithArrows ({ t, colors, arrows }) {
+  const mid = center(t)
+  const ds = [t.A, t.B, t.C].map(
+    ({ x: x1, y: y1 }, i, ts) => {
+      const { x: x2, y: y2 } = ts[(i + 1) % 3]
+      return `M${x1 - mid.x},${y1 - mid.y} L${x2 - mid.x},${y2 - mid.y}`
+    }
+  )
+  return (
+    <>
+      <g transform={`translate(${mid.x},${mid.y})scale(.6.6)`} stroke='yellow'>
+        {ds.map((d, i) => {
+          return (
+            <path
+              key={i} d={d} stroke='yellow'
+              markerEnd='url(#arrow)'
+            />)
+        })}
+      </g>
+    </>
+  )
+}
+function Triangle ({ t, colors, arrows }) {
   // M {A} L {B} L {C} Z
   const d = [t.A, t.B, t.C].map(({ x, y }, i) => `${i ? 'L' : 'M'}${x},${y}`) + 'Z'
   const fill = colors[t.color]
   return (
-    <path d={d} fill={fill} />
+    <>
+      <path
+        d={d} fill={fill}
+      />
+      {arrows && (
+        <TriangleWithArrows {...{ t, colors, arrows }} />
+      )}
+    </>
   )
 }
 
-function Tiling ({ triangles, colors }) {
-  return triangles.map((t, i) => <Triangle key={i} t={t} colors={colors} />)
+function Tiling ({ triangles, colors, arrows }) {
+  return triangles.map((t, i) => <Triangle key={i} t={t} colors={colors} arrows={arrows} />)
 }
 
 export default function Subdivide () {
   const { theme } = useThemeUI()
   const { colors: { primary, secondary } } = theme
   const colors = [primary, secondary]
+  const arrowClr = 'yellow'
 
   // const goldenRatio = (1 + Math.sqrt(5)) / 2
-  const [depth, setDepth] = useState(3)
+  const [depth, setDepth] = useState(1)
   const triangles = level(depth)
-  // const triangles = level(depth)
   const strokeWidth = 0.005
   const maxDepth = 7
+  const [hasArrows, setHasArrows] = useState(false)
   return (
     <>
       <Grid
@@ -115,13 +155,30 @@ export default function Subdivide () {
             </Flex>
           </Flex>
         </Box>
-        <Box>Animate</Box>
+        <Box>
+          <Label>
+            <Checkbox defaultChecked={hasArrows} onChange={(e) => setHasArrows(!hasArrows)} name='arrows' /> Arrows (depth &lt; 3)
+          </Label>
+        </Box>
       </Grid>
       <svg xmlns='http://www.w3.org/2000/svg' viewBox='-1 -1 2 2'>
-        <g transform='scale(.99,.99)'>
-          <g id='root' stroke='none' fill='none' strokeWidth={strokeWidth}>
-            <Tiling triangles={triangles} colors={colors} />
-            {/* <circle r={1} stroke='red' /> */}
+        <defs>
+          <marker
+            id='arrow' viewBox='0 0 10 10'
+            refX='10' refY='5'
+            markerUnits='strokeWidth'
+            markerWidth='20' markerHeight='20'
+            orient='auto-start-reverse'
+          >
+            <path d='M 0 0 L 10 5 L 0 10 z' fill={arrowClr} opacity='1' />
+          </marker>
+        </defs>
+        <g transform='scale(1,-1)'>
+          <g transform='scale(.99,.99)'>
+            <g id='root' stroke='none' fill='none' strokeWidth={strokeWidth}>
+              <Tiling triangles={triangles} colors={colors} arrows={hasArrows && depth < 3} />
+              {/* <circle r={1} stroke='red' /> */}
+            </g>
           </g>
         </g>
       </svg>
