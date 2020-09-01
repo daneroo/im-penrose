@@ -99,31 +99,43 @@ function center (t) {
   return { x: mid3.sx / 3, y: mid3.sy / 3 }
 }
 
+// size: length of longest side of ABC
+function size (t) {
+  const { A, B, C } = t
+  const len = (p1, p2) => Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y))
+  const lAB = len(A, B)
+  const lBC = len(B, C)
+  const lAC = len(A, C)
+  return Math.max(lAB, lBC, lAC)
+}
+
 // Draws three independent arrows A-B,B->C,C->A
 // scaled (.6) around center, to fit inside original Triangle
 function TriangleWithArrows ({ t, colors, arrows }) {
   const arrowClr = 'yellow'
   const mid = center(t)
+  const sz = size(t)
   const ds = [t.A, t.B, t.C].map(
     ({ x: x1, y: y1 }, i, ts) => {
       const { x: x2, y: y2 } = ts[(i + 1) % 3]
       return `M${x1 - mid.x},${y1 - mid.y} L${x2 - mid.x},${y2 - mid.y}`
     }
   )
+  // Need to flip y axis for upright letters
   const L = ({ x, y, children }) => {
     return (
       <g
         transform={`scale(1,-1)translate(${mid.x},${-mid.y})scale(.6)`}
-        style={{ fontSize: '0.1px' }}
+        style={{ fontSize: 0.14 * sz }}
         fill={arrowClr}
       >
-        <text x={x - mid.x} y={mid.y - y}>{children}</text>
+        <text x={x - mid.x} y={mid.y - y} textAnchor='middle'>{children}</text>
       </g>
     )
   }
   return (
     <>
-      <g transform={`translate(${mid.x},${mid.y})scale(.5)`}>
+      <g transform={`translate(${mid.x},${mid.y})scale(.4)`}>
         {ds.map((d, i) => {
           return (
             <path
@@ -133,11 +145,6 @@ function TriangleWithArrows ({ t, colors, arrows }) {
             />)
         })}
       </g>
-      {/*
-      <circle r={0.05} cx={t.A.x} cy={t.A.y} opacity={0.7} fill='red' />
-      <circle r={0.05} cx={t.B.x} cy={t.B.y} opacity={0.7} fill='green' />
-      <circle r={0.05} cx={t.C.x} cy={t.C.y} opacity={0.7} fill='blue' />
-      */}
 
       <L {...t.A}>A</L>
       <L {...t.B}>B</L>
