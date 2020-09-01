@@ -63,7 +63,7 @@ function polarToRect (r, phi) {
 // Create wheel of 10 triangles around the origin
 // having color:0
 // having alternating "polarity"
-function level0 () {
+function level0 (sparse) {
   // # Create wheel of color:0 triangles around the origin
   const A = { x: 0, y: 0 }
   return Array.from({ length: 10 }).flatMap((_, i) => {
@@ -72,17 +72,17 @@ function level0 () {
     if (i % 2 === 0) {
       // Alternate "polarity"
       return [{ color: 0, A, B: C, C: B }]
-      // return []
     }
+    if (sparse) return []
     return [{ color: 0, A, B, C }]
   })
 }
 
 const memoized = {}
-function level (depth) {
-  const key = `${depth}`
+function level (depth, sparse) {
+  const key = `${depth}-${sparse}`
   if (!(key in memoized)) {
-    const triangles = (depth <= 0) ? level0() : subdivide(level(depth - 1))
+    const triangles = (depth <= 0) ? level0(sparse) : subdivide(level(depth - 1, sparse))
     memoized[key] = triangles
   }
   return memoized[key]
@@ -271,11 +271,12 @@ export function Substitute () {
   const { colors: { primary, secondary } } = theme
   const colors = [primary, secondary]
 
+  const [hasArrows, setHasArrows] = useState(false)
+  const [sparse, setSparse] = useState(false)
   const [depth, setDepth] = useState(2)
-  const triangles = level(depth)
+  const triangles = level(depth, sparse)
   const strokeWidth = 0.005
   const maxDepth = 7
-  const [hasArrows, setHasArrows] = useState(false)
   return (
     <>
       <Grid
@@ -299,9 +300,15 @@ export function Substitute () {
           </Flex>
         </Box>
         <Box>
-          <Label>
-            <Checkbox defaultChecked={hasArrows} onChange={(e) => setHasArrows(!hasArrows)} name='arrows' /> Arrows (depth &lt; 3)
-          </Label>
+          <Flex sx={{ flexDirection: 'column' }}>
+            <Label>
+              <Checkbox defaultChecked={hasArrows} onChange={(e) => setHasArrows(!hasArrows)} /> Arrows (depth &lt; 3)
+            </Label>
+            <Label>
+              <Checkbox defaultChecked={sparse} onChange={(e) => setSparse(!sparse)} />
+              Sparse
+            </Label>
+          </Flex>
         </Box>
       </Grid>
       <SVGUnit>
