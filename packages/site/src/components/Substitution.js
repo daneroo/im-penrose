@@ -188,29 +188,7 @@ function SVGUnit ({ children }) {
   )
 }
 
-export function Rule0 () {
-  // A_L (acute Robinson triangle) sides: 1,φ,φ => h = √(φ²-0.5²)
-  const h = Math.sqrt(goldenRatio * goldenRatio - 0.5 * 0.5)
-  const offY = h / 2 // vertical offset (for centering)
-  const A = { x: 0, y: h - offY }
-  const B = { x: -0.5, y: 0 - offY }
-  const C = { x: 0.5, y: 0 - offY }
-  const A_L = { color: 0, A, B, C }
-  return <Rules triangle={A_L} />
-}
-export function Rule1 () {
-  // A_S (obtuse Robinson triangle) sides: 1,1,φ => w = √(1-(φ/2)²)
-  const w = Math.sqrt(1 * 1 - (goldenRatio / 2) * (goldenRatio / 2))
-  const offY = goldenRatio / 2 // vertical offset (for centering)
-  const B = { x: 0, y: goldenRatio - offY }
-  const C = { x: 0, y: 0 - offY }
-  const A = { x: w, y: goldenRatio / 2 - offY }
-  const A_S = { color: 1, A, B, C }
-
-  return <Rules triangle={A_S} showFurther />
-}
-
-export function Rules ({ triangle, showFurther = false }) {
+function Rules ({ triangle, showFurther = false }) {
   const { theme } = useThemeUI()
   const { colors: { primary, secondary } } = theme
   const colors = [primary, secondary]
@@ -258,7 +236,30 @@ export function Rules ({ triangle, showFurther = false }) {
     </Grid>
   )
 }
-export default function Subdivide () {
+
+export function Rule0 () {
+  // A_L (acute Robinson triangle) sides: 1,φ,φ => h = √(φ²-0.5²)
+  const h = Math.sqrt(goldenRatio * goldenRatio - 0.5 * 0.5)
+  const offY = h / 2 // vertical offset (for centering)
+  const A = { x: 0, y: h - offY }
+  const B = { x: -0.5, y: 0 - offY }
+  const C = { x: 0.5, y: 0 - offY }
+  const A_L = { color: 0, A, B, C }
+  return <Rules triangle={A_L} />
+}
+export function Rule1 () {
+  // A_S (obtuse Robinson triangle) sides: 1,1,φ => w = √(1-(φ/2)²)
+  const w = Math.sqrt(1 * 1 - (goldenRatio / 2) * (goldenRatio / 2))
+  const offY = goldenRatio / 2 // vertical offset (for centering)
+  const B = { x: 0, y: goldenRatio - offY }
+  const C = { x: 0, y: 0 - offY }
+  const A = { x: w, y: goldenRatio / 2 - offY }
+  const A_S = { color: 1, A, B, C }
+
+  return <Rules triangle={A_S} showFurther />
+}
+
+export function Substitute () {
   const { theme } = useThemeUI()
   const { colors: { primary, secondary } } = theme
   const colors = [primary, secondary]
