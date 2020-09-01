@@ -13,7 +13,9 @@ function goldenpoint (A, B) {
   return P
 }
 
-function subdivide (triangles) {
+// Refactored this to it's simplest substitution rule
+// But requires a second substitution (see subdivide())
+function subdivideStep (triangles) {
   return triangles.flatMap(function (triangle) {
     const { color, A, B, C } = triangle
     if (color === 0) {
@@ -24,20 +26,29 @@ function subdivide (triangles) {
         { color: 1, A: P, B: C, C: A }
       ]
     } else {
-      // Q = B + (A - B) / goldenRatio;
-      const Q = goldenpoint(B, A)
       // R = B + (C - B) / goldenRatio;
       const R = goldenpoint(B, C)
-      // return [
-      //   { color: 1, A: R, B: C, C: A },
-      //   { color: 0, A: R, B: A, C: B }
-      // ]
       return [
         { color: 1, A: R, B: C, C: A },
-        { color: 1, A: Q, B: R, C: B },
-        { color: 0, A: R, B: Q, C: A }
+        // this triangle is further subdivided
+        { color: 0, A: B, B: A, C: R }
       ]
     }
+  })
+}
+
+// Apply the subdivideStep to each triangle
+// Further apply a second step, but only for
+//  - the color:0 triangle subdivided from a color:1 triangle
+function subdivide (triangles, { singleStepColor1 = false } = {}) {
+  return triangles.flatMap(function (triangle) {
+    function further (t) {
+      return (triangle.color === 1 && t.color === 0)
+        ? subdivideStep([t])
+        : t
+    }
+    // return subdivideStep([triangle]).flatMap(t => (triangle.color === 0 || t.color === 1 ? t : subdivideStep([t])))
+    return subdivideStep([triangle]).flatMap(further)
   })
 }
 
@@ -55,14 +66,15 @@ function polarToRect (r, phi) {
 function level0 () {
   // # Create wheel of color:0 triangles around the origin
   const A = { x: 0, y: 0 }
-  return Array.from({ length: 10 }).map((_, i) => {
+  return Array.from({ length: 10 }).flatMap((_, i) => {
     const B = polarToRect(1, (2 * i - 1) * Math.PI / 10)
     const C = polarToRect(1, (2 * i + 1) * Math.PI / 10)
     if (i % 2 === 0) {
       // Alternate "polarity"
-      return { color: 0, A, B: C, C: B }
+      return [{ color: 0, A, B: C, C: B }]
+      // return []
     }
-    return { color: 0, A, B, C }
+    return [{ color: 0, A, B, C }]
   })
 }
 
@@ -90,6 +102,7 @@ function center (t) {
 // Draws three independent arrows A-B,B->C,C->A
 // scaled (.6) around center, to fit inside original Triangle
 function TriangleWithArrows ({ t, colors, arrows }) {
+  const arrowClr = 'yellow'
   const mid = center(t)
   const ds = [t.A, t.B, t.C].map(
     ({ x: x1, y: y1 }, i, ts) => {
@@ -97,13 +110,25 @@ function TriangleWithArrows ({ t, colors, arrows }) {
       return `M${x1 - mid.x},${y1 - mid.y} L${x2 - mid.x},${y2 - mid.y}`
     }
   )
+  const L = ({ x, y, children }) => {
+    return (
+      <g
+        transform={`scale(1,-1)translate(${mid.x},${-mid.y})scale(.6)`}
+        style={{ fontSize: '0.1px' }}
+        fill={arrowClr}
+      >
+        <text x={x - mid.x} y={mid.y - y}>{children}</text>
+      </g>
+    )
+  }
   return (
     <>
-      <g transform={`translate(${mid.x},${mid.y})scale(.6.6)`} stroke='yellow'>
+      <g transform={`translate(${mid.x},${mid.y})scale(.5)`}>
         {ds.map((d, i) => {
           return (
             <path
-              key={i} d={d} stroke='yellow'
+              key={i} d={d}
+              stroke={arrowClr}
               markerEnd='url(#arrow)'
             />)
         })}
@@ -114,9 +139,9 @@ function TriangleWithArrows ({ t, colors, arrows }) {
       <circle r={0.05} cx={t.C.x} cy={t.C.y} opacity={0.7} fill='blue' />
       */}
 
-      <text x={t.A.x} y={t.A.y} style={{ fontSize: '0.05px' }} stroke='black'>A</text>
-      <text x={t.B.x} y={t.B.y} style={{ fontSize: '0.05px' }} stroke='black'>B</text>
-      <text x={t.C.x} y={t.C.y} style={{ fontSize: '0.05px' }} stroke='black'>C</text>
+      <L {...t.A}>A</L>
+      <L {...t.B}>B</L>
+      <L {...t.C}>C</L>
     </>
   )
 }
@@ -163,47 +188,57 @@ function SVGUnit ({ children }) {
   )
 }
 
-export function Rules () {
+export function Rule0 () {
+  // A_L (acute Robinson triangle) sides: 1,φ,φ => h = √(φ²-0.5²)
+  const h = Math.sqrt(goldenRatio * goldenRatio - 0.5 * 0.5)
+  const offY = h / 2 // vertical offset (for centering)
+  const A = { x: 0, y: h - offY }
+  const B = { x: -0.5, y: 0 - offY }
+  const C = { x: 0.5, y: 0 - offY }
+  const A_L = { color: 0, A, B, C }
+  return <Rules triangle={A_L} />
+}
+export function Rule1 () {
+  // A_S (obtuse Robinson triangle) sides: 1,1,φ => w = √(1-(φ/2)²)
+  const w = Math.sqrt(1 * 1 - (goldenRatio / 2) * (goldenRatio / 2))
+  const offY = goldenRatio / 2 // vertical offset (for centering)
+  const B = { x: 0, y: goldenRatio - offY }
+  const C = { x: 0, y: 0 - offY }
+  const A = { x: w, y: goldenRatio / 2 - offY }
+  const A_S = { color: 1, A, B, C }
+
+  return <Rules triangle={A_S} showFurther />
+}
+
+export function Rules ({ triangle, showFurther = false }) {
   const { theme } = useThemeUI()
   const { colors: { primary, secondary } } = theme
   const colors = [primary, secondary]
   const strokeWidth = 0.005
 
-  // const A = { x: 0, y: 0 }
-  // const B = polarToRect(1, (2 * -3 - 1) * Math.PI / 10) // -7
-  // const C = polarToRect(1, (2 * -3 + 1) * Math.PI / 10) // -5
-  // const B = polarToRect(1, (-6) * Math.PI / 10)
-  // const C = polarToRect(1, (-4) * Math.PI / 10)
-  const t0 = (() => {
-    const h = Math.sqrt(goldenRatio * goldenRatio - 0.5 * 0.5)
-    const A = { x: 0, y: h - h / 2 }
-    const B = { x: -0.5, y: 0 - h / 2 }
-    const C = { x: 0.5, y: 0 - h / 2 }
-    console.log({ A, B, C })
-    return { color: 0, A, B, C }
-  })()
-  const t1 = (() => {
-    const h = Math.sqrt(1 / goldenRatio * 1 / goldenRatio - 0.5 * 0.5)
-    const B = { x: 0, y: 1 }
-    const C = { x: 0, y: 0 }
-    const A = { x: h, y: 0.5 }
-    console.log({ A, B, C })
-    return { color: 1, A, B, C }
-  })()
-
-  // const t0 = [{ color: 0, A, B, C }]
-  // const t1 = [subdivide([t0])[1]]
+  const [further, setFurther] = useState(true)
+  const sub = further ? subdivide : subdivideStep
   const tss = [
-    [t0],
-    subdivide([t0]),
-    [t1],
-    subdivide([t1])
+    [triangle],
+    sub([triangle])
   ]
   return (
     <Grid
       gap={2}
       columns={2}
     >
+      {showFurther && (
+        <>
+          <Box /> {/* empty */}
+          <Box>
+            <Label>
+              <Checkbox defaultChecked={further} onChange={(e) => setFurther(!further)} />
+          Further substitution
+            </Label>
+          </Box>
+        </>
+      )}
+
       {tss.map((ts, i) => {
         return (
           <Box key={i}>
@@ -228,11 +263,11 @@ export default function Subdivide () {
   const { colors: { primary, secondary } } = theme
   const colors = [primary, secondary]
 
-  const [depth, setDepth] = useState(0)
+  const [depth, setDepth] = useState(2)
   const triangles = level(depth)
   const strokeWidth = 0.005
   const maxDepth = 7
-  const [hasArrows, setHasArrows] = useState(true)
+  const [hasArrows, setHasArrows] = useState(false)
   return (
     <>
       <Grid
