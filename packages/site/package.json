@@ -14,7 +14,7 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
-    "gatsby": "^2.24.4",
+    "gatsby": "^5.8.1",
     "gatsby-theme-document": "^1.0.10",
     "gatsby-theme-style-guide": "^0.3.1",
     "graphql-request": "^2.0.0",
